@@ -1,0 +1,9 @@
+.vscode
+*.o
+test
+
+
+./mlx_linux/
+./mlx_linux/*
+mlx_linux/*
+mlx_linux
