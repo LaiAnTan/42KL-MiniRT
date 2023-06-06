@@ -1,31 +1,5 @@
 #include "../headers/minirt.h"
 
-void	copy_int_arr(int *copy_from, int *copy_to, int size) // both arrays must have the same size
-{
-	int		i;
-
-	i = 0;
-	while (i < size)
-	{
-		copy_to[i] = copy_from[i];
-		++i;
-	}
-	return ;
-}
-
-void	copy_float_arr(float *copy_from, float *copy_to, int size) // both arrays must have the same size
-{
-	int		i;
-
-	i = 0;
-	while (i < size)
-	{
-		copy_to[i] = copy_from[i];
-		++i;
-	}
-	return ;
-}
-
 t_ambient	*scene_new_ambient(int a_rgb[3], float a_ratio)
 {
 	t_ambient	*new_ambient;
@@ -97,4 +71,105 @@ t_cylinder	*scene_new_cylinder(int cy_rgb[3], float cy_height, float cy_diameter
 	copy_float_arr(cy_vec_axis, new_cylinder->cy_vec_axis, 3);
 	new_cylinder->next = NULL;
 	return (new_cylinder);
+}
+
+void	scene_ambient_add_back(t_ambient **list_ambient, t_ambient *new_ambient)
+{
+	t_ambient *curr_node;
+
+	if (!new_ambient)
+		return ;
+	if (!*list_ambient)
+	{
+		*list_ambient = new_ambient;
+		return ;
+	}
+	curr_node = *list_ambient;
+	while (curr_node->next != NULL)
+		curr_node = curr_node->next;
+	curr_node->next = new_ambient;
+}
+
+void	scene_camera_add_back(t_camera **list_camera, t_camera *new_camera)
+{
+	t_ambient *curr_node;
+
+	if (!new_camera)
+		return ;
+	if (!*list_camera)
+	{
+		*list_camera = new_camera;
+		return ;
+	}
+	curr_node = *list_camera;
+	while (curr_node->next != NULL)
+		curr_node = curr_node->next;
+	curr_node->next = new_camera;
+}
+
+void	scene_light_add_back(t_light **list_light, t_light *new_light)
+{
+	t_ambient *curr_node;
+
+	if (!new_light)
+		return ;
+	if (!*list_light)
+	{
+		*list_light = new_light;
+		return ;
+	}
+	curr_node = *list_light;
+	while (curr_node->next != NULL)
+		curr_node = curr_node->next;
+	curr_node->next = new_light;
+}
+void	scene_sphere_add_back(t_sphere **list_sphere, t_sphere *new_sphere)
+{
+	t_ambient *curr_node;
+
+	if (!new_sphere)
+		return ;
+	if (!*list_sphere)
+	{
+		*list_sphere = new_sphere;
+		return ;
+	}
+	curr_node = *list_sphere;
+	while (curr_node->next != NULL)
+		curr_node = curr_node->next;
+	curr_node->next = new_sphere;
+}
+
+void	scene_plane_add_back(t_plane **list_plane, t_plane *new_plane)
+{
+	t_ambient *curr_node;
+
+	if (!new_plane)
+		return ;
+	if (!*list_plane)
+	{
+		*list_plane = new_plane;
+		return ;
+	}
+	curr_node = *list_plane;
+	while (curr_node->next != NULL)
+		curr_node = curr_node->next;
+	curr_node->next = new_plane;
+}
+
+void	scene_cylinder_add_back(t_cylinder **list_cylinder, t_cylinder *new_cylinder)
+{
+	t_ambient *curr_node;
+
+	if (!new_cylinder)
+		return ;
+	if (!*list_cylinder)
+	{
+		*list_cylinder = new_cylinder;
+		return ;
+	}
+	curr_node = *list_cylinder;
+	while (curr_node->next != NULL)
+		curr_node = curr_node->next;
+	curr_node->next = new_cylinder;
 }
