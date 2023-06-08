@@ -16,7 +16,7 @@ typedef struct s_ambient
 {
 	int					a_rgb[3];
 
-	float				a_ratio;
+	double				a_ratio;
 
 	struct s_ambient	*next;
 }			t_ambient;
@@ -25,8 +25,8 @@ typedef struct s_camera
 {
 	int					cam_fov;
 
-	float				cam_coords[3];
-	float				cam_vec_orient[3];
+	double				cam_coords[3];
+	double				cam_vec_orient[3];
 
 	struct s_camera		*next;
 }			t_camera;
@@ -35,8 +35,8 @@ typedef struct s_light
 {
 	int					l_rgb[3];
 
-	float				l_coords[3];
-	float				l_brightness;
+	double				l_coords[3];
+	double				l_brightness;
 
 	struct s_light		*next;
 }			t_light;
@@ -45,8 +45,8 @@ typedef struct s_sphere
 {
 	int					sp_rgb[3];
 
-	float				sp_diameter;
-	float				sp_coords[3];
+	double				sp_diameter;
+	double				sp_coords[3];
 
 	struct s_sphere		*next;
 }			t_sphere;
@@ -55,8 +55,8 @@ typedef struct s_plane
 {
 	int					pl_rgb[3];
 
-	float				pl_coords[3];
-	float				pl_vec_normal[3];
+	double				pl_coords[3];
+	double				pl_vec_normal[3];
 
 	struct s_plane		*next;
 }			t_plane;
@@ -65,10 +65,10 @@ typedef struct s_cylinder
 {
 	int					cy_rgb[3];
 
-	float				cy_height;
-	float				cy_diameter;
-	float				cy_coords[3];
-	float				cy_vec_axis[3];
+	double				cy_height;
+	double				cy_diameter;
+	double				cy_coords[3];
+	double				cy_vec_axis[3];
 
 	struct s_cylinder	*next;
 }			t_cylinder;
@@ -109,8 +109,12 @@ void	scene_cylinder_add_back(t_cylinder **list_cylinder, t_cylinder *new_cylinde
 void	copy_int_arr(int *copy_from, int *copy_to, int size);
 void	copy_float_arr(float *copy_from, float *copy_to, int size);
 
+
 int		ft_atoi(char *str);
 int		count_2d_array(char **e);
+
+int		is_digit(char *str);
+int		is_decimal(char *str);
 
 float	ft_atof(char *str);
 

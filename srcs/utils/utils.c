@@ -172,3 +172,39 @@ int	ft_atoi(char *str)
 	}
 	return ((int)(rtval * sign));
 }
+
+int		is_digit(char *str)
+{
+	while (*str != '\0')
+	{
+		if (*str < '0' || *str > '9')
+			return (0);
+		++str;
+	}
+	return (1);
+}
+
+int		is_decimal(char *str)
+{
+	int	before_point;
+	int	after_point;
+
+	before_point = 0;
+	after_point = 0;
+	if (*str == '-' || *str == '+')
+		++str;
+	while ((*str != '\0' && *str != '.') && (*str >= '0' && *str <= '9'))
+	{
+		before_point += 1;
+		++str;
+	}
+	++str;
+	while ((*str != '\0') && (*str >= '0' && *str <= '9'))
+	{
+		after_point += 1;
+		++str;
+	}
+	if (before_point <= 0 && after_point <= 0)
+		return (0);
+	return (1);
+}

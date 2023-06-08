@@ -6,7 +6,7 @@ t_ambient	*scene_new_ambient(int a_rgb[3], float a_ratio)
 
 	new_ambient = (t_ambient *) malloc(sizeof(t_ambient));
 	copy_int_arr(a_rgb, new_ambient->a_rgb, 3);
-	new_ambient->a_ratio = a_ratio;
+	new_ambient->a_ratio = (double) a_ratio;
 	new_ambient->next = NULL;
 	return (new_ambient);
 }

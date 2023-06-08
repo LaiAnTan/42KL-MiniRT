@@ -14,6 +14,12 @@ int		*unpack_3_int_values(char *values)
 	unpacked = (int *) malloc(sizeof(int) * 3);
 	while (i < 3)
 	{
+		if (is_digit(tokens[i]) == 0)
+		{
+			free(tokens);
+			free(unpacked);
+			return (NULL);
+		}
 		unpacked[i] = ft_atoi(tokens[i]);
 		++i;
 	}
@@ -30,11 +36,17 @@ float	*unpack_3_float_values(char *values)
 
 	i = 0;
 	tokens = ft_split(values, ',');
-	if (count_2d_array(tokens) > 3)
+	if (!tokens || count_2d_array(tokens) > 3)
 		return (NULL);
 	unpacked = (float *) malloc(sizeof(float) * 3);
 	while (i < 3)
 	{
+		if (is_float(tokens[i]) == 0)
+		{
+			free(tokens);
+			free(unpacked);
+			return (NULL);
+		}
 		unpacked[i] = ft_atof(tokens[i]);
 		++i;
 	}
@@ -43,20 +55,53 @@ float	*unpack_3_float_values(char *values)
 }
 
 /*
---argument orders--
-ambient ratio rgb
-camera coords orient_vec fov
-light coords brightness rgb
-sphere coords diameter rgb
-plane coords norm_vec rgb
-cylinder coords axis_vec diameter height rgb
+potential errors
+
+wrong number of args
+wrong format of args
+
+
+todo: error handling for all handle_ functions
+todo: change storage to double to prevent overflow in future
 */
+
+// checks if the string is a valid string of 3 values (255,255,255)
+int	is_valid_3_values(char *str)
+{
+	int	comma_count;
+	int	decimal_count;
+
+	comma_count = 0;
+	decimal_count = 0;
+	while (*str != '\0')
+	{
+		if (*str == ',')
+		{
+			decimal_count = 0;
+			++comma_count;
+		}
+		else if (*str < '0' || *str > '9')
+			return (0);
+		else if (*str == '.')
+			++decimal_count;
+		if (decimal_count > 1)
+			return (0);
+		++str;
+	}
+	if (comma_count != 2)
+		return (0);
+	return (1);
+}
 
 int	handle_object_ambient(t_scene *scene, char **tokens)
 {
 	int			*a_rgb;
 	t_ambient	*new_ambient;
 
+	if (count_2d_array(tokens) != 3)
+		return (-1);
+	if (is_valid_3_values(tokens[2]) == 0)
+		return (-1);
 	a_rgb = unpack_3_int_values(tokens[2]);
 	if (!a_rgb)
 		return (-1);
@@ -71,7 +116,10 @@ int	handle_object_camera(t_scene *scene, char **tokens)
 	float		*cam_vec_orient;
 	t_camera	*new_camera;
 
-
+	if (count_2d_array(tokens) != 4)
+		return (-1);
+	if (is_valid_3_values(tokens[1]) == 0|| is_valid_3_values(tokens[2] == 0))
+		return (-1);
 	cam_coords = unpack_3_float_values(tokens[1]);
 	cam_vec_orient = unpack_3_float_values(tokens[2]);
 	if (!cam_coords || !cam_vec_orient)
@@ -87,6 +135,10 @@ int	handle_object_light(t_scene *scene, char **tokens)
 	float		*l_coords;
 	t_light		*new_light;
 
+	if (count_2d_array(tokens) != 4)
+		return (-1);
+	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[3]) == 0)
+		return (-1);
 	l_rgb = unpack_3_int_values(tokens[3]);
 	l_coords = unpack_3_float_values(tokens[1]);
 	if (!l_rgb || !l_coords)
@@ -102,6 +154,10 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 	float		*sp_coords;
 	t_sphere	*new_sphere;
 
+	if (count_2d_array(tokens) != 4)
+		return (-1);
+	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[3] == 0))
+		return (-1);
 	sp_rgb = unpack_3_int_values(tokens[3]);
 	sp_coords = unpack_3_float_values(tokens[1]);
 	if (!sp_rgb || !sp_coords)
@@ -118,6 +174,10 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 	float		*pl_vec_normal;
 	t_plane		*new_plane;
 
+	if (count_2d_array(tokens) != 4)
+		return (-1);
+	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[3]) == 0)
+		return (-1);
 	pl_rgb = unpack_3_int_values(tokens[3]);
 	pl_coords = unpack_3_float_values(tokens[1]);
 	pl_vec_normal = unpack_3_float_values(tokens[2]);
@@ -135,6 +195,10 @@ int	handle_object_cylinder(t_scene *scene, char **tokens)
 	float		*cy_vec_axis;
 	t_cylinder	*new_cylinder;
 
+	if (count_2d_array(tokens) != 6)
+		return (-1);
+	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[5]) == 0)
+		return (-1);
 	cy_rgb = unpack_3_int_values(tokens[5]);
 	cy_coords = unpack_3_float_values(tokens[1]);
 	cy_vec_axis = unpack_3_float_values(tokens[2]);
