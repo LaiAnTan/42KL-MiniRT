@@ -1,4 +1,4 @@
-#include "matrix.h"
+#include "../headers/matrix.h"
 
 t_matrix	*init_matrix(matrix_type *values, int x, int y)
 {

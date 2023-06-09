@@ -58,8 +58,19 @@ double	*unpack_3_double_values(char *values)
 int	is_valid_3_values(char *str)
 {
 	int		i;
+	int		comma_count;
 	char	**values;
 
+	i = 0;
+	comma_count = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == ',')
+			++comma_count;
+		++i;
+	}
+	if (comma_count != 2)
+		return (0);
 	i = 0;
 	values = ft_split(str, ',');
 	if (count_2d_array(values) != 3)
@@ -244,7 +255,7 @@ char	*strip_nl(char *str)
 	return (new_str);
 }
 
-t_scene	*file_create_scene(char *filename)
+t_scene	*file_create_scene(t_scene *scene, char *filename)
 {
 	int		fd;
 	char	*line;
@@ -254,15 +265,15 @@ t_scene	*file_create_scene(char *filename)
 	if (fd == -1)
 		return (NULL);
 	line = NULL;
-	new_scene = (t_scene *) malloc(sizeof(t_scene));
+	new_scene = scene_init();
 	while (1)
 	{
 		line = strip_nl(get_next_line(fd));
-		// printf("curr line = %s\n", line);
 		if (!line)
 			break ;
 		else if (line[0] == '\n' && ft_strlen(line) == 1)
 			continue ;
+		// printf("curr line = %s\n", line);
 		if (parse_line(new_scene, line))
 		{
 			printf("error in file configuration\n");
@@ -271,5 +282,5 @@ t_scene	*file_create_scene(char *filename)
 		free(line);
 	}
 	printf("done parsing file\n");
-	return (new_scene);
+	scene = new_scene;
 }

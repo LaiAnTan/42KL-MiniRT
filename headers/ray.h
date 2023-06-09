@@ -3,10 +3,11 @@
 
 #include "vector.h"
 
-
+/* Ray Types */
 #define	LIGHT		0
 #define	COLLIDED	1
 #define SHADOW		2
+
 typedef struct s_ray
 {
 	// ray type

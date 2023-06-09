@@ -1,4 +1,4 @@
-#include "ray.h"
+# include "../headers/ray.h"
 
 // malloc both vectors thanks
 t_ray	*init_ray(t_vector	*pos_vector, t_vector *dir_vector)

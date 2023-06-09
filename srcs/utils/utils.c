@@ -65,7 +65,6 @@ char	*ft_strdup(char *str)
 		i++;
 	}
 	dest[i] = '\0';
-	free(str);
 	return (dest);
 }
 

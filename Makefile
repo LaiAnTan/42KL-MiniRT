@@ -11,8 +11,9 @@ SRCS_C =	srcs/utils/utils_atof.c				\
 			srcs/file.c							\
 			srcs/main.c							\
 			srcs/scene_objects.c				\
-
-SRCS_H = headers/minrt.h
+			srcs/vector.c						\
+			srcs/matrix.c						\
+			srcs/ray.c							\
 
 SRCS_O = $(SRCS_C:.c=.o)
 
@@ -20,23 +21,25 @@ SRCS_O = $(SRCS_C:.c=.o)
 
 # FSAN = -fsanitize=address -g
 
-LIB = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -lmlx_Linux
+LIB = -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
 all : $(NAME) move
 
 %.o:%.c
-		@gcc $(CFLAG) -c $< -o $(<:.c=.o)
+		@gcc $(CFLAG) -I/usr/include -Imlx_linux -O3 -c $< -o $(<:.c=.o)
 
 $(NAME): $(SRCS_O)
-		@gcc $(CFLAG) -o $(NAME) $(SRCS_O) $(LIB) ${FSAN}
+		@gcc $(SRCS_O) $(CFLAG) $(LIB) $(FSAN) -o $(NAME) 
 
 $(ODIR) :
 	@echo "Folder $(ODIR) does not exist, making a new one..."
 	@mkdir $@
 
 move : $(ODIR)
+	@clear
 	@echo "Storing object files into $(ODIR)..."
 	@mv $(SRCS_O) $(ODIR)
+	
 
 run :
 	@./$(NAME)

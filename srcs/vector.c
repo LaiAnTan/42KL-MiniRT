@@ -1,4 +1,4 @@
-#include "vector.h"
+#include "../headers/vector.h"
 
 // PLEASE MALLOC STUFF
 t_vector	*init_vector(t_matrix *stuff)
@@ -37,9 +37,9 @@ matrix_type	*get_val(t_vector *vector)
 	matrix_type	*array;
 
 	array = malloc(3 * sizeof(matrix_type));
-	array[0] = vector->raw_matrix->stuff[0][0]; // x i
-	array[1] = vector->raw_matrix->stuff[1][0]; // y j
-	array[2] = vector->raw_matrix->stuff[2][0]; // z k
+	array[0] = vector->raw_matrix->stuff[0][0];
+	array[1] = vector->raw_matrix->stuff[1][0];
+	array[2] = vector->raw_matrix->stuff[2][0];
 	return (array);
 }
 
