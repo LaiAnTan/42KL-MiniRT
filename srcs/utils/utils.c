@@ -82,7 +82,7 @@ void	copy_int_arr(int *copy_from, int *copy_to, int size) // both arrays must ha
 	return ;
 }
 
-void	copy_float_arr(float *copy_from, float *copy_to, int size) // both arrays must have the same size
+void	copy_double_arr(double *copy_from, double *copy_to, int size) // both arrays must have the same size
 {
 	int		i;
 

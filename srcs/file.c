@@ -26,11 +26,11 @@ int		*unpack_3_int_values(char *values)
 	return (unpacked);
 }
 
-// unpacks a string of 3 values (1.0,2.3,3.21) into an array of floats of size 3
-float	*unpack_3_float_values(char *values)
+// unpacks a string of 3 values (1.0,2.3,3.21) into an array of doubles of size 3
+double	*unpack_3_double_values(char *values)
 {
 	int		i;
-	float	*unpacked;
+	double	*unpacked;
 	char	**tokens;
 
 
@@ -38,16 +38,16 @@ float	*unpack_3_float_values(char *values)
 	tokens = ft_split(values, ',');
 	if (!tokens || count_2d_array(tokens) > 3)
 		return (NULL);
-	unpacked = (float *) malloc(sizeof(float) * 3);
+	unpacked = (double *) malloc(sizeof(double) * 3);
 	while (i < 3)
 	{
-		if (is_float(tokens[i]) == 0)
+		if (is_decimal(tokens[i]) == 0)
 		{
 			free(tokens);
 			free(unpacked);
 			return (NULL);
 		}
-		unpacked[i] = ft_atof(tokens[i]);
+		unpacked[i] = (double) ft_atof(tokens[i]);
 		++i;
 	}
 	free(tokens);
@@ -112,16 +112,16 @@ int	handle_object_ambient(t_scene *scene, char **tokens)
 
 int	handle_object_camera(t_scene *scene, char **tokens)
 {
-	float		*cam_coords;
-	float		*cam_vec_orient;
+	double		*cam_coords;
+	double		*cam_vec_orient;
 	t_camera	*new_camera;
 
 	if (count_2d_array(tokens) != 4)
 		return (-1);
-	if (is_valid_3_values(tokens[1]) == 0|| is_valid_3_values(tokens[2] == 0))
+	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0)
 		return (-1);
-	cam_coords = unpack_3_float_values(tokens[1]);
-	cam_vec_orient = unpack_3_float_values(tokens[2]);
+	cam_coords = unpack_3_double_values(tokens[1]);
+	cam_vec_orient = unpack_3_double_values(tokens[2]);
 	if (!cam_coords || !cam_vec_orient)
 		return (-1);
 	new_camera = scene_new_camera(ft_atoi(tokens[3]), cam_coords, cam_vec_orient);
@@ -132,7 +132,7 @@ int	handle_object_camera(t_scene *scene, char **tokens)
 int	handle_object_light(t_scene *scene, char **tokens)
 {
 	int			*l_rgb;
-	float		*l_coords;
+	double		*l_coords;
 	t_light		*new_light;
 
 	if (count_2d_array(tokens) != 4)
@@ -140,10 +140,10 @@ int	handle_object_light(t_scene *scene, char **tokens)
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[3]) == 0)
 		return (-1);
 	l_rgb = unpack_3_int_values(tokens[3]);
-	l_coords = unpack_3_float_values(tokens[1]);
+	l_coords = unpack_3_double_values(tokens[1]);
 	if (!l_rgb || !l_coords)
 		return (-1);
-	new_light = scene_new_light(l_rgb, l_coords, ft_atof(tokens[2]));
+	new_light = scene_new_light(l_rgb, l_coords, (double) ft_atof(tokens[2]));
 	scene_light_add_back(&scene->sc_lights, new_light);
 	return (0);
 }
@@ -151,18 +151,18 @@ int	handle_object_light(t_scene *scene, char **tokens)
 int	handle_object_sphere(t_scene *scene, char **tokens)
 {
 	int			*sp_rgb;
-	float		*sp_coords;
+	double		*sp_coords;
 	t_sphere	*new_sphere;
 
 	if (count_2d_array(tokens) != 4)
 		return (-1);
-	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[3] == 0))
+	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[3]) == 0)
 		return (-1);
-	sp_rgb = unpack_3_int_values(tokens[3]);
-	sp_coords = unpack_3_float_values(tokens[1]);
+	sp_rgb = unpack_3_double_values(tokens[3]);
+	sp_coords = unpack_3_double_values(tokens[1]);
 	if (!sp_rgb || !sp_coords)
 		return (-1);
-	new_sphere = scene_new_sphere(sp_rgb, ft_atof(tokens[2]), sp_coords);
+	new_sphere = scene_new_sphere(sp_rgb, (double) ft_atof(tokens[2]), sp_coords);
 	scene_sphere_add_back(&scene->sc_spheres, new_sphere);
 	return (0);
 }
@@ -170,8 +170,8 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 int	handle_object_plane(t_scene *scene, char **tokens)
 {
 	int			*pl_rgb;
-	float		*pl_coords;
-	float		*pl_vec_normal;
+	double		*pl_coords;
+	double		*pl_vec_normal;
 	t_plane		*new_plane;
 
 	if (count_2d_array(tokens) != 4)
@@ -179,8 +179,8 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[3]) == 0)
 		return (-1);
 	pl_rgb = unpack_3_int_values(tokens[3]);
-	pl_coords = unpack_3_float_values(tokens[1]);
-	pl_vec_normal = unpack_3_float_values(tokens[2]);
+	pl_coords = unpack_3_double_values(tokens[1]);
+	pl_vec_normal = unpack_3_double_values(tokens[2]);
 	if (!pl_rgb || !pl_coords || !pl_vec_normal)
 		return (-1);
 	new_plane = scene_new_plane(pl_rgb, pl_coords, pl_vec_normal);
@@ -191,8 +191,8 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 int	handle_object_cylinder(t_scene *scene, char **tokens)
 {
 	int			*cy_rgb;
-	float		*cy_coords;
-	float		*cy_vec_axis;
+	double		*cy_coords;
+	double		*cy_vec_axis;
 	t_cylinder	*new_cylinder;
 
 	if (count_2d_array(tokens) != 6)
@@ -200,11 +200,11 @@ int	handle_object_cylinder(t_scene *scene, char **tokens)
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[5]) == 0)
 		return (-1);
 	cy_rgb = unpack_3_int_values(tokens[5]);
-	cy_coords = unpack_3_float_values(tokens[1]);
-	cy_vec_axis = unpack_3_float_values(tokens[2]);
+	cy_coords = unpack_3_double_values(tokens[1]);
+	cy_vec_axis = unpack_3_double_values(tokens[2]);
 	if (!cy_rgb || !cy_coords || !cy_vec_axis)
 		return (-1);
-	new_cylinder = scene_new_cylinder(cy_rgb, ft_atof(tokens[4]), ft_atof(tokens[3]), cy_coords, cy_vec_axis);
+	new_cylinder = scene_new_cylinder(cy_rgb, (double) ft_atof(tokens[4]), (double) ft_atof(tokens[3]), cy_coords, cy_vec_axis);
 	scene_cylinder_add_back(&scene->sc_cylinders, new_cylinder);
 	return (0);
 }
@@ -250,7 +250,7 @@ t_scene	*file_create_scene(char *filename)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		else if (line[0] = '\n' && ft_strlen(line) == 1)
+		else if (line[0] == '\n' && ft_strlen(line) == 1)
 			continue ;
 		if (parse_line(new_scene, line))
 		{

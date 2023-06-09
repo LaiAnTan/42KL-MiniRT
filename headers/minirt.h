@@ -90,12 +90,12 @@ typedef struct s_data
 
 /* Scene Objects Boilerplate */
 
-t_ambient	*scene_new_ambient(int a_rgb[3], float a_ratio);
-t_camera	*scene_new_camera(int cam_fov, float cam_coords[3], float cam_vec_orient[3]);
-t_light		*scene_new_light(int l_rgb[3], float l_coords[3], float l_brightness);
-t_sphere	*scene_new_sphere(int sp_rgb[3], float sp_diameter, float sp_coords[3]);
-t_plane		*scene_new_plane(int pl_rgb[3], float pl_coords[3], float pl_vec_normal[3]);
-t_cylinder	*scene_new_cylinder(int cy_rgb[3], float cy_height, float cy_diameter, float cy_coords[3], float cy_vec_axis[3]);
+t_ambient	*scene_new_ambient(int a_rgb[3], double a_ratio);
+t_camera	*scene_new_camera(int cam_fov, double cam_coords[3], double cam_vec_orient[3]);
+t_light		*scene_new_light(int l_rgb[3], double l_coords[3], double l_brightness);
+t_sphere	*scene_new_sphere(int sp_rgb[3], double sp_diameter, double sp_coords[3]);
+t_plane		*scene_new_plane(int pl_rgb[3], double pl_coords[3], double pl_vec_normal[3]);
+t_cylinder	*scene_new_cylinder(int cy_rgb[3], double cy_height, double cy_diameter, double cy_coords[3], double cy_vec_axis[3]);
 
 void	scene_ambient_add_back(t_ambient **list_ambient, t_ambient *new_ambient);
 void	scene_camera_add_back(t_camera **list_camera, t_camera *new_camera);
@@ -104,17 +104,21 @@ void	scene_sphere_add_back(t_sphere **list_sphere, t_sphere *new_sphere);
 void	scene_plane_add_back(t_plane **list_plane, t_plane *new_plane);
 void	scene_cylinder_add_back(t_cylinder **list_cylinder, t_cylinder *new_cylinder);
 
+/* File Parsing */
+
+t_scene	*file_create_scene(char *filename);
+
+
 /* Utils */
 
 void	copy_int_arr(int *copy_from, int *copy_to, int size);
-void	copy_float_arr(float *copy_from, float *copy_to, int size);
-
+void	copy_double_arr(double *copy_from, double *copy_to, int size);
 
 int		ft_atoi(char *str);
 int		count_2d_array(char **e);
-
 int		is_digit(char *str);
 int		is_decimal(char *str);
+int		ft_strcmp(char *s1, char *s2);
 
 float	ft_atof(char *str);
 

@@ -12,33 +12,6 @@
 
 #include "../../headers/minirt.h"
 
-char	*get_next_line(int fd)
-{
-	char			*buffer;
-	char			*output;
-	char			**temp;
-	static char		*content;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	buffer = (char *) malloc (sizeof(char) * (BUFFER_SIZE + 1));
-	content = transfer(fd, content, buffer);
-	if (!content)
-		return (NULL);
-	temp = seperate_nl(content);
-	output = ft_strdup(temp[0]);
-	if (content)
-		free(content);
-	content = ft_strdup(temp[1]);
-	if (*content == '\0')
-	{
-		free(content);
-		content = NULL;
-	}
-	free(temp);
-	return (output);
-}
-
 int	check_nl(char *str, int size)
 {
 	int	i;
@@ -100,4 +73,31 @@ char	*transfer(int fd, char *content, char *buffer)
 	}
 	free(buffer);
 	return (content);
+}
+
+char	*get_next_line(int fd)
+{
+	char			*buffer;
+	char			*output;
+	char			**temp;
+	static char		*content;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = (char *) malloc (sizeof(char) * (BUFFER_SIZE + 1));
+	content = transfer(fd, content, buffer);
+	if (!content)
+		return (NULL);
+	temp = seperate_nl(content);
+	output = ft_strdup(temp[0]);
+	if (content)
+		free(content);
+	content = ft_strdup(temp[1]);
+	if (*content == '\0')
+	{
+		free(content);
+		content = NULL;
+	}
+	free(temp);
+	return (output);
 }
