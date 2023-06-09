@@ -54,14 +54,6 @@ double	*unpack_3_double_values(char *values)
 	return (unpacked);
 }
 
-/*
-potential errors
-
-wrong number of args
-wrong format of args
-
-*/
-
 // checks if the string is a valid string of 3 values (255,255,255)
 int	is_valid_3_values(char *str)
 {
