@@ -3,7 +3,9 @@
 test
 
 
-./mlx_linux/
-./mlx_linux/*
 mlx_linux/*
 mlx_linux
+test_code
+test_code/*
+old_mtrx
+old_mtrx/*

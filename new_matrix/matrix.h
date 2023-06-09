@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef	double	matrix_type;
+typedef	float	matrix_type;
 
 typedef struct	s_matrix
 {

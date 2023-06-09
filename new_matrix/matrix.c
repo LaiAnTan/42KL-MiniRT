@@ -209,7 +209,7 @@ void		m_print_matrix(t_matrix *m)
 		printf("[ ");
 		for (int x = 0; x < m->x; ++x)
 		{
-			printf("%.2f ", m->stuff[y][x]);
+			printf("%i ", m->stuff[y][x]);
 		}
 		printf("]\n");
 	}
