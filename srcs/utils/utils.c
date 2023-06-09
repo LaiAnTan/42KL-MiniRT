@@ -175,6 +175,8 @@ int	ft_atoi(char *str)
 
 int		is_digit(char *str)
 {
+	if (*str == '-' || *str == '+')
+		++str;
 	while (*str != '\0')
 	{
 		if (*str < '0' || *str > '9')

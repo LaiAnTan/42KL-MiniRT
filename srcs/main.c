@@ -7,6 +7,6 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (0);
 	scene = file_create_scene(argv[1]);
-	(void *) scene;
+	scene_print_stats(scene);
 	return (0);
 }

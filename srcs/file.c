@@ -60,36 +60,25 @@ potential errors
 wrong number of args
 wrong format of args
 
-
-todo: error handling for all handle_ functions
-todo: change storage to double to prevent overflow in future
 */
 
 // checks if the string is a valid string of 3 values (255,255,255)
 int	is_valid_3_values(char *str)
 {
-	int	comma_count;
-	int	decimal_count;
+	int		i;
+	char	**values;
 
-	comma_count = 0;
-	decimal_count = 0;
-	while (*str != '\0')
-	{
-		if (*str == ',')
-		{
-			decimal_count = 0;
-			++comma_count;
-		}
-		else if (*str < '0' || *str > '9')
-			return (0);
-		else if (*str == '.')
-			++decimal_count;
-		if (decimal_count > 1)
-			return (0);
-		++str;
-	}
-	if (comma_count != 2)
+	i = 0;
+	values = ft_split(str, ',');
+	if (count_2d_array(values) != 3)
 		return (0);
+	while (values[i])
+	{
+		// printf("checking = %s\n", values[i]);
+		if (is_digit(values[i]) == 0 && is_decimal(values[i]) == 0)
+			return (0);
+		++i;
+	}
 	return (1);
 }
 
@@ -98,6 +87,7 @@ int	handle_object_ambient(t_scene *scene, char **tokens)
 	int			*a_rgb;
 	t_ambient	*new_ambient;
 
+	printf("found ambient object\n");
 	if (count_2d_array(tokens) != 3)
 		return (-1);
 	if (is_valid_3_values(tokens[2]) == 0)
@@ -116,6 +106,7 @@ int	handle_object_camera(t_scene *scene, char **tokens)
 	double		*cam_vec_orient;
 	t_camera	*new_camera;
 
+	printf("found camera object\n");
 	if (count_2d_array(tokens) != 4)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0)
@@ -135,6 +126,7 @@ int	handle_object_light(t_scene *scene, char **tokens)
 	double		*l_coords;
 	t_light		*new_light;
 
+	printf("found light object\n");
 	if (count_2d_array(tokens) != 4)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[3]) == 0)
@@ -154,11 +146,12 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 	double		*sp_coords;
 	t_sphere	*new_sphere;
 
+	printf("found sphere object\n");
 	if (count_2d_array(tokens) != 4)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[3]) == 0)
 		return (-1);
-	sp_rgb = unpack_3_double_values(tokens[3]);
+	sp_rgb = unpack_3_int_values(tokens[3]);
 	sp_coords = unpack_3_double_values(tokens[1]);
 	if (!sp_rgb || !sp_coords)
 		return (-1);
@@ -174,6 +167,7 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 	double		*pl_vec_normal;
 	t_plane		*new_plane;
 
+	printf("found plane object\n");
 	if (count_2d_array(tokens) != 4)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[3]) == 0)
@@ -195,6 +189,7 @@ int	handle_object_cylinder(t_scene *scene, char **tokens)
 	double		*cy_vec_axis;
 	t_cylinder	*new_cylinder;
 
+	printf("found cylinder object\n");
 	if (count_2d_array(tokens) != 6)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[5]) == 0)
@@ -234,6 +229,29 @@ int	parse_line(t_scene *scene, char *line)
 	return (0);
 }
 
+char	*strip_nl(char *str)
+{
+	int		i;
+	int		len;
+	char	*new_str;
+
+	i = 0;
+	len = ft_strlen(str);
+	if (!str)
+		return (NULL);
+	if (str[len - 1] != '\n')
+		return (str);
+	new_str = (char *) malloc (sizeof(char) * ft_strlen(str));
+	while (i < len - 1)
+	{
+		new_str[i] = str[i];
+		++i;
+	}
+	new_str[i] = '\0';
+	free(str);
+	return (new_str);
+}
+
 t_scene	*file_create_scene(char *filename)
 {
 	int		fd;
@@ -247,17 +265,19 @@ t_scene	*file_create_scene(char *filename)
 	new_scene = (t_scene *) malloc(sizeof(t_scene));
 	while (1)
 	{
-		line = get_next_line(fd);
+		line = strip_nl(get_next_line(fd));
+		// printf("curr line = %s\n", line);
 		if (!line)
 			break ;
 		else if (line[0] == '\n' && ft_strlen(line) == 1)
 			continue ;
 		if (parse_line(new_scene, line))
 		{
-			printf("error in file configuration");
+			printf("error in file configuration\n");
 			exit(0);
 		}
 		free(line);
 	}
+	printf("done parsing file\n");
 	return (new_scene);
 }

@@ -104,6 +104,9 @@ void	scene_sphere_add_back(t_sphere **list_sphere, t_sphere *new_sphere);
 void	scene_plane_add_back(t_plane **list_plane, t_plane *new_plane);
 void	scene_cylinder_add_back(t_cylinder **list_cylinder, t_cylinder *new_cylinder);
 
+// debug
+void	scene_print_stats(t_scene *scene);
+
 /* File Parsing */
 
 t_scene	*file_create_scene(char *filename);
