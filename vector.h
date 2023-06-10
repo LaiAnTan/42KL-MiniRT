@@ -28,7 +28,10 @@ t_vector	*v_difference(t_vector *left, t_vector *right);
 t_vector	*v_addition(t_vector *left, t_vector *right);
 t_vector	*v_scalar_multi(t_vector *vctr, double value);
 t_vector	*v_scalar_divide(t_vector *vctr, double value);
-t_vector	*v_normalize(t_vector *vctr);
+t_vector	*v_get_unit_v(t_vector *vctr);
 t_vector	*v_projection(t_vector *a, t_vector *b);
-double		*v_get_direction_angles(t_vector *vctr);
+double		*v_direction_cosines(t_vector *vctr);
+double		*v_u_direction_cosines(t_vector *v_norm);
+t_vector	*v_crossproduct(t_vector *left, t_vector *right);
+
 #endif

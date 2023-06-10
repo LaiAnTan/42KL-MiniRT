@@ -249,7 +249,7 @@ void		m_print_matrix(t_matrix *m)
 // [ 1 ]     [ 1 , 0 , 0 ]
 // [ 2 ] --> [ 0 , 2 , 0 ]
 // [ 3 ]     [ 0 , 0 , 3 ]
-t_matrix	*idk_what_to_name_this(t_matrix	*o)
+t_matrix	*m_make_diagonal_matrix(t_matrix *o)
 {
 	t_matrix	*ret;
 	int			y;

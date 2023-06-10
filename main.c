@@ -105,7 +105,7 @@ int	intersect_circle(t_ray	*ray, t_circle *circle)
 		return (ERROR);
 
 	// // debug msg
-	// printf("Vector = ");
+	// printf("Ori Vector = ");
 	// print_vector(ray->pos_vector);
 	// printf("solutions = %.2f, %.2f\n", values[1], values[2]);
 
@@ -186,11 +186,12 @@ double	calculate_d_from_l(t_ray *r, t_light *l, t_scene *scene)
 	{
 		to_light = dup_ray(r);
 		free_vector(&to_light->dir_vector);
-		to_light->dir_vector = v_normalize(r_to_l);
+		to_light->dir_vector = v_get_unit_v(r_to_l);
 		free_vector(&to_light->pos_vector);
 		to_light->pos_vector = v_addition(r->pos_vector, to_light->dir_vector);
-		if (intersect_circle(to_light, cur) == SUCCESS)
+		if (intersect_circle(to_light, cur) != ERROR)
 		{
+			// printf("nope\n\n");
 			free_vector(&r_to_l);
 			free_ray(&to_light);
 			return (ERROR);
@@ -228,16 +229,29 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_circle *o)
 	t_vector	*a;
 	t_vector	*a_norm;
 
+	// printf("Light position = ");
+	// print_vector(l->position);
+	// printf("Ray position = ");
+	// print_vector(r->pos_vector);
+	// printf("Circle center = ");
+	// print_vector(o->position);
+
 	a = v_difference(l->position, r->pos_vector);
-	print_vector(a);
-	a_norm = v_normalize(a);
+
+	// printf("Intersection to Light");
+	// print_vector(a);
+
+	a_norm = v_get_unit_v(a);
 
 	t_vector	*b;
 	t_vector	*b_norm;
 
 	b = v_difference(r->pos_vector, o->position);
-	b_norm = v_normalize(b);
-	print_vector(b);
+
+	// printf("Center to Intersection");
+	// print_vector(b);
+
+	b_norm = v_get_unit_v(b);
 
 	// dot product
 	// a x b = |a||b| cos theta
@@ -251,13 +265,20 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_circle *o)
 	free_vector(&a_norm);
 	free_vector(&b);
 	free_vector(&b_norm);
-	printf("cos theta = %.2f\n", costheta);
 
 	double	angles = acos(costheta);
-	double	ninety = M_PI / 2;
+	double	diff_strength = 2.0f;
 
-	printf("Angles = %.2f rad, %.2f degree\n", angles, (angles * 180) / M_PI);
-	printf("\n");
+	// printf("cos theta = %.2f\n", costheta);
+	// printf("Angles = %.2f rad, %.2f degree\n", angles, (angles * 180) / M_PI);
+	// printf("\n");
+
+	t_vector	*new_c;
+	new_c = v_scalar_multi(r->color, (costheta * diff_strength) + 1);
+	// printf("New color = ");
+	// print_vector(new_c);
+	free_vector(&r->color);
+	r->color = new_c;
 }
 
 void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
@@ -373,34 +394,6 @@ void	free_mlx(t_mlx_info *mlx)
 	free(mlx->mlx);
 }
 
-// int main()
-// {
-// 	t_scene		scene;
-// 	t_mlx_info	mlx;
-// 	int			loop;
-
-
-// 	mlx.mlx = mlx_init();
-// 	mlx.mlx_win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "please PLESAE DONT CRASH");
-// 	mlx.img.img = NULL;
-// 	loop = 0;
-// 	while (1)
-// 	{
-// 		set_the_scene(&scene, loop);
-// 		get_image(&mlx.img, mlx.mlx);
-// 		kewl_quirky_raytrace(&scene, &mlx);
-// 		mlx_put_image_to_window(mlx.mlx, mlx.mlx_win, mlx.img.img, 0, 0);
-// 		clean_loop(&mlx);
-// 		free_scene(&scene);
-// 		loop += 10;
-// 		if (loop > HEIGHT)
-// 			loop = -1 * HEIGHT;
-// 	}
-// 	mlx_loop(mlx.mlx);
-// }
-
-// single loop
-# include <unistd.h>
 int main()
 {
 	t_scene		scene;
@@ -412,17 +405,45 @@ int main()
 	mlx.mlx_win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "please PLESAE DONT CRASH");
 	mlx.img.img = NULL;
 	loop = 0;
-	set_the_scene(&scene, loop);
-
-	get_image(&mlx.img, mlx.mlx);
-	kewl_quirky_raytrace(&scene, &mlx);
-	mlx_put_image_to_window(mlx.mlx, mlx.mlx_win, mlx.img.img, 0, 0);
-	clean_loop(&mlx);
-
-	sleep(2);
-	free_scene(&scene);
-	free_mlx(&mlx);
+	while (1)
+	{
+		set_the_scene(&scene, loop);
+		get_image(&mlx.img, mlx.mlx);
+		kewl_quirky_raytrace(&scene, &mlx);
+		mlx_put_image_to_window(mlx.mlx, mlx.mlx_win, mlx.img.img, 0, 0);
+		clean_loop(&mlx);
+		free_scene(&scene);
+		loop += 10;
+		if (loop > HEIGHT)
+			loop = -1 * HEIGHT;
+	}
+	mlx_loop(mlx.mlx);
 }
+
+// // single loop
+// # include <unistd.h>
+// int main()
+// {
+// 	t_scene		scene;
+// 	t_mlx_info	mlx;
+// 	int			loop;
+
+
+// 	mlx.mlx = mlx_init();
+// 	mlx.mlx_win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "please PLESAE DONT CRASH");
+// 	mlx.img.img = NULL;
+// 	loop = 0;
+// 	set_the_scene(&scene, loop);
+
+// 	get_image(&mlx.img, mlx.mlx);
+// 	kewl_quirky_raytrace(&scene, &mlx);
+// 	mlx_put_image_to_window(mlx.mlx, mlx.mlx_win, mlx.img.img, 0, 0);
+// 	clean_loop(&mlx);
+
+// 	sleep(2);
+// 	free_scene(&scene);
+// 	free_mlx(&mlx);
+// }
 
 // // pure m a t h s
 // int main()

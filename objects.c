@@ -55,7 +55,7 @@ t_ambient	*init_ambient(int r, int g, int b, double ambient_strength)
 	ret = malloc(sizeof(t_ambient));
 	ret->color = init_vector_intarr(stuff);
 	ret->ambient_ratio = v_scalar_divide(ret->color, 255);
-	ret->multiply_mtrx = idk_what_to_name_this(ret->ambient_ratio->raw_matrix);
+	ret->multiply_mtrx = m_make_diagonal_matrix(ret->ambient_ratio->raw_matrix);
 	return (ret);
 }
 

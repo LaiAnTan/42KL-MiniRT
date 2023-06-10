@@ -34,7 +34,7 @@ t_matrix	*m_scalar_divide(t_matrix *left, double val);
 // [ 1 ]     [ 1 , 0 , 0 ]
 // [ 2 ] --> [ 0 , 2 , 0 ]
 // [ 3 ]     [ 0 , 0 , 3 ]
-t_matrix	*idk_what_to_name_this(t_matrix	*o);
+t_matrix	*m_make_diagonal_matrix(t_matrix *o);
 
 void		free_matrix(t_matrix **t_free);
 #endif
