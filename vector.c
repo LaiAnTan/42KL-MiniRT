@@ -14,10 +14,8 @@ t_vector	*init_vector(t_matrix *stuff)
 
 t_vector	*init_vector_intarr(matrix_type	array[3])
 {
-	int			i;
 	t_vector	*ret;
 
-	i = -1;
 	ret = malloc (sizeof(t_vector));
 	ret->raw_matrix = init_matrix(array, 1, 3);
 	return (ret);
@@ -145,5 +143,6 @@ t_vector	*v_normalize(t_vector *vctr)
 
 double	*v_get_direction_angles(t_vector *vctr)
 {
-	
+	(void) vctr;
+	return (NULL);
 }

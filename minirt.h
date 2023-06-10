@@ -6,15 +6,12 @@
 #include "ray.h"
 #include "mlx.h"
 
+// mfw no M_PI
+# define M_PI 3.14159265358979323846
+
 // settings
-
-#define WIDTH 600
-#define HEIGHT 450
-
-# define HORIFOV 120 
-# define VERTIFOV 120
-
-# define LIGHT_INTENS 106250000
+# define WIDTH 600
+# define HEIGHT 450
 
 # define SUCCESS 0
 # define FAILURE 1
@@ -40,8 +37,6 @@ typedef	struct	s_light
 {
 	t_vector	*position;
 	int			color[3];
-
-	double		intensity;
 
 	struct	s_light	*next;
 } t_light;
@@ -72,8 +67,8 @@ typedef	struct	s_scene
 
 
 t_circle	*init_circle(int x, int y, int z, int r);
-t_cam		*init_cam();
-t_light		*init_light(int x, int y, int z, double intens);
+t_cam		*init_cam(int x, int y, int z);
+t_light		*init_light(int x, int y, int z);
 
 void	free_circle(t_circle *c);
 void	free_cam(t_cam *cam);

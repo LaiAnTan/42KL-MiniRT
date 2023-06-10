@@ -30,9 +30,9 @@ void	free_circle(t_circle *c)
 	}
 }
 
-t_cam		*init_cam()
+t_cam		*init_cam(int x, int y, int z)
 {
-	matrix_type	position[3] = {0, 0, 0};
+	matrix_type	position[3] = {x, y, z};
 	matrix_type	orientation[3] = {0, 0, 1};
 	t_cam	*ret;
 
@@ -50,7 +50,7 @@ void	free_cam(t_cam *cam)
 	free(cam);	
 }
 
-t_light		*init_light(int x, int y, int z, double inten)
+t_light		*init_light(int x, int y, int z)
 {
 	matrix_type position[3] = {x, y, z};
 	t_light		*ret;
@@ -58,8 +58,6 @@ t_light		*init_light(int x, int y, int z, double inten)
 	ret = malloc(sizeof(t_light));
 	ret->position = init_vector_intarr(position);
 	ret->next = NULL;
-	// 100000000
-	ret->intensity = inten;
 	return (ret);
 }
 
