@@ -88,7 +88,7 @@ t_vector	*v_projection(t_vector *a, t_vector *b)
 	t_vector	*ret;
 
 	project_mag = v_dotproduct(a, b) / v_magnitude(b);
-	norm_b = v_normalize(b);
+	norm_b = v_get_unit_vector(b);
 	ret = v_scalar_multi(norm_b, project_mag);
 	free_vector(&norm_b);
 	return (ret);
@@ -135,7 +135,7 @@ t_vector	*v_scalar_multi(t_vector *vctr, double value)
 	return (init_vector(m_scalar_multi(vctr->raw_matrix, value)));
 }
 
-t_vector	*v_normalize(t_vector *vctr)
+t_vector	*v_get_unit_vector(t_vector *vctr)
 {
 	double	mag;
 
@@ -143,7 +143,48 @@ t_vector	*v_normalize(t_vector *vctr)
 	return (v_scalar_multi(vctr, 1/mag));
 }
 
-double	*v_get_direction_angles(t_vector *vctr)
+double	*v_direction_cosines(t_vector *vctr)
 {
-	
+	double	*ret;
+	double	mag;
+
+	ret = malloc(sizeof(double) * 3);
+	mag = v_magnitude(vctr);
+
+	ret[0] = acos(vctr->raw_matrix->stuff[0][0] / mag);
+	ret[1] = acos(vctr->raw_matrix->stuff[1][0] / mag); 
+	ret[2] = acos(vctr->raw_matrix->stuff[2][0] / mag);
+	return (ret);
+}
+
+// 0 - angle between ray and x axis
+// 1 - angle between ray and y axis
+// 2 - angle between ray and z axis
+double	*v_u_direction_cosines(t_vector *v_norm)
+{
+	double	*ret;
+
+	ret = malloc(sizeof(double) * 3);
+	ret[0] = acos(v_norm->raw_matrix->stuff[0][0]);
+	ret[1] = acos(v_norm->raw_matrix->stuff[1][0]); 
+	ret[2] = acos(v_norm->raw_matrix->stuff[2][0]);
+	return (ret);
+}
+
+// A x B = |A| |B| sin theta ^n
+// ^n is the unit vector perpendicular to the both vectors
+t_vector	*v_crossproduct(t_vector *left, t_vector *right)
+{
+	matrix_type	stuff[3];
+	matrix_type	*left_val;
+	matrix_type	*right_val;
+
+	left_val = get_val(left);
+	right_val = get_val(right);
+	stuff[0] = (left_val[1] * right_val[2]) - (left_val[2] * right_val[1]);
+	stuff[1] = -1 * ((left_val[0] * right_val[2]) - (left_val[2] * right_val[0]));
+	stuff[2] = (left_val[0] * right_val[1]) - (left_val[1] * right_val[0]);
+	free(left_val);
+	free(right_val);
+	return (init_vector_intarr(stuff));
 }

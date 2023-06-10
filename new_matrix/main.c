@@ -80,24 +80,64 @@
 
 // matrix epic poggers;
 
+// int main()
+// {
+// 	matrix_type	stuff1[3] = {9,3,1};
+// 	matrix_type	stuff2[3] = {5,2,6};
+// 	t_vector	*vec1 = init_vector_intarr(stuff1);
+// 	t_vector	*vec2 = init_vector_intarr(stuff2);
+// 	t_vector	*result;
+
+// 	printf("Vector 1: \n");
+// 	print_vector(vec1);
+// 	printf("Vector 2: \n");
+// 	print_vector(vec2);
+// 	printf("Addtion = \n");
+// 	print_vector(v_addition(vec1, vec2));
+// 	printf("Substraction = \n");
+// 	print_vector(v_difference(vec1, vec2));
+// 	printf("Dot Proct = \n");
+// 	printf("%f\n", v_dotproduct(vec1, vec2));
+// 	printf("Project vec1 on vec2 = \n");
+// 	print_vector(v_projection(vec1, vec2));
+// }
+
+double	to_degree(double rad)
+{
+	double	pi;
+	double	ret;
+
+	pi = atan(1)*4;
+	return ((rad * 180) / pi);
+}
+
+// int main()
+// {
+// 	matrix_type stuff[3] = {1,1,0};
+// 	t_vector	*vec1 = init_vector_intarr(stuff);
+	
+// 	vec1 = v_get_unit_vector(vec1);
+
+// 	printf("Vector = \n");
+// 	print_vector(vec1);
+// 	double	*angles = v_u_direction_cosines(vec1);
+// 	printf("rad - x - %.2f, y - %.2f, z - %.2f\n", angles[0], angles[1], angles[2]);
+// 	printf("deg - x - %.2f, y - %.2f, z - %.2f\n", to_degree(angles[0]), to_degree(angles[1]), to_degree(angles[2]));
+// }
+
 int main()
 {
-	matrix_type	stuff1[3] = {9,3,1};
-	matrix_type	stuff2[3] = {5,2,6};
+	matrix_type stuff1[3] = {2,2,9};
+	matrix_type stuff2[3] = {1,3,1};
+
 	t_vector	*vec1 = init_vector_intarr(stuff1);
 	t_vector	*vec2 = init_vector_intarr(stuff2);
-	t_vector	*result;
 
-	printf("Vector 1: \n");
+	t_vector	*cross = v_crossproduct(vec1, vec2);
+	printf("vec1 = ");
 	print_vector(vec1);
-	printf("Vector 2: \n");
+	printf("vec2 = ");
 	print_vector(vec2);
-	printf("Addtion = \n");
-	print_vector(v_addition(vec1, vec2));
-	printf("Substraction = \n");
-	print_vector(v_difference(vec1, vec2));
-	printf("Dot Proct = \n");
-	printf("%f\n", v_dotproduct(vec1, vec2));
-	printf("Project vec1 on vec2 = \n");
-	print_vector(v_projection(vec1, vec2));
+	printf("cross = ");
+	print_vector(cross);
 }
