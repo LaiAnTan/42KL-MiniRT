@@ -4,5 +4,5 @@ minirt
 
 *.o
 
-obj/*
-mlx_linux/*
+obj/
+mlx_linux/

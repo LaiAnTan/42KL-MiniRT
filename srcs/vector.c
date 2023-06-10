@@ -1,7 +1,7 @@
 #include "../headers/vector.h"
 
 // PLEASE MALLOC STUFF
-t_vector	*init_vector(t_matrix *stuff)
+t_vector	*init_vector_from_matrix(t_matrix *stuff)
 {
 	t_vector	*ret;
 
@@ -12,7 +12,7 @@ t_vector	*init_vector(t_matrix *stuff)
 	return (ret);
 }
 
-t_vector	*init_vector_intarr(matrix_type	array[3])
+t_vector	*init_vector_from_array(matrix_type	array[3])
 {
 	int			i;
 	t_vector	*ret;
@@ -122,17 +122,17 @@ double	v_magnitude_sqrd(t_vector *vctr)
 
 t_vector	*v_difference(t_vector *left, t_vector *right)
 {
-	return (init_vector(m_substraction(left->raw_matrix, right->raw_matrix)));
+	return (init_vector_from_matrix(m_substraction(left->raw_matrix, right->raw_matrix)));
 }
 
 t_vector	*v_addition(t_vector *left, t_vector *right)
 {
-	return (init_vector(m_addition(left->raw_matrix, right->raw_matrix)));
+	return (init_vector_from_matrix(m_addition(left->raw_matrix, right->raw_matrix)));
 }
 
 t_vector	*v_scalar_multi(t_vector *vctr, double value)
 {
-	return (init_vector(m_scalar_multi(vctr->raw_matrix, value)));
+	return (init_vector_from_matrix(m_scalar_multi(vctr->raw_matrix, value)));
 }
 
 t_vector	*v_normalize(t_vector *vctr)

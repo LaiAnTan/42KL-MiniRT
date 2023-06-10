@@ -188,7 +188,7 @@ t_ray	*project_ray(int x, int y, t_camera *camera)
 
 	store = get_val(camera->cam_coords);
 	calculate_ray_positions(store, camera->cam_coords, camera->cam_vec_orient, x, y);
-	pos_vector = init_vector_intarr(store);
+	pos_vector = init_vector_from_array(store);
 	dir_vector = dup_vct(camera->cam_vec_orient);
 	free(store);
 	return (init_ray(pos_vector, dir_vector));
