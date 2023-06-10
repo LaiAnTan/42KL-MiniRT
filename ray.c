@@ -3,7 +3,8 @@
 // malloc both vectors thanks
 t_ray	*init_ray(t_vector	*pos_vector, t_vector *dir_vector)
 {
-	matrix_type	color[3] = {0,0,0};
+	// white light baby
+	matrix_type	color[3] = {255,255,255};
 	t_ray		*ret;
 
 	ret = malloc(sizeof(t_ray));
@@ -28,6 +29,7 @@ void	free_ray(t_ray **ray)
 {
 	free_vector(&(*ray)->pos_vector);
 	free_vector(&(*ray)->dir_vector);
+	free_vector(&(*ray)->color);
 	free((*ray));
 	*ray = NULL;
 }

@@ -133,6 +133,11 @@ t_vector	*v_scalar_multi(t_vector *vctr, double value)
 	return (init_vector(m_scalar_multi(vctr->raw_matrix, value)));
 }
 
+t_vector	*v_scalar_divide(t_vector *vctr, double value)
+{
+	return (v_scalar_multi(vctr, 1/value));
+}
+
 t_vector	*v_normalize(t_vector *vctr)
 {
 	double	mag;

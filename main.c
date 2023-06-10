@@ -75,10 +75,10 @@ int	intersect_circle(t_ray	*ray, t_circle *circle)
 {
 	double	values[3];
 	double	coefficients[3];
+	double	mag;
 
-	// oh yeah set coefficients also based on the notes on your ipad
-	// unfortunately you kinda forgot to take into account that 
-	// the circle position changes?
+	// set coefficients also based on the notes on your ipad
+
 	// me cheese this (not sure if works :skull)
 	t_vector	*modified_ray_pos;
 	t_vector	*zeroed_pos;
@@ -93,22 +93,16 @@ int	intersect_circle(t_ray	*ray, t_circle *circle)
 	coefficients[2] = v_magnitude_sqrd(modified_ray_pos) - (circle->radius * circle->radius);
 
 	solve_quad(coefficients, values);
+	free_vector(&modified_ray_pos);
+	free_vector(&zeroed_pos);
 
 	if (values[0] < 0)
-	{
-		free_vector(&modified_ray_pos);
-		free_vector(&zeroed_pos);
-		return (FAILURE);
-	}
+		return (ERROR);
 
 	t_vector	*store[2];
 
 	if (values[1] < 0 && values[2] < 0)
-	{
-		free_vector(&modified_ray_pos);
-		free_vector(&zeroed_pos);
-		return (FAILURE);
-	}
+		return (ERROR);
 
 	// // debug msg
 	// printf("Vector = ");
@@ -125,7 +119,6 @@ int	intersect_circle(t_ray	*ray, t_circle *circle)
 	store[0] = v_scalar_multi(ray->dir_vector, values[0]);
 	store[1] = dup_vct(ray->pos_vector);
 
-
 	// // debug msg
 	// printf("Direction Vector = ");
 	// print_vector(ray->dir_vector);
@@ -140,12 +133,13 @@ int	intersect_circle(t_ray	*ray, t_circle *circle)
 	// print_vector(ray->pos_vector);
 	// printf("\n");
 
-	free_vector(&modified_ray_pos);
-	free_vector(&zeroed_pos);
+	free_vector(&store[0]);
+	store[0] = v_difference(ray->pos_vector, store[1]); 
+	mag = v_magnitude_sqrd(store[0]);
+
 	free_vector(&store[0]);
 	free_vector(&store[1]);
-
-	return (SUCCESS);
+	return (mag);
 }
 
 double	absolute(double val)
@@ -195,12 +189,8 @@ double	calculate_d_from_l(t_ray *r, t_light *l, t_scene *scene)
 		to_light->dir_vector = v_normalize(r_to_l);
 		free_vector(&to_light->pos_vector);
 		to_light->pos_vector = v_addition(r->pos_vector, to_light->dir_vector);
-
 		if (intersect_circle(to_light, cur) == SUCCESS)
 		{
-			// // debug msg
-			// printf("This is a shadow Ray\n______________________\n\n");
-
 			free_vector(&r_to_l);
 			free_ray(&to_light);
 			return (ERROR);
@@ -208,67 +198,110 @@ double	calculate_d_from_l(t_ray *r, t_light *l, t_scene *scene)
 		free_ray(&to_light);
 		cur = cur->next;
 	}
-
-	// doesnt intersect any circle, calculate distance
-	// for what LMAO
-	// double		mag;
-
-	// mag = v_magnitude(r_to_l);
-
-	// // debug msg
-	// printf("Ray Vector = ");
-	// print_vector(r->pos_vector);
-	// printf("Light Vector = ");
-	// print_vector(l->position);
-	// printf("Ray to Light Vector = ");
-	// print_vector(r_to_l);
-	// free_vector(&r_to_l);
-
-
-	// deprecated code wowsies
-	// double	ret;
-
-	// ret = (l->intensity) / (4 * M_PI * (mag * mag));
-
-	// // debug msg
-	// printf("Distance = %f\n", mag);
-	// printf("Intensity = %f\n", ret);
-	// printf("Ratio = %f\n", (ret / (l->intensity / (4 * M_PI))));
-	// printf("\n");
-
+	free_vector(&r_to_l);
 	return (SUCCESS);
 }
 
-void	ambient_color(t_ray	*ray, t_scene *scene)
+void	ambient_color(t_ray	*ray, t_ambient *a)
 {
+	t_vector	*new;
 
+	new = init_vector(m_multiplication(a->multiply_mtrx, ray->color->raw_matrix));
+	free_vector(&ray->color);
+	ray->color = new;
+	// printf("Color is now = \n");
+	// print_vector(ray->color);
+	// printf("\n");
+}
+
+void	object_collide_color(t_ray *r, t_circle *c)
+{
+	if (c)
+	{
+		free_vector(&r->color);
+		r->color = dup_vct(c->color);
+	}
+}
+
+void	diffuse_the_bomb(t_ray *r, t_light *l, t_circle *o)
+{
+	t_vector	*a;
+	t_vector	*a_norm;
+
+	a = v_difference(l->position, r->pos_vector);
+	print_vector(a);
+	a_norm = v_normalize(a);
+
+	t_vector	*b;
+	t_vector	*b_norm;
+
+	b = v_difference(r->pos_vector, o->position);
+	b_norm = v_normalize(b);
+	print_vector(b);
+
+	// dot product
+	// a x b = |a||b| cos theta
+	// if a and b are both normal vector
+	// a x b = cos theta
+
+	double	costheta;
+	costheta = v_dotproduct(a_norm, b_norm);
+
+	free_vector(&a);
+	free_vector(&a_norm);
+	free_vector(&b);
+	free_vector(&b_norm);
+	printf("cos theta = %.2f\n", costheta);
+
+	double	angles = acos(costheta);
+	double	ninety = M_PI / 2;
+
+	printf("Angles = %.2f rad, %.2f degree\n", angles, (angles * 180) / M_PI);
+	printf("\n");
 }
 
 void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
 {
-	double		closest_light;
-	t_light		*closest_light_src;
 	t_light		*light;
 	t_circle	*cur;
 	t_ray		*ray;
-	double		p_from_light;
 
 	ray = project_ray(x, y, scene->camera);
-	ambient_color(ray, scene);
-	cur = scene->circles;
 	// print_vector(ray->pos_vector);
+
+	double		closest_object;
+	t_circle	*closest_object_src;
+	double		r_to_c;
+
+ //  detect collision
+ //  ----------------------------------------------------------------------------
+
+	cur = scene->circles;
+	closest_object = INFINITY;
+	closest_object_src = NULL;
 	while (cur)
 	{
-		if (intersect_circle(ray, cur) == SUCCESS)
+		r_to_c = intersect_circle(ray, cur);
+		if (r_to_c != ERROR)
 		{
+			if (r_to_c < closest_object)
+			{
+				closest_object = r_to_c;
+				closest_object_src = cur;
+			}
 			ray->type = COLLIDED;
-			break;
 		}
 		cur = cur->next;
 	}
+	object_collide_color(ray, closest_object_src);
+
+ //  detect light source
+ //  ----------------------------------------------------------------------------
+
+	double		p_from_light;
+
 	if (ray->type == COLLIDED)
 	{
-		closest_light = INFINITY;
 		ray->type = SHADOW;
 		light = scene->lights;
 		while (light)
@@ -283,16 +316,20 @@ void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
 			}
 			else
 			{
-				if (p_from_light < closest_light)
-				{
-					closest_light = p_from_light;
-					closest_light_src = light;
-				}
+				// calculate diffuse lighting
+				diffuse_the_bomb(ray, light, closest_object_src);
 				ray->type = COLLIDED;
 			}
 			light = light->next;
 		}
 	}
+
+//  -----------------------------------------------------------------------------
+
+	// ambient
+	ambient_color(ray, scene->ambient);
+
+//  -----------------------------------------------------------------------------
 	write_pixel(&mlx->img, x, y, create_trgb(ray->color));
 	free_ray(&ray);
 }
@@ -315,31 +352,12 @@ void	kewl_quirky_raytrace(t_scene *scene, t_mlx_info *mlx)
 	}
 }
 
-// bunch of hard code and DEBUG
-void	set_the_scene(t_scene *scene, double x)
-{
-	(void) x;
-	scene->camera = init_cam(0,0,0);
-	scene->circles = init_circle(x,0,100,55);
-	// scene->circles->next = init_circle(-100, 0, 0, 50);
-
-	scene->lights = init_light(35,35,35);
-	scene->ambient = init_light(0, 0, 0);
-
-	// deprecated.. i think
-	// inten = 125000000;
-	// scene->lights = init_light(100,150,200, inten);
-
-	// inten = 1250000000;
-	// scene->lights->next = init_light(-100,-150,200, inten);
-}
-
 void	free_scene(t_scene	*scene)
 {
-	free_cam(scene->camera);
-	free_circle(scene->circles);
-	free_light(scene->lights);
-	free_light(scene->ambient);
+	free_cam(&scene->camera);
+	free_circle(&scene->circles);
+	free_light(&scene->lights);
+	free_ambient(&scene->ambient);
 }
 
 void	free_mlx(t_mlx_info *mlx)
@@ -355,34 +373,6 @@ void	free_mlx(t_mlx_info *mlx)
 	free(mlx->mlx);
 }
 
-int main()
-{
-	t_scene		scene;
-	t_mlx_info	mlx;
-	int			loop;
-
-
-	mlx.mlx = mlx_init();
-	mlx.mlx_win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "please PLESAE DONT CRASH");
-	mlx.img.img = NULL;
-	loop = 0;
-	while (1)
-	{
-		set_the_scene(&scene, loop);
-		get_image(&mlx.img, mlx.mlx);
-		kewl_quirky_raytrace(&scene, &mlx);
-		mlx_put_image_to_window(mlx.mlx, mlx.mlx_win, mlx.img.img, 0, 0);
-		clean_loop(&mlx);
-		free_scene(&scene);
-		loop += 10;
-		if (loop > HEIGHT)
-			loop = -1 * HEIGHT;
-	}
-	mlx_loop(mlx.mlx);
-}
-
-// single loop
-// # include <unistd.h>
 // int main()
 // {
 // 	t_scene		scene;
@@ -394,17 +384,45 @@ int main()
 // 	mlx.mlx_win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "please PLESAE DONT CRASH");
 // 	mlx.img.img = NULL;
 // 	loop = 0;
-// 	set_the_scene(&scene, loop);
-
-// 	get_image(&mlx.img, mlx.mlx);
-// 	kewl_quirky_raytrace(&scene, &mlx);
-// 	mlx_put_image_to_window(mlx.mlx, mlx.mlx_win, mlx.img.img, 0, 0);
-// 	clean_loop(&mlx);
-
-// 	sleep(2);
-// 	free_scene(&scene);
-// 	free_mlx(&mlx);
+// 	while (1)
+// 	{
+// 		set_the_scene(&scene, loop);
+// 		get_image(&mlx.img, mlx.mlx);
+// 		kewl_quirky_raytrace(&scene, &mlx);
+// 		mlx_put_image_to_window(mlx.mlx, mlx.mlx_win, mlx.img.img, 0, 0);
+// 		clean_loop(&mlx);
+// 		free_scene(&scene);
+// 		loop += 10;
+// 		if (loop > HEIGHT)
+// 			loop = -1 * HEIGHT;
+// 	}
+// 	mlx_loop(mlx.mlx);
 // }
+
+// single loop
+# include <unistd.h>
+int main()
+{
+	t_scene		scene;
+	t_mlx_info	mlx;
+	int			loop;
+
+
+	mlx.mlx = mlx_init();
+	mlx.mlx_win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "please PLESAE DONT CRASH");
+	mlx.img.img = NULL;
+	loop = 0;
+	set_the_scene(&scene, loop);
+
+	get_image(&mlx.img, mlx.mlx);
+	kewl_quirky_raytrace(&scene, &mlx);
+	mlx_put_image_to_window(mlx.mlx, mlx.mlx_win, mlx.img.img, 0, 0);
+	clean_loop(&mlx);
+
+	sleep(2);
+	free_scene(&scene);
+	free_mlx(&mlx);
+}
 
 // // pure m a t h s
 // int main()

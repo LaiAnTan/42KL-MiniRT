@@ -52,6 +52,35 @@ t_matrix	*init_empty_matrix(int x, int y)
 	return (ret);
 }
 
+t_matrix	*init_matrix_resized(t_matrix *o, int new_x, int new_y, matrix_type fill)
+{
+	t_matrix	*ret;
+	int	i;
+	int	j;
+
+	ret = malloc(sizeof(t_matrix));
+	ret->stuff = malloc(sizeof(matrix_type *) * new_y);
+	
+	ret->x = new_x;
+	ret->y = new_y;
+	j = 0;
+	while (j < new_y)
+	{
+		i = 0;
+		ret->stuff[j] = malloc(sizeof(matrix_type) * new_x);
+		while (i < new_x)
+		{
+			if (i > o->x || j > o->y)
+				ret->stuff = 0;
+			else
+				ret->stuff[j][i] = o->stuff[j][i];
+			++i;
+		}
+		++j;
+	}
+	return (ret);
+}
+
 matrix_type	*m_convert_to_1d(t_matrix *source)
 {
 	matrix_type	*ret;
@@ -213,6 +242,28 @@ void		m_print_matrix(t_matrix *m)
 		}
 		printf("]\n");
 	}
+}
+
+// uhh
+// does this ->
+// [ 1 ]     [ 1 , 0 , 0 ]
+// [ 2 ] --> [ 0 , 2 , 0 ]
+// [ 3 ]     [ 0 , 0 , 3 ]
+t_matrix	*idk_what_to_name_this(t_matrix	*o)
+{
+	t_matrix	*ret;
+	int			y;
+
+	if (o->x != 1)
+		return (NULL);
+	ret = init_empty_matrix(o->y, o->y);
+	y = 0;
+	while (y < o->y)
+	{
+		ret->stuff[y][y] = o->stuff[y][0];
+		++y;
+	}
+	return (ret);
 }
 
 void	free_matrix(t_matrix **t_free)

@@ -9,6 +9,9 @@
 // mfw no M_PI
 # define M_PI 3.14159265358979323846
 
+// for idk what name is that emission
+# define R_DEPTH 2
+
 // settings
 # define WIDTH 600
 # define HEIGHT 450
@@ -58,21 +61,32 @@ typedef struct	s_cam
 	float		i_dont_know_how_to_deal_with_fovs;
 } t_cam;
 
+typedef struct	s_ambient
+{
+	t_vector	*color;
+	t_vector	*ambient_ratio;
+	t_matrix	*multiply_mtrx;
+}	t_ambient;
+
 typedef	struct	s_scene
 {
 	t_cam		*camera;
 	t_circle	*circles;
 	t_light		*lights;
-	t_light		*ambient;
+	t_ambient	*ambient;
 } t_scene;
 
 
 t_circle	*init_circle(int x, int y, int z, int r);
 t_cam		*init_cam(int x, int y, int z);
-t_light		*init_light(int x, int y, int z);
+t_light		*init_light(int x, int y, int z, matrix_type *color);
+t_ambient	*init_ambient(int r, int g, int b, double a_strength);
 
-void	free_circle(t_circle *c);
-void	free_cam(t_cam *cam);
-void	free_light(t_light *l);
+void	free_circle(t_circle **c);
+void	free_cam(t_cam **cam);
+void	free_light(t_light **l);
+void	free_ambient(t_ambient **a);
+
+void	set_the_scene(t_scene *scene, double x);
 
 #endif

@@ -27,6 +27,7 @@ double		v_magnitude_sqrd(t_vector *vctr);
 t_vector	*v_difference(t_vector *left, t_vector *right);
 t_vector	*v_addition(t_vector *left, t_vector *right);
 t_vector	*v_scalar_multi(t_vector *vctr, double value);
+t_vector	*v_scalar_divide(t_vector *vctr, double value);
 t_vector	*v_normalize(t_vector *vctr);
 t_vector	*v_projection(t_vector *a, t_vector *b);
 double		*v_get_direction_angles(t_vector *vctr);
