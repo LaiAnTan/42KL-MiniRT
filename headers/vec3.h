@@ -28,8 +28,10 @@ double	v_magnitude_sqrd(t_vec3 *vctr);
 t_vec3	*v_difference(t_vec3 *left, t_vec3 *right);
 t_vec3	*v_addition(t_vec3 *left, t_vec3 *right);
 t_vec3	*v_scalar_multi(t_vec3 *vctr, double value);
-t_vec3	*v_normalize(t_vec3 *vctr);
+t_vec3	*v_get_unit_v(t_vec3 *vctr);
 t_vec3	*v_projection(t_vec3 *a, t_vec3 *b);
-double	*v_get_direction_angles(t_vec3 *vctr);
+double	*v_direction_cosines(t_vec3 *vctr);
+double	*v_u_direction_cosines(t_vec3 *v_norm);
+t_vec3	*v_crossproduct(t_vec3 *left, t_vec3 *right);
 
 #endif

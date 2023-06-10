@@ -77,6 +77,7 @@ void	vec4_print(t_vec4 *vector)
 		matrix->stuff[3][0]);
 }
 
+// does this exist? idk whoop whoop
 double	vec4_dotproduct(t_vec4 *left_vector, t_vec4 *right_vector)
 {
 	int			i;
@@ -143,7 +144,7 @@ t_vec4	*vec4_scalar_mult(t_vec4 *vector, double scalar)
 	return (vec4_init_from_matrix(m_scalar_multi(vector->raw_matrix, scalar)));
 }
 
-t_vec4	*vec4_normalize(t_vec4 *vector)
+t_vec4	*vec4_get_unit_v(t_vec4 *vector)
 {
 	double	mag;
 
@@ -151,6 +152,7 @@ t_vec4	*vec4_normalize(t_vec4 *vector)
 	return (vec4_scalar_mult(vector, 1/mag));
 }
 
+// i dont think, this exists in the 4th dimention
 t_vec4	*vec4_projection(t_vec4 *vector1, t_vec4 *vector2)
 {
 	double	project_mag;
@@ -158,7 +160,7 @@ t_vec4	*vec4_projection(t_vec4 *vector1, t_vec4 *vector2)
 	t_vec4	*ret;
 
 	project_mag = vec4_dotproduct(vector1, vector2) / vec4_magnitude(vector2);
-	vector2_norm = vec4_normalize(vector2);
+	vector2_norm = vec4_get_unit_v(vector2);
 	ret = vec4_scalar_mult(vector2_norm, project_mag);
 	vec4_free(&vector2_norm);
 	return (ret);

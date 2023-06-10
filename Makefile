@@ -21,7 +21,7 @@ SRCS_O = $(SRCS_C:.c=.o)
 
 CFLAG = -Wall -Wextra -Werror
 
-FSAN = -fsanitize=address -g
+# FSAN = -fsanitize=address -g
 
 LIB = -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 

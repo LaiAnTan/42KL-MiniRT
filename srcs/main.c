@@ -162,7 +162,7 @@ double	calculate_d_from_l(t_ray *r, t_light *l, t_scene *scene)
 	{
 		to_light = dup_ray(r);
 		vec4_free(&to_light->dir_vector);
-		to_light->dir_vector = vec4_normalize(r_to_l);
+		to_light->dir_vector = vec4_get_unit_v(r_to_l);
 		vec4_free(&to_light->pos_vector);
 		to_light->pos_vector = vec4_add(r->pos_vector, to_light->dir_vector);
 

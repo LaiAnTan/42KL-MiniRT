@@ -6,3 +6,5 @@ minirt
 
 obj/
 mlx_linux/
+old_code/
+test_code/
