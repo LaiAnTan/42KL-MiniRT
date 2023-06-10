@@ -3,11 +3,13 @@
 // malloc both vectors thanks
 t_ray	*init_ray(t_vector	*pos_vector, t_vector *dir_vector)
 {
-	t_ray	*ret;
+	matrix_type	color[3] = {0,0,0};
+	t_ray		*ret;
 
 	ret = malloc(sizeof(t_ray));
 	ret->pos_vector = pos_vector;
 	ret->dir_vector = dir_vector;
+	ret->color = init_vector_intarr(color);
 	ret->type = LIGHT;
 
 	return (ret);

@@ -4,7 +4,7 @@ SRC := $(wildcard *.c)
 
 OBJ := $(patsubst %.c,%.o,$(SRC))
 
-FLAGS := -Wall -Wextra -Werror
+# FLAGS := -Wall -Wextra -Werror
 
 all : $(NAME)
 

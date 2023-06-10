@@ -36,7 +36,7 @@ typedef struct	s_mlx_info
 typedef	struct	s_light
 {
 	t_vector	*position;
-	int			color[3];
+	t_vector	*color;
 
 	struct	s_light	*next;
 } t_light;
@@ -44,7 +44,7 @@ typedef	struct	s_light
 typedef struct	s_circle
 {
 	t_vector	*position;
-	int			color[3];
+	t_vector	*color;
 	double		radius;
 
 	struct s_circle	*next;
@@ -63,6 +63,7 @@ typedef	struct	s_scene
 	t_cam		*camera;
 	t_circle	*circles;
 	t_light		*lights;
+	t_light		*ambient;
 } t_scene;
 
 

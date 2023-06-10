@@ -25,8 +25,15 @@ void	write_pixel(t_img_info *img, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int	create_trgb(int r, int g, int b)
+int	create_trgb(t_vector *light)
 {
+	int	r;
+	int	g;
+	int	b;
+
+	r = light->raw_matrix->stuff[0][0];
+	g = light->raw_matrix->stuff[1][0];
+	b = light->raw_matrix->stuff[2][0];
 	// overflow checker
 	if (r > 255)
 		r = 255;
@@ -232,20 +239,24 @@ double	calculate_d_from_l(t_ray *r, t_light *l, t_scene *scene)
 	return (SUCCESS);
 }
 
+void	ambient_color(t_ray	*ray, t_scene *scene)
+{
+
+}
+
 void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
 {
-	double		largest_p;
+	double		closest_light;
+	t_light		*closest_light_src;
 	t_light		*light;
 	t_circle	*cur;
 	t_ray		*ray;
 	double		p_from_light;
 
 	ray = project_ray(x, y, scene->camera);
+	ambient_color(ray, scene);
 	cur = scene->circles;
-	largest_p = 0;
-
 	// print_vector(ray->pos_vector);
-
 	while (cur)
 	{
 		if (intersect_circle(ray, cur) == SUCCESS)
@@ -257,11 +268,9 @@ void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
 	}
 	if (ray->type == COLLIDED)
 	{
+		closest_light = INFINITY;
 		ray->type = SHADOW;
 		light = scene->lights;
-	
-		p_from_light = 0;
-
 		while (light)
 		{
 			p_from_light = calculate_d_from_l(ray, light, scene);
@@ -274,33 +283,17 @@ void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
 			}
 			else
 			{
+				if (p_from_light < closest_light)
+				{
+					closest_light = p_from_light;
+					closest_light_src = light;
+				}
 				ray->type = COLLIDED;
 			}
-			if (p_from_light > largest_p)
-				largest_p = p_from_light;
 			light = light->next;
 		}
-
 	}
-
-	if (ray->type == COLLIDED)
-	{
-		// printf("Collided with circle\n");
-		write_pixel(&mlx->img, x, y, create_trgb(255, 0, 0));
-	}
-	else if (ray->type == SHADOW)
-	{
-		// printf("Shadow ray\n");
-		write_pixel(&mlx->img, x, y, create_trgb(115, 0, 0));
-	}
-	else
-	{
-		// printf("Into the unkown\n");
-		write_pixel(&mlx->img, x, y, create_trgb(0, 0, 0));
-	}
-
-	// printf("\n");
-
+	write_pixel(&mlx->img, x, y, create_trgb(ray->color));
 	free_ray(&ray);
 }
 
@@ -331,7 +324,7 @@ void	set_the_scene(t_scene *scene, double x)
 	// scene->circles->next = init_circle(-100, 0, 0, 50);
 
 	scene->lights = init_light(35,35,35);
-
+	scene->ambient = init_light(0, 0, 0);
 
 	// deprecated.. i think
 	// inten = 125000000;
@@ -346,6 +339,7 @@ void	free_scene(t_scene	*scene)
 	free_cam(scene->camera);
 	free_circle(scene->circles);
 	free_light(scene->lights);
+	free_light(scene->ambient);
 }
 
 void	free_mlx(t_mlx_info *mlx)
