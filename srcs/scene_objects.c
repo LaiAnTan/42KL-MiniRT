@@ -17,8 +17,8 @@ t_camera	*scene_new_camera(int cam_fov, double cam_coords[3], double cam_vec_ori
 
 	new_camera = (t_camera *) malloc(sizeof(t_camera));
 	new_camera->cam_fov = cam_fov;
-	new_camera->cam_coords = init_vector(cam_coords);
-	new_camera->cam_vec_orient = init_vector(cam_vec_orient);
+	new_camera->cam_coords = init_vector_intarr(cam_coords);
+	new_camera->cam_vec_orient = init_vector_intarr(cam_vec_orient);
 	new_camera->next = NULL;
 	return (new_camera);
 }
@@ -29,7 +29,7 @@ t_light		*scene_new_light(int l_rgb[3], double l_coords[3], double l_brightness)
 
 	new_light = (t_light *) malloc(sizeof(t_light));
 	copy_int_arr(l_rgb, new_light->l_rgb, 3);
-	new_light->l_coords = init_vector(l_coords);
+	new_light->l_coords = init_vector_intarr(l_coords);
 	new_light->l_brightness = l_brightness;
 	new_light->next = NULL;
 	return (new_light);
@@ -41,7 +41,7 @@ t_sphere	*scene_new_sphere(int sp_rgb[3], double sp_diameter, double sp_coords[3
 
 	new_sphere = (t_sphere *) malloc(sizeof(t_sphere));
 	copy_int_arr(sp_rgb, new_sphere->sp_rgb, 3);
-	new_sphere->sp_coords = init_vector(sp_coords);
+	new_sphere->sp_coords = init_vector_intarr(sp_coords);
 	new_sphere->sp_diameter = sp_diameter;
 	new_sphere->sp_radius = sp_diameter / 2;
 	new_sphere->next = NULL;
@@ -54,8 +54,8 @@ t_plane		*scene_new_plane(int pl_rgb[3], double pl_coords[3], double pl_vec_norm
 
 	new_plane = (t_plane *) malloc(sizeof(t_plane));
 	copy_int_arr(pl_rgb, new_plane->pl_rgb, 3);
-	new_plane->pl_coords = init_vector(pl_coords);
-	new_plane->pl_vec_normal = init_vector(pl_vec_normal);
+	new_plane->pl_coords = init_vector_intarr(pl_coords);
+	new_plane->pl_vec_normal = init_vector_intarr(pl_vec_normal);
 	new_plane->next = NULL;
 	return (new_plane);
 }
@@ -68,8 +68,8 @@ t_cylinder	*scene_new_cylinder(int cy_rgb[3], double cy_height, double cy_diamet
 	copy_int_arr(cy_rgb, new_cylinder->cy_rgb, 3);
 	new_cylinder->cy_height = cy_height;
 	new_cylinder->cy_diameter = cy_diameter;
-	new_cylinder->cy_coords = init_vector(cy_coords);
-	new_cylinder->cy_vec_axis = init_vector(cy_vec_axis);
+	new_cylinder->cy_coords = init_vector_intarr(cy_coords);
+	new_cylinder->cy_vec_axis = init_vector_intarr(cy_vec_axis);
 	new_cylinder->next = NULL;
 	return (new_cylinder);
 }
