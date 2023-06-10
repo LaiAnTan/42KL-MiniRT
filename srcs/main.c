@@ -1,6 +1,5 @@
 #include "../headers/minirt.h"
 
-// wOw actually ray-tracing!1!!11!11!!
 void solve_quad(double *coefficients, double *result)
 {
 	double	a;
