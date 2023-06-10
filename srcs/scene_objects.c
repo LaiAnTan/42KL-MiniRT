@@ -20,6 +20,7 @@ t_camera	*scene_new_camera(int cam_fov, double cam_coords[3], double cam_vec_ori
 	new_camera->cam_fov = cam_fov;
 	new_camera->cam_coords = vec_4_init_from_coordinates(cam_coords);
 	new_camera->cam_vec_orient = vec_4_init_from_coordinates(cam_vec_orient);
+	new_camera->view_matrix = NULL;
 	new_camera->next = NULL;
 	return (new_camera);
 }

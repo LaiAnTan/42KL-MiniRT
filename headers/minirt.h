@@ -71,6 +71,8 @@ typedef struct s_camera
 	t_vec4			*cam_coords;
 	t_vec4			*cam_vec_orient;
 
+	t_matrix		*view_matrix; // 4x4 view matrix that converts world coordinates -> view coordinates
+
 	struct s_camera		*next;
 }			t_camera;
 
@@ -135,6 +137,9 @@ typedef struct s_data
 	t_mlx_info		*mlx;
 	t_scene			*scene;
 }			t_data;
+
+/* MVP Matrices */
+t_matrix *look_at(t_vec3 *position, t_vec3 *direction, t_vec3 *up); // view matrix
 
 /* Scene Objects Boilerplate */
 
