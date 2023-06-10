@@ -167,6 +167,12 @@ void	scene_print_stats(t_scene *scene);
 
 t_scene	*file_create_scene(char *filename);
 
+/* MLX */
+void	get_image(t_img_info *img_info, void *mlx);
+void	clean_loop(t_mlx_info *mlx);
+
+int		create_trgb(int r, int g, int b);
+
 
 /* Utils */
 

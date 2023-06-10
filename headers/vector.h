@@ -12,6 +12,8 @@ typedef struct s_vector
 	t_matrix	*raw_matrix;
 } t_vector;
 
+
+
 t_vector	*init_vector_from_matrix(t_matrix *stuff);
 t_vector	*init_vector_from_array(matrix_type array[3]);
 t_vector	*dup_vct(t_vector *vctr);

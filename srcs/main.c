@@ -1,46 +1,6 @@
 #include "../headers/minirt.h"
 
 // wOw actually ray-tracing!1!!11!11!!
-void	get_image(t_img_info *img_info, void *mlx)
-{
-	img_info->img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	img_info->addr = mlx_get_data_addr(img_info->img, &img_info->bits_per_pixel, 
-		&img_info->line_length, &img_info->endian);
-}
-
-void	clean_loop(t_mlx_info *mlx)
-{
-	if (mlx->img.img != NULL)
-	{
-		mlx_destroy_image(mlx->mlx, mlx->img.img);
-		mlx->img.img = NULL;
-	}
-}
-
-void	write_pixel(t_img_info *img, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
-int	create_trgb(int r, int g, int b)
-{
-	// overflow checker
-	if (r > 255)
-		r = 255;
-	if (g > 255)
-		g = 255;
-	if (b > 255)
-		b = 255;
-
-	// printf("r = %d, g = %d, b = %d\n", r, g, b);
-
-	// my brother in christ, what is transparancy
-	return (0 << 24 | r << 16 | g << 8 | b);
-}
-
 void solve_quad(double *coefficients, double *result)
 {
 	double	a;
@@ -259,7 +219,6 @@ void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
 	ray = project_ray(x, y, scene->sc_cameras);
 	cur = scene->sc_spheres;
 	largest_p = 0;
-
 	// print_vector(ray->pos_vector);
 
 	while (cur)
@@ -354,7 +313,7 @@ int main(int argc, char **argv)
 	while (1)
 	{
 		get_image(&data->mlx->img, data->mlx->mlx);
-		raytrace(data->scene, data->mlx); // fucking shits itself here
+		raytrace(data->scene, data->mlx);
 		mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
 		clean_loop(data->mlx);
 		loop += 10;
