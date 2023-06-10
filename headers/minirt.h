@@ -129,8 +129,8 @@ typedef struct s_scene
 
 typedef struct s_data
 {
-	t_mlx_info	mlx;
-	t_scene		scene;
+	t_mlx_info		*mlx;
+	t_scene			*scene;
 }			t_data;
 
 /* Scene Objects Boilerplate */
@@ -165,7 +165,7 @@ void	scene_print_stats(t_scene *scene);
 
 /* File Parsing */
 
-t_scene	*file_create_scene(t_scene *scene, char *filename);
+t_scene	*file_create_scene(char *filename);
 
 
 /* Utils */

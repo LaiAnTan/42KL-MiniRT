@@ -5,8 +5,9 @@ t_ambient	*scene_new_ambient(int a_rgb[3], double a_ratio)
 	t_ambient	*new_ambient;
 
 	new_ambient = (t_ambient *) malloc(sizeof(t_ambient));
+	new_ambient->a_ratio = a_ratio;
 	copy_int_arr(a_rgb, new_ambient->a_rgb, 3);
-	new_ambient->a_ratio = (double) a_ratio;
+	
 	new_ambient->next = NULL;
 	return (new_ambient);
 }
@@ -274,12 +275,18 @@ void	scene_free_cylinder_list(t_cylinder *cylinder_list_head)
 
 void	scene_free_objects(t_scene *scene)
 {
-	scene_free_ambient_list(scene->sc_ambients);
-	scene_free_camera_list(scene->sc_cameras);
-	scene_free_light_list(scene->sc_lights);
-	scene_free_sphere_list(scene->sc_spheres);
-	scene_free_plane_list(scene->sc_planes);
-	scene_free_cylinder_list(scene->sc_cylinders);
+	if (scene->sc_ambients)
+		scene_free_ambient_list(scene->sc_ambients);
+	if (scene->sc_cameras)
+		scene_free_camera_list(scene->sc_cameras);
+	if (scene->sc_lights)
+		scene_free_light_list(scene->sc_lights);
+	if (scene->sc_spheres)
+		scene_free_sphere_list(scene->sc_spheres);
+	if (scene->sc_planes)
+		scene_free_plane_list(scene->sc_planes);
+	if (scene->sc_cylinders)
+		scene_free_cylinder_list(scene->sc_cylinders);
 }
 
 t_scene	*scene_init(void)

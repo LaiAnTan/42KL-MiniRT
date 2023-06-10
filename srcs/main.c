@@ -125,7 +125,7 @@ int	intersect_circle(t_ray *ray, t_sphere *sphere)
 
 // note to myself :-
 // this does not work :(
-void	calculate_ray_positions(double *store, t_vector *p_vect, t_vector *o_vect, int x, int y)
+void	calculate_ray_positions(double *store, t_vector *p_vect, int x, int y)
 {
 	float		horifov;
 	float		vertifov;
@@ -153,8 +153,8 @@ void	calculate_ray_positions(double *store, t_vector *p_vect, t_vector *o_vect, 
 	double	horizontal_angle;
 	double	vertical_angle;
 
-	horizontal_angle = abs(relative_x) * horizontal_angle_per_ray;
-	vertical_angle = abs(relative_y) * vertical_angle_per_ray;
+	horizontal_angle = fabs(relative_x) * horizontal_angle_per_ray;
+	vertical_angle = fabs(relative_y) * vertical_angle_per_ray;
 
 	double	sign_x = (relative_x < 0) ? -1 : 1;
 	double	sign_y = (relative_y < 0) ? -1 : 1;
@@ -187,7 +187,7 @@ t_ray	*project_ray(int x, int y, t_camera *camera)
 	t_vector	*dir_vector;
 
 	store = get_val(camera->cam_coords);
-	calculate_ray_positions(store, camera->cam_coords, camera->cam_vec_orient, x, y);
+	calculate_ray_positions(store, camera->cam_coords, x, y);
 	pos_vector = init_vector_from_array(store);
 	dir_vector = dup_vct(camera->cam_vec_orient);
 	free(store);
@@ -318,7 +318,7 @@ void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
 	free_ray(&ray);
 }
 
-void	kewl_quirky_raytrace(t_scene *scene, t_mlx_info *mlx)
+void	raytrace(t_scene *scene, t_mlx_info *mlx)
 {
 	int	x;
 	int	y;
@@ -338,27 +338,29 @@ void	kewl_quirky_raytrace(t_scene *scene, t_mlx_info *mlx)
 
 int main(int argc, char **argv)
 {
-	t_data		data;
+	t_data		*data;
 	int			loop;
 
 	if (argc != 2)
 		return (ERROR);
-	file_create_scene(&data.scene, argv[1]);
-	// scene_print_stats(&data.scene);
-	data.mlx.mlx = mlx_init();
-	data.mlx.mlx_win = mlx_new_window(data.mlx.mlx, WIDTH, HEIGHT, argv[1]);
-	data.mlx.img.img = NULL;
+	data = (t_data *) malloc(sizeof(t_data));
+	data->mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
+	data->scene = file_create_scene(argv[1]);
+	scene_print_stats(data->scene);
+	data->mlx->mlx = mlx_init();
+	data->mlx->mlx_win = mlx_new_window(data->mlx->mlx, WIDTH, HEIGHT, argv[1]);
+	data->mlx->img.img = NULL;
 	loop = 0;
 	while (1)
 	{
-		get_image(&data.mlx.img, data.mlx.mlx);
-		kewl_quirky_raytrace(&data.scene, &data.mlx); // fucking shits itself here
-		mlx_put_image_to_window(data.mlx.mlx, data.mlx.mlx_win, data.mlx.img.img, 0, 0);
-		clean_loop(&data.mlx);
-		scene_free_objects(&data.scene);
+		get_image(&data->mlx->img, data->mlx->mlx);
+		raytrace(data->scene, data->mlx); // fucking shits itself here
+		mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
+		clean_loop(data->mlx);
 		loop += 10;
 		if (loop > WIDTH)
 			loop = -1 * WIDTH;
 	}
-	mlx_loop(data.mlx.mlx);
+	mlx_loop(data->mlx->mlx);
+	scene_free_objects(data->scene);
 }

@@ -255,7 +255,7 @@ char	*strip_nl(char *str)
 	return (new_str);
 }
 
-t_scene	*file_create_scene(t_scene *scene, char *filename)
+t_scene	*file_create_scene(char *filename)
 {
 	int		fd;
 	char	*line;
@@ -282,5 +282,5 @@ t_scene	*file_create_scene(t_scene *scene, char *filename)
 		free(line);
 	}
 	printf("done parsing file\n");
-	scene = new_scene;
+	return (new_scene);
 }
