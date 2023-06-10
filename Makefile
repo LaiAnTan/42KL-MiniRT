@@ -11,9 +11,11 @@ SRCS_C =	srcs/utils/utils_atof.c				\
 			srcs/file.c							\
 			srcs/main.c							\
 			srcs/scene_objects.c				\
-			srcs/vector.c						\
+			srcs/vec3.c							\
+			srcs/vec4.c							\
 			srcs/matrix.c						\
 			srcs/ray.c							\
+			srcs/mlx.c							\
 
 SRCS_O = $(SRCS_C:.c=.o)
 

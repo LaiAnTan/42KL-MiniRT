@@ -1,7 +1,7 @@
 # include "../headers/ray.h"
 
 // malloc both vectors thanks
-t_ray	*init_ray(t_vector	*pos_vector, t_vector *dir_vector)
+t_ray	*init_ray(t_vec4 *pos_vector, t_vec4 *dir_vector)
 {
 	t_ray	*ret;
 
@@ -17,15 +17,15 @@ t_ray	*dup_ray(t_ray *source)
 {
 	t_ray	*ret;
 
-	ret = init_ray(dup_vct(source->pos_vector), dup_vct(source->dir_vector));
+	ret = init_ray(vec4_dup(source->pos_vector), vec4_dup(source->dir_vector));
 	ret->type = source->type;
 	return (ret);
 }
 
 void	free_ray(t_ray **ray)
 {
-	free_vector(&(*ray)->pos_vector);
-	free_vector(&(*ray)->dir_vector);
+	vec4_free(&(*ray)->pos_vector);
+	vec4_free(&(*ray)->dir_vector);
 	free((*ray));
 	*ray = NULL;
 }

@@ -12,6 +12,7 @@ typedef struct	s_matrix
 	matrix_type	**stuff;
 	int	x;
 	int	y;
+
 } t_matrix;
 
 t_matrix	*init_matrix(matrix_type *values, int x, int y);
@@ -23,10 +24,11 @@ matrix_type	*m_convert_to_1d(t_matrix *source);
 void		m_print_matrix(t_matrix *m);
 
 t_matrix	*m_addition(t_matrix *left, t_matrix *right);
-t_matrix	*m_substraction(t_matrix *left, t_matrix *right);
+t_matrix	*m_subtraction(t_matrix *left, t_matrix *right);
 t_matrix	*m_multiplication(t_matrix *left, t_matrix *right);
 t_matrix	*m_scalar_multi(t_matrix *left, double val);
 t_matrix	*m_scalar_divide(t_matrix *left, double val);
 
 void		free_matrix(t_matrix **t_free);
+
 #endif

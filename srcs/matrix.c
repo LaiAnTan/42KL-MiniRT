@@ -112,7 +112,7 @@ t_matrix	*m_addition(t_matrix *left, t_matrix *right)
 	return (ret);
 }
 
-t_matrix	*m_substraction(t_matrix *left, t_matrix *right)
+t_matrix	*m_subtraction(t_matrix *left, t_matrix *right)
 {
 	t_matrix	*ret;
 	int			x;

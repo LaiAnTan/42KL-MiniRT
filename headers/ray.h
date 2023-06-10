@@ -1,7 +1,8 @@
 #ifndef __RAY_H__
 #define __RAY_H__
 
-#include "vector.h"
+# include "vec3.h"
+# include "vec4.h"
 
 /* Ray Types */
 #define	LIGHT		0
@@ -13,17 +14,17 @@ typedef struct s_ray
 	// ray type
 	int			type;
 	// position vector
-	t_vector	*pos_vector;
+	t_vec4	*pos_vector;
 
 	// direction vector
-	t_vector	*dir_vector;
+	t_vec4	*dir_vector;
 
 	// i dunno, rgb?
 	int			rgb[3];
 
 } t_ray;
 
-t_ray	*init_ray(t_vector	*pos_vector, t_vector *dir_vector);
+t_ray	*init_ray(t_vec4 *pos_vector, t_vec4 *dir_vector);
 void	free_ray(t_ray **ray);
 t_ray	*dup_ray(t_ray *source);
 

@@ -10,8 +10,11 @@
 # include <fcntl.h>
 # include <math.h>
 
-#include "mlx.h"
-#include "ray.h"
+# include "mlx.h"
+# include "ray.h"
+# include "matrix.h"
+# include "vec3.h"
+# include "vec4.h"
 
 /* Constants */
 # define PI 3.14159265358979323846
@@ -65,8 +68,8 @@ typedef struct s_camera
 {
 	int					cam_fov;
 
-	t_vector			*cam_coords;
-	t_vector			*cam_vec_orient;
+	t_vec4			*cam_coords;
+	t_vec4			*cam_vec_orient;
 
 	struct s_camera		*next;
 }			t_camera;
@@ -77,7 +80,7 @@ typedef struct s_light
 
 	double				l_brightness;
 
-	t_vector			*l_coords;
+	t_vec4			*l_coords;
 
 	struct s_light		*next;
 }			t_light;
@@ -89,7 +92,7 @@ typedef struct s_sphere
 	double				sp_diameter;
 	double				sp_radius;
 
-	t_vector			*sp_coords;
+	t_vec4			*sp_coords;
 
 	struct s_sphere		*next;
 }			t_sphere;
@@ -98,8 +101,8 @@ typedef struct s_plane
 {
 	int					pl_rgb[3];
 
-	t_vector			*pl_coords;
-	t_vector			*pl_vec_normal;
+	t_vec4			*pl_coords;
+	t_vec4			*pl_vec_normal;
 
 	struct s_plane		*next;
 }			t_plane;
@@ -111,8 +114,8 @@ typedef struct s_cylinder
 	double				cy_height;
 	double				cy_diameter;
 
-	t_vector			*cy_coords;
-	t_vector			*cy_vec_axis;
+	t_vec4			*cy_coords;
+	t_vec4			*cy_vec_axis;
 
 	struct s_cylinder	*next;
 }			t_cylinder;
@@ -170,6 +173,7 @@ t_scene	*file_create_scene(char *filename);
 /* MLX */
 void	get_image(t_img_info *img_info, void *mlx);
 void	clean_loop(t_mlx_info *mlx);
+void	write_pixel(t_img_info *img, int x, int y, int color);
 
 int		create_trgb(int r, int g, int b);
 

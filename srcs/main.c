@@ -33,17 +33,17 @@ int	intersect_circle(t_ray *ray, t_sphere *sphere)
 	// unfortunately you kinda forgot to take into account that 
 	// the circle position changes?
 	// me cheese this (not sure if works :skull)
-	t_vector	*modified_ray_pos;
-	t_vector	*zeroed_pos;
+	t_vec4	*modified_ray_pos;
+	t_vec4	*zeroed_pos;
 
-	modified_ray_pos = v_difference(ray->pos_vector, sphere->sp_coords);
-	zeroed_pos = v_difference(sphere->sp_coords, sphere->sp_coords);
+	modified_ray_pos = vec4_diff(ray->pos_vector, sphere->sp_coords);
+	zeroed_pos = vec4_diff(sphere->sp_coords, sphere->sp_coords);
 	// in theory this would work (theory)
 
 	// le ipad formulas
-	coefficients[0] = v_magnitude_sqrd(ray->dir_vector);
-	coefficients[1] = v_dotproduct(modified_ray_pos, ray->dir_vector) * 2;
-	coefficients[2] = v_magnitude_sqrd(modified_ray_pos) - pow(sphere->sp_radius, 2);
+	coefficients[0] = vec4_magnitude(ray->dir_vector);
+	coefficients[1] = vec4_dotproduct(modified_ray_pos, ray->dir_vector) * 2;
+	coefficients[2] = vec4_magnitude_sqrd(modified_ray_pos) - (sphere->sp_radius * sphere->sp_radius);
 
 	solve_quad(coefficients, values);
 
@@ -51,17 +51,17 @@ int	intersect_circle(t_ray *ray, t_sphere *sphere)
 
 	if (values[0] < 0)
 	{
-		free_vector(&modified_ray_pos);
-		free_vector(&zeroed_pos);
+		vec4_free(&modified_ray_pos);
+		vec4_free(&zeroed_pos);
 		return (FAILURE);
 	}
 
-	t_vector	*store[2];
+	t_vec4	*store[2];
 
 	if (values[1] < 0 && values[2] < 0)
 	{
-		free_vector(&modified_ray_pos);
-		free_vector(&zeroed_pos);
+		vec4_free(&modified_ray_pos);
+		vec4_free(&zeroed_pos);
 		return (FAILURE);
 	}
 
@@ -69,15 +69,15 @@ int	intersect_circle(t_ray *ray, t_sphere *sphere)
 	if (values[0] < 0)
 		values[0] = fmax(values[1], values[2]);
 
-	store[0] = v_scalar_multi(ray->dir_vector, values[0]);
-	store[1] = dup_vct(ray->pos_vector);
-	free_vector(&ray->pos_vector);
-	ray->pos_vector = v_addition(store[1], store[0]);
+	store[0] = vec4_scalar_mult(ray->dir_vector, values[0]);
+	store[1] = vec4_dup(ray->pos_vector);
+	vec4_free(&ray->pos_vector);
+	ray->pos_vector = vec4_add(store[1], store[0]);
 
-	free_vector(&modified_ray_pos);
-	free_vector(&zeroed_pos);
-	free_vector(&store[0]);
-	free_vector(&store[1]);
+	vec4_free(&modified_ray_pos);
+	vec4_free(&zeroed_pos);
+	vec4_free(&store[0]);
+	vec4_free(&store[1]);
 	return (SUCCESS);
 }
 
@@ -85,7 +85,7 @@ int	intersect_circle(t_ray *ray, t_sphere *sphere)
 
 // note to myself :-
 // this does not work :(
-void	calculate_ray_positions(double *store, t_vector *p_vect, int x, int y)
+void	calculate_ray_positions(double *store, t_vec4 *p_vect, int x, int y)
 {
 	float		horifov;
 	float		vertifov;
@@ -126,68 +126,55 @@ void	calculate_ray_positions(double *store, t_vector *p_vect, int x, int y)
 	store[2] = 0;
 }
 
-// void	calculate_ray_positions(double *store, t_vector *o_vect, int x, int y)
-// {
-// 	double		*vect_val;
-
-// 	vect_val = get_val(o_vect);
-
-// 	store[0] = x;
-// 	store[1] = y;
-// 	// vx x + vy y + vz z = 0 <--- all vector perpendicular to that camera point
-// 	store[2] = ( -1 * ( (vect_val[0] * x) + (vect_val[1] * y) )) / vect_val[2];
-// 	free(vect_val);
-// }
-
 // projects a ray
 t_ray	*project_ray(int x, int y, t_camera *camera)
 {
 	double		*store;
-	t_vector	*pos_vector;
-	t_vector	*dir_vector;
+	t_vec4	*pos_vector;
+	t_vec4	*dir_vector;
 
-	store = get_val(camera->cam_coords);
+	store = vec4_to_array(camera->cam_coords);
 	calculate_ray_positions(store, camera->cam_coords, x, y);
-	pos_vector = init_vector_from_array(store);
-	dir_vector = dup_vct(camera->cam_vec_orient);
+	pos_vector = vec4_init_from_array(store);
+	dir_vector = vec4_dup(camera->cam_vec_orient);
 	free(store);
 	return (init_ray(pos_vector, dir_vector));
 }
 
 double	calculate_d_from_l(t_ray *r, t_light *l, t_scene *scene)
 {
-	t_vector	*r_to_l;
+	t_vec4	*r_to_l;
 	t_ray		*to_light;
 	t_sphere	*cur;
 
-	r_to_l = v_difference(l->l_coords, r->pos_vector);
+	r_to_l = vec4_diff(l->l_coords, r->pos_vector);
 	
 	// printf("intesection of ray and circle - vector\n");
-	// print_vector(r->pos_vector);
+	// print_vec3(r->pos_vector);
 	// printf("\n");
 
 	// printf(" ---- -> rl ---- \n");
-	// print_vector(r_to_l);
+	// print_vec3(r_to_l);
 	// printf("\n");
 
 	cur = scene->sc_spheres;
 	while (cur)
 	{
 		to_light = dup_ray(r);
-		free_vector(&to_light->dir_vector);
-		to_light->dir_vector = v_normalize(r_to_l);
-		free_vector(&to_light->pos_vector);
-		to_light->pos_vector = v_addition(r->pos_vector, to_light->dir_vector);
+		vec4_free(&to_light->dir_vector);
+		to_light->dir_vector = vec4_normalize(r_to_l);
+		vec4_free(&to_light->pos_vector);
+		to_light->pos_vector = vec4_add(r->pos_vector, to_light->dir_vector);
 
 		// printf(" --- pos vector ---- \n");
-		// print_vector(to_light->pos_vector);
+		// print_vec3(to_light->pos_vector);
 		// printf(" ---- dir vector ---- \n");
-		// print_vector(to_light->dir_vector);
+		// print_vec3(to_light->dir_vector);
 		// printf("\n");
 
 		if (intersect_circle(to_light, cur) == SUCCESS)
 		{
-			free_vector(&r_to_l);
+			vec4_free(&r_to_l);
 			free_ray(&to_light);
 			return (ERROR);
 		}
@@ -198,8 +185,8 @@ double	calculate_d_from_l(t_ray *r, t_light *l, t_scene *scene)
 	// doesnt intersect any circle, calculate distance
 	double		mag;
 
-	mag = v_magnitude(r_to_l);
-	free_vector(&r_to_l);
+	mag = vec4_magnitude(r_to_l);
+	vec4_free(&r_to_l);
 
 	double	ret;
 
@@ -219,7 +206,7 @@ void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
 	ray = project_ray(x, y, scene->sc_cameras);
 	cur = scene->sc_spheres;
 	largest_p = 0;
-	// print_vector(ray->pos_vector);
+	// print_vec3(ray->pos_vector);
 
 	while (cur)
 	{
