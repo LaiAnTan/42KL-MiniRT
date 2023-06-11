@@ -5,6 +5,7 @@ t_vec3	*vec3_init(double x, double y, double z)
 	t_vec3	*ret;
 
 	ret = malloc(sizeof(t_vec3));
+	ret->raw_matrix = m_init_empty(1, 3);
 	ret->raw_matrix->m[0][0] = x;
 	ret->raw_matrix->m[1][0] = y;
 	ret->raw_matrix->m[2][0] = z;

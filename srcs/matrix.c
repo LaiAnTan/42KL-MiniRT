@@ -215,6 +215,31 @@ void		m_print_matrix(t_matrix *m)
 	}
 }
 
+t_matrix	*m_transpose(t_matrix *m)
+{
+	t_matrix	*ret;
+	int			x;
+	int			y;
+
+	ret = malloc(sizeof(t_matrix));
+	ret->x = m->y;
+	ret->y = m->x;
+	y = 0;
+	ret->m = malloc(sizeof(matrix_type *) * (ret->y));
+	while (y < ret->y)
+	{
+		x = 0;
+		ret->m[y] = malloc(sizeof(matrix_type) * (ret->x)); 
+		while (x < ret->x)
+		{
+			ret->m[y][x] = m->m[x][y];
+			++x;
+		}
+		++y;
+	}
+	return (ret);
+}
+
 void	free_matrix(t_matrix **t_free)
 {
 	int	y;

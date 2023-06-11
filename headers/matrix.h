@@ -28,6 +28,7 @@ t_matrix	*m_subtraction(t_matrix *left, t_matrix *right);
 t_matrix	*m_multiplication(t_matrix *left, t_matrix *right);
 t_matrix	*m_scalar_multi(t_matrix *left, double val);
 t_matrix	*m_scalar_divide(t_matrix *left, double val);
+t_matrix	*m_transpose(t_matrix *m);
 
 void		free_matrix(t_matrix **t_free);
 

@@ -282,31 +282,45 @@ void	raytrace(t_scene *scene, t_mlx_info *mlx)
 	}
 }
 
-int main(int argc, char **argv)
-{
-	t_data		*data;
-	int			loop;
+// int main(int argc, char **argv)
+// {
+// 	t_data		*data;
+// 	int			loop;
 
-	if (argc != 2)
-		return (ERROR);
-	data = (t_data *) malloc(sizeof(t_data));
-	data->mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
-	data->scene = file_create_scene(argv[1]);
-	scene_print_stats(data->scene);
-	data->mlx->mlx = mlx_init();
-	data->mlx->mlx_win = mlx_new_window(data->mlx->mlx, WIDTH, HEIGHT, argv[1]);
-	data->mlx->img.img = NULL;
-	loop = 0;
-	while (1)
-	{
-		get_image(&data->mlx->img, data->mlx->mlx);
-		raytrace(data->scene, data->mlx);
-		mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
-		clean_loop(data->mlx);
-		loop += 10;
-		if (loop > WIDTH)
-			loop = -1 * WIDTH;
-	}
-	mlx_loop(data->mlx->mlx);
-	scene_free_objects(data->scene);
+// 	if (argc != 2)
+// 		return (ERROR);
+// 	data = (t_data *) malloc(sizeof(t_data));
+// 	data->mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
+// 	data->scene = file_create_scene(argv[1]);
+// 	scene_print_stats(data->scene);
+// 	data->mlx->mlx = mlx_init();
+// 	data->mlx->mlx_win = mlx_new_window(data->mlx->mlx, WIDTH, HEIGHT, argv[1]);
+// 	data->mlx->img.img = NULL;
+// 	loop = 0;
+// 	while (1)
+// 	{
+// 		get_image(&data->mlx->img, data->mlx->mlx);
+// 		raytrace(data->scene, data->mlx);
+// 		mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
+// 		clean_loop(data->mlx);
+// 		loop += 10;
+// 		if (loop > WIDTH)
+// 			loop = -1 * WIDTH;
+// 	}
+// 	mlx_loop(data->mlx->mlx);
+// 	scene_free_objects(data->scene);
+// }
+
+// test transpose
+// delete once done
+
+int main()
+{
+	matrix_type	hyok[] = {1,2,3,4,5,6};
+	t_matrix	*a = m_init(hyok, 3, 2);
+
+	printf("Ori = \n");
+	m_print_matrix(a);
+	printf("\nTranposeed\n");
+	m_print_matrix(m_transpose(a));
 }
