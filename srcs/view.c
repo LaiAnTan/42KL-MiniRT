@@ -44,7 +44,7 @@ static t_matrix *construct_translation(t_vec3 *position)
 }
 
 // function that creates a 4x4 view matrix 
-t_matrix *get_view_1(t_vec3 *position, t_vec3 *orientation, t_vec3 *up)
+t_matrix *get_view_1(t_vec3 *position, t_vec3 *reference, t_vec3 *up)
 {
 	t_vec3	*forward;
 	t_vec3	*right;
@@ -52,7 +52,9 @@ t_matrix *get_view_1(t_vec3 *position, t_vec3 *orientation, t_vec3 *up)
 
 	t_matrix	*res;
 
-	forward = orientation;
+	// find the forward vector, from cam to reference
+	forward = 	vec3_difference(reference, position);
+	forward =	vec3_normalize(forward);
 	printf("forward = \n");
 	vec3_print(forward);
 	right = vec3_crossproduct(forward, up);
