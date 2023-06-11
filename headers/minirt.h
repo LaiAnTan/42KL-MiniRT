@@ -135,8 +135,7 @@ typedef struct s_data
 t_matrix *look_at_1(t_vec3 *position, t_vec3 *direction, t_vec3 *up); // view matrix
 t_matrix *look_at_2(t_vec3 *position, t_vec3 *direction, t_vec3 *up); // view matrix
 
-t_matrix	*perspective(float fov, float aspect_ratio, float z_near_clip, float z_far_clip); // perspective matrix
-t_vec4		*apply_projection(t_matrix *projection_matrix, t_vec4 *vector);
+t_vec4	*convert_pixels(int pixel_y, int pixel_x, t_camera *camera);
 
 /* Scene Objects Boilerplate */
 
