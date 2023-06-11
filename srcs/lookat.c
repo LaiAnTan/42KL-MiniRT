@@ -1,22 +1,22 @@
 #include "../headers/minirt.h"
 
-t_matrix *construct_rotation(t_vec3 *s, t_vec3 *u, t_vec3 *direction)
+t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forward)
 {
 	t_matrix *rotation;
 
 	rotation = init_empty_matrix(4, 4);
 
-	rotation->m[0][0] = s->raw_matrix->m[0][0]; 
-	rotation->m[1][0] = s->raw_matrix->m[1][0];
-	rotation->m[2][0] = s->raw_matrix->m[2][0];
+	rotation->m[0][0] = right->raw_matrix->m[0][0]; 
+	rotation->m[1][0] = right->raw_matrix->m[1][0];
+	rotation->m[2][0] = right->raw_matrix->m[2][0];
 
-	rotation->m[0][1] = u->raw_matrix->m[0][0];
-	rotation->m[1][1] = u->raw_matrix->m[1][0];
-	rotation->m[2][1] = u->raw_matrix->m[2][0];
+	rotation->m[0][1] = true_up->raw_matrix->m[0][0];
+	rotation->m[1][1] = true_up->raw_matrix->m[1][0];
+	rotation->m[2][1] = true_up->raw_matrix->m[2][0];
 
-	rotation->m[0][2] = -direction->raw_matrix->m[0][0];
-	rotation->m[1][2] = -direction->raw_matrix->m[1][0];
-	rotation->m[2][2] = -direction->raw_matrix->m[2][0];
+	rotation->m[0][2] = -forward->raw_matrix->m[0][0];
+	rotation->m[1][2] = -forward->raw_matrix->m[1][0];
+	rotation->m[2][2] = -forward->raw_matrix->m[2][0];
 
 	rotation->m[3][3] = 1;
 
@@ -40,22 +40,25 @@ t_matrix *construct_translation(t_vec3 *position)
 }
 
 // function that creates a 4x4 view matrix 
-t_matrix *look_at_1(t_vec3 *position, t_vec3 *direction, t_vec3 *up)
+t_matrix *look_at_1(t_vec3 *position, t_vec3 *orientation, t_vec3 *up)
 {
-	t_vec3	*s;
-	t_vec3	*u;
+	t_vec3	*forward;
+	t_vec3	*right;
+	t_vec3	*true_up;
 	t_matrix *rotation;
 	t_matrix *translation;
 	t_matrix	*res;
 
-	s = vec3_crossproduct(direction, up);
-	u = vec3_crossproduct(vec3_normalize(s), direction);
-	rotation = construct_rotation(s, u, direction);
+	forward = vec3_normalize(orientation);
+	right = vec3_crossproduct(forward, up);
+	true_up = vec3_crossproduct(right, forward);
+	rotation = construct_rotation(right, true_up, forward);
 	translation = construct_translation(position);
 	res = m_multiplication(rotation, translation);
 
-	free_vector(&s);
-	free_vector(&u);
+	free_vector(&forward);
+	free_vector(&right);
+	free_vector(&true_up);
 	free_matrix(&rotation);
 	free_matrix(&translation);
 	return (res);
