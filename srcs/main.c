@@ -314,13 +314,20 @@ void	raytrace(t_scene *scene, t_mlx_info *mlx)
 // test transpose
 // delete once done
 
-int main()
+int main(void)
 {
-	matrix_type	hyok[] = {1,2,3,4,5,6};
-	t_matrix	*a = m_init(hyok, 3, 2);
+	double coords[] = {-50, 0 ,20};
+	double ori[] = {0, 0, 0};
+	double up[] = {0, 1, 0};
 
-	printf("Ori = \n");
-	m_print_matrix(a);
-	printf("\nTranposeed\n");
-	m_print_matrix(m_transpose(a));
+	t_vec3 *coords_vec = vec3_init_from_array(coords);
+	t_vec3 *ori_vec = vec3_init_from_array(ori);
+	t_vec3 *up_vec = vec3_init_from_array(up);
+
+	vec3_print(coords_vec);
+	vec3_print(ori_vec);
+	vec3_print(up_vec);
+	t_matrix *view_matrix = get_view_1(coords_vec, ori_vec, up_vec);
+	printf("view matrix = \n");
+	m_print_matrix(view_matrix);
 }

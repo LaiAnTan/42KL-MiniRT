@@ -27,6 +27,8 @@ t_vec4	*convert_pixels(int pixel_y, int pixel_x, t_camera *camera)
 	double	*y;
 	t_vec4	*center;
 
+	x = (double *) malloc(sizeof(double));
+	y = (double *) malloc(sizeof(double));
 	*x = (double) pixel_x;
 	*y = (double) pixel_y;
 	raster_to_ndc(x, y);

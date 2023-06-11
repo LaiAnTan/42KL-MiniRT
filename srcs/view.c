@@ -4,7 +4,7 @@ static t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forw
 {
 	t_matrix *rotation;
 
-	rotation = init_empty_matrix(4, 4);
+	rotation = m_init_empty(4, 4);
 
 	rotation->m[0][0] = right->raw_matrix->m[0][0]; 
 	rotation->m[1][0] = right->raw_matrix->m[1][0];
@@ -20,22 +20,26 @@ static t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forw
 
 	rotation->m[3][3] = 1;
 
+	printf("rotation = \n");
+	m_print_matrix(rotation);
 	return (rotation);
 }
 
 static t_matrix *construct_translation(t_vec3 *position)
 {
-	t_matrix *translation = init_empty_matrix(4, 4);
+	t_matrix *translation = m_init_empty(4, 4);
 
 	translation->m[0][0] = 1;
 	translation->m[1][1] = 1;
 	translation->m[2][2] = 1;
 	translation->m[3][3] = 1;
 
-	translation->m[3][0] = -position->raw_matrix->m[0][0];
-	translation->m[3][1] = -position->raw_matrix->m[1][0];
-	translation->m[3][2] = -position->raw_matrix->m[2][0];
+	translation->m[0][3] = -position->raw_matrix->m[0][0];
+	translation->m[1][3] = -position->raw_matrix->m[1][0];
+	translation->m[2][3] = -position->raw_matrix->m[2][0];
 
+	printf("translation = \n");
+	m_print_matrix(translation);
 	return (translation);
 }
 
@@ -48,14 +52,20 @@ t_matrix *get_view_1(t_vec3 *position, t_vec3 *orientation, t_vec3 *up)
 
 	t_matrix	*res;
 
-	forward = vec3_normalize(orientation);
+	forward = orientation;
+	printf("forward = \n");
+	vec3_print(forward);
 	right = vec3_crossproduct(forward, up);
+	printf("right = \n");
+	vec3_print(right);
 	true_up = vec3_crossproduct(right, forward);
+	printf("true up = \n");
+	vec3_print(true_up);
 	res = m_multiplication(construct_rotation(right, true_up, forward), construct_translation(position));
 
-	free_vector(&forward);
-	free_vector(&right);
-	free_vector(&true_up);
+	vec3_free(&forward);
+	vec3_free(&right);
+	vec3_free(&true_up);
 	return (res);
 }
 
@@ -64,7 +74,7 @@ t_matrix *get_view_2(t_vec3 *position, t_vec3 *direction, t_vec3 *up)
 	t_vec3	*x;
 	t_vec3	*y;
 	t_vec3	*z;
-	t_matrix	*res = init_empty_matrix(4, 4);
+	t_matrix	*res = m_init_empty(4, 4);
 
 	z = direction;
 	y = up;
@@ -89,9 +99,9 @@ t_matrix *get_view_2(t_vec3 *position, t_vec3 *direction, t_vec3 *up)
 
 	res->m[3][3] = 1.0f;
 
-	free_vector(&x);
-	free_vector(&y);
-	free_vector(&z);
+	vec3_free(&x);
+	vec3_free(&y);
+	vec3_free(&z);
 
 	return (res);
 }
