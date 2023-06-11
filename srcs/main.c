@@ -324,3 +324,31 @@ int main()
 	printf("\nTranposeed\n");
 	m_print_matrix(m_transpose(a));
 }
+
+t_matrix	*get_inverse_view(t_matrix *view)
+{
+	int			i;
+	int			j;
+
+	t_matrix	*orthogonal; //3x3 top left of 4x4 view matrix
+	t_matrix	*ortho_inverse; 
+	t_matrix	*view_inverse;
+
+	i = 0;
+	j = 0;
+	orthogonal = m_init_empty(3, 3);
+	while (i < 3)
+	{
+		while (j < 3)
+		{
+			orthogonal->m[i][j] = view->m[i][j];
+			++j
+		}
+		j = 0;
+		++i;
+	}
+	ortho_inverse = m_transpose(orthogonal);
+	view_inverse = m_init_empty(4, 4);
+	
+
+}
