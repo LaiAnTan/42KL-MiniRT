@@ -23,8 +23,8 @@
 # define BUFFER_SIZE 100
 
 /* raytracing attributes */
-#define WIDTH 600
-#define HEIGHT 450
+#define WIDTH 1280
+#define HEIGHT 720
 
 /* codes */
 # define SUCCESS 0
@@ -134,6 +134,9 @@ typedef struct s_data
 /* MVP Matrices */
 t_matrix *look_at_1(t_vec3 *position, t_vec3 *direction, t_vec3 *up); // view matrix
 t_matrix *look_at_2(t_vec3 *position, t_vec3 *direction, t_vec3 *up); // view matrix
+
+t_matrix	*perspective(float fov, float aspect_ratio, float z_near_clip, float z_far_clip); // perspective matrix
+t_vec4		*apply_projection(t_matrix *projection_matrix, t_vec4 *vector);
 
 /* Scene Objects Boilerplate */
 

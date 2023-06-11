@@ -1,6 +1,17 @@
 #include "../headers/vec3.h"
 
-// PLEASE MALLOC STUFF
+t_vec3	*vec3_init(double x, double y, double z)
+{
+	t_vec3	*ret;
+
+	ret = malloc(sizeof(t_vec3));
+	ret->raw_matrix->m[0][0] = x;
+	ret->raw_matrix->m[1][0] = y;
+	ret->raw_matrix->m[2][0] = z;
+	return (ret);
+}
+
+
 t_vec3	*vec3_init_from_matrix(t_matrix *stuff)
 {
 	t_vec3	*ret;
@@ -12,7 +23,7 @@ t_vec3	*vec3_init_from_matrix(t_matrix *stuff)
 	return (ret);
 }
 
-t_vec3	*vec3_init_from_array(matrix_type	array[3])
+t_vec3	*vec3_init_from_array(matrix_type array[3])
 {
 	t_vec3	*ret;
 

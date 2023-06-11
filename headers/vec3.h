@@ -12,7 +12,7 @@ typedef struct s_vec3
 	t_matrix	*raw_matrix;
 } t_vec3;
 
-
+t_vec3	*vec3_init(double x, double y, double z);
 t_vec3	*vec3_init_from_matrix(t_matrix *stuff);
 t_vec3	*vec3_init_from_array(matrix_type array[3]);
 t_vec3	*vec3_dup(t_vec3 *vctr);

@@ -13,6 +13,7 @@ typedef struct s_vec4
 	t_matrix	*raw_matrix;
 } t_vec4;
 
+t_vec4	*vec4_init(double x, double y, double z, double w);
 t_vec4	*vec4_init_from_matrix(t_matrix *matrix);
 t_vec4	*vec4_init_from_array(matrix_type array[4]);
 t_vec4	*vec_4_init_from_coordinates(matrix_type coordinates[3]);

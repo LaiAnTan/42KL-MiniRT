@@ -1,5 +1,17 @@
 #include "../headers/vec4.h"
 
+t_vec4	*vec4_init(double x, double y, double z, double w)
+{
+	t_vec4	*ret;
+
+	ret = malloc(sizeof(t_vec4));
+	ret->raw_matrix->m[0][0] = x;
+	ret->raw_matrix->m[1][0] = y;
+	ret->raw_matrix->m[2][0] = z;
+	ret->raw_matrix->m[3][0] = w;
+	return (ret);
+}
+
 t_vec4	*vec4_init_from_matrix(t_matrix *matrix)
 {
 	t_vec4	*ret;
