@@ -9,14 +9,14 @@ typedef	double	matrix_type;
 
 typedef struct	s_matrix
 {
-	matrix_type	**stuff;
+	matrix_type	**m;
 	int	x;
 	int	y;
 
 } t_matrix;
 
-t_matrix	*init_matrix(matrix_type *values, int x, int y);
-t_matrix	*init_empty_matrix(int x, int y);
+t_matrix	*m_init(matrix_type *values, int x, int y);
+t_matrix	*m_init_empty(int x, int y);
 t_matrix	*m_dup(t_matrix *source);
 t_matrix	*m_dup_emptymatrix(t_matrix *source);
 

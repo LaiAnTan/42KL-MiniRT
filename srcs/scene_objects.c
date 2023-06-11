@@ -1,13 +1,13 @@
 #include "../headers/minirt.h"
 
-t_ambient	*scene_new_ambient(int a_rgb[3], double a_ratio)
+t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio)
 {
 	t_ambient	*new_ambient;
 
 	new_ambient = (t_ambient *) malloc(sizeof(t_ambient));
 	new_ambient->a_ratio = a_ratio;
-	copy_int_arr(a_rgb, new_ambient->a_rgb, 3);
-	
+	new_ambient->a_rgb = vec3_init_from_array(a_rgb);
+
 	new_ambient->next = NULL;
 	return (new_ambient);
 }
@@ -25,24 +25,23 @@ t_camera	*scene_new_camera(int cam_fov, double cam_coords[3], double cam_vec_ori
 	return (new_camera);
 }
 
-t_light		*scene_new_light(int l_rgb[3], double l_coords[3], double l_brightness)
+t_light		*scene_new_light(double l_rgb[3], double l_coords[3])
 {
 	t_light		*new_light;
 
 	new_light = (t_light *) malloc(sizeof(t_light));
-	copy_int_arr(l_rgb, new_light->l_rgb, 3);
+	new_light->l_rgb = vec3_init_from_array(l_rgb);
 	new_light->l_coords = vec_4_init_from_coordinates(l_coords);
-	new_light->l_brightness = l_brightness;
 	new_light->next = NULL;
 	return (new_light);
 }
 
-t_sphere	*scene_new_sphere(int sp_rgb[3], double sp_diameter, double sp_coords[3])
+t_sphere	*scene_new_sphere(double sp_rgb[3], double sp_diameter, double sp_coords[3])
 {
 	t_sphere	*new_sphere;
 
 	new_sphere = (t_sphere *) malloc(sizeof(t_sphere));
-	copy_int_arr(sp_rgb, new_sphere->sp_rgb, 3);
+	new_sphere->sp_rgb = vec3_init_from_array(sp_rgb);
 	new_sphere->sp_coords = vec_4_init_from_coordinates(sp_coords);
 	new_sphere->sp_diameter = sp_diameter;
 	new_sphere->sp_radius = sp_diameter / 2;
@@ -50,24 +49,24 @@ t_sphere	*scene_new_sphere(int sp_rgb[3], double sp_diameter, double sp_coords[3
 	return (new_sphere);
 }
 
-t_plane		*scene_new_plane(int pl_rgb[3], double pl_coords[3], double pl_vec_normal[3])
+t_plane		*scene_new_plane(double pl_rgb[3], double pl_coords[3], double pl_vec_normal[3])
 {
 	t_plane		*new_plane;
 
 	new_plane = (t_plane *) malloc(sizeof(t_plane));
-	copy_int_arr(pl_rgb, new_plane->pl_rgb, 3);
+	new_plane->pl_rgb = vec3_init_from_array(pl_rgb);
 	new_plane->pl_coords = vec_4_init_from_coordinates(pl_coords);
 	new_plane->pl_vec_normal = vec_4_init_from_coordinates(pl_vec_normal);
 	new_plane->next = NULL;
 	return (new_plane);
 }
 
-t_cylinder	*scene_new_cylinder(int cy_rgb[3], double cy_height, double cy_diameter, double cy_coords[3], double cy_vec_axis[3])
+t_cylinder	*scene_new_cylinder(double cy_rgb[3], double cy_height, double cy_diameter, double cy_coords[3], double cy_vec_axis[3])
 {
 	t_cylinder	*new_cylinder;
 
 	new_cylinder = (t_cylinder *) malloc(sizeof(t_cylinder));
-	copy_int_arr(cy_rgb, new_cylinder->cy_rgb, 3);
+	new_cylinder->cy_rgb = vec3_init_from_array(cy_rgb);
 	new_cylinder->cy_height = cy_height;
 	new_cylinder->cy_diameter = cy_diameter;
 	new_cylinder->cy_coords = vec_4_init_from_coordinates(cy_coords);
@@ -309,7 +308,7 @@ t_scene	*scene_init(void)
 void	scene_print_ambient_stats(t_ambient *ambient)
 {
 	printf("a_ratio = %f\n", ambient->a_ratio);
-	printf("a_rgb = %d,%d,%d\n", ambient->a_rgb[0], ambient->a_rgb[1], ambient->a_rgb[2]);
+	// printf("a_rgb = %d,%d,%d\n", ambient->a_rgb[0], ambient->a_rgb[1], ambient->a_rgb[2]);
 }
 
 void	scene_print_camera_stats(t_camera *camera)
@@ -325,15 +324,14 @@ void	scene_print_light_stats(t_light *light)
 {
 	printf("l_coords = ");
 	vec4_print(light->l_coords);
-	printf("l_brightness = %f\n", light->l_brightness);
-	printf("l_rgb = %d,%d,%d\n", light->l_rgb[0], light->l_rgb[1], light->l_rgb[2]);
+	// printf("l_rgb = %d,%d,%d\n", light->l_rgb[0], light->l_rgb[1], light->l_rgb[2]);
 }
 void	scene_print_sphere_stats(t_sphere *sphere)
 {
 	printf("sp_coords = ");
 	vec4_print(sphere->sp_coords);
 	printf("sp_diameter = %f\n", sphere->sp_diameter);
-	printf("sp_rgb = %d,%d,%d\n", sphere->sp_rgb[0], sphere->sp_rgb[1], sphere->sp_rgb[2]);
+	// printf("sp_rgb = %d,%d,%d\n", sphere->sp_rgb[0], sphere->sp_rgb[1], sphere->sp_rgb[2]);
 }
 
 void	scene_print_plane_stats(t_plane *plane)
@@ -342,7 +340,7 @@ void	scene_print_plane_stats(t_plane *plane)
 	vec4_print(plane->pl_coords);
 	printf("pl_vec_normal = ");
 	vec4_print(plane->pl_vec_normal);
-	printf("pl_rgb = %d,%d,%d\n", plane->pl_rgb[0], plane->pl_rgb[1], plane->pl_rgb[2]);
+	// printf("pl_rgb = %d,%d,%d\n", plane->pl_rgb[0], plane->pl_rgb[1], plane->pl_rgb[2]);
 }
 
 void	scene_print_cylinder_stats(t_cylinder *cylinder)
@@ -353,7 +351,7 @@ void	scene_print_cylinder_stats(t_cylinder *cylinder)
 	vec4_print(cylinder->cy_vec_axis);
 	printf("cy_diameter = %f\n", cylinder->cy_diameter);
 	printf("cy_height = %f\n", cylinder->cy_height);
-	printf("cy_rgb = %d,%d,%d\n", cylinder->cy_rgb[0], cylinder->cy_rgb[1], cylinder->cy_rgb[2]);
+	// printf("cy_rgb = %d,%d,%d\n", cylinder->cy_rgb[0], cylinder->cy_rgb[1], cylinder->cy_rgb[2]);
 }
 
 void	scene_print_stats(t_scene *scene)

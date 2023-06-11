@@ -82,46 +82,46 @@ int	intersect_circle(t_ray *ray, t_sphere *sphere)
 
 // # define M_PI 1
 
-// note to myself :-
-// this does not work :(
-void	calculate_ray_positions(double *store, t_vec4 *p_vect, int x, int y)
+// completely wrong
+// will bring in the latest one later
+void	calculate_ray_positions(double *store, int x, int y)
 {
-	float		horifov;
-	float		vertifov;
-	float		width;
-	float		height;
+	// float		horifov;
+	// float		vertifov;
+	// float		width;
+	// float		height;
 
-	double		relative_x;
-	double		relative_y;
-	double		horizontal_angle_per_ray;
-	double		vertical_angle_per_ray;
+	// double		relative_x;
+	// double		relative_y;
+	// double		horizontal_angle_per_ray;
+	// double		vertical_angle_per_ray;
 
-	horifov = HORIFOV;
-	vertifov = VERTIFOV;
-	width = WIDTH;
-	height = HEIGHT;
+	// horifov = HORIFOV;
+	// vertifov = VERTIFOV;
+	// width = WIDTH;
+	// height = HEIGHT;
 
-	horizontal_angle_per_ray = horifov / width;
-	vertical_angle_per_ray = vertifov / height;
+	// horizontal_angle_per_ray = horifov / width;
+	// vertical_angle_per_ray = vertifov / height;
 
-	// printf("%f, %f\n", horizontal_angle_per_ray, vertical_angle_per_ray);
+	// // printf("%f, %f\n", horizontal_angle_per_ray, vertical_angle_per_ray);
 
-	relative_x = x - (width / 2);
-	relative_y = (height / 2) - y;
+	// relative_x = x - (width / 2);
+	// relative_y = (height / 2) - y;
 
-	double	horizontal_angle;
-	double	vertical_angle;
+	// double	horizontal_angle;
+	// double	vertical_angle;
 
-	horizontal_angle = fabs(relative_x) * horizontal_angle_per_ray;
-	vertical_angle = fabs(relative_y) * vertical_angle_per_ray;
+	// horizontal_angle = fabs(relative_x) * horizontal_angle_per_ray;
+	// vertical_angle = fabs(relative_y) * vertical_angle_per_ray;
 
-	double	sign_x = (relative_x < 0) ? -1 : 1;
-	double	sign_y = (relative_y < 0) ? -1 : 1;
+	// double	sign_x = (relative_x < 0) ? -1 : 1;
+	// double	sign_y = (relative_y < 0) ? -1 : 1;
 
-	// this assumes that orientation is (0, 0, 1)
-	// and camera is at (0, 0, 0)
-	store[0] = ((tan(horizontal_angle * PI / 180) * (WIDTH / 2)) * sign_x) + p_vect->raw_matrix->stuff[0][0];
-	store[1] = ((tan(vertical_angle * PI / 180) * (HEIGHT / 2)) * sign_y) + p_vect->raw_matrix->stuff[1][0];
+	// // this assumes that orientation is (0, 0, 1)
+	// // and camera is at (0, 0, 0)
+	store[0] = x - (WIDTH / 2);
+	store[1] = (HEIGHT / 2) - y;
 	store[2] = 0;
 }
 
@@ -133,13 +133,14 @@ t_ray	*project_ray(int x, int y, t_camera *camera)
 	t_vec4	*dir_vector;
 
 	store = vec4_to_array(camera->cam_coords);
-	calculate_ray_positions(store, camera->cam_coords, x, y);
+	calculate_ray_positions(store, x, y);
 	pos_vector = vec4_init_from_array(store);
 	dir_vector = vec4_dup(camera->cam_vec_orient);
 	free(store);
 	return (init_ray(pos_vector, dir_vector));
 }
 
+// heads up, this is NOT how you do diffuse lighting
 double	calculate_d_from_l(t_ray *r, t_light *l, t_scene *scene)
 {
 	t_vec4	*r_to_l;
@@ -161,7 +162,7 @@ double	calculate_d_from_l(t_ray *r, t_light *l, t_scene *scene)
 	{
 		to_light = dup_ray(r);
 		vec4_free(&to_light->dir_vector);
-		to_light->dir_vector = vec4_get_unit_v(r_to_l);
+		to_light->dir_vector = vec4_normalize(r_to_l);
 		vec4_free(&to_light->pos_vector);
 		to_light->pos_vector = vec4_add(r->pos_vector, to_light->dir_vector);
 
@@ -188,8 +189,8 @@ double	calculate_d_from_l(t_ray *r, t_light *l, t_scene *scene)
 	vec4_free(&r_to_l);
 
 	double	ret;
-
-	ret = l->l_brightness / (4 * PI * (mag * mag));
+	double	brightness = 123821903;
+	ret = brightness / (4 * PI * (mag * mag));
 	// printf("return value = %f\n", ret);
 	return (ret);
 }

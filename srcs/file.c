@@ -1,17 +1,17 @@
 # include "../headers/minirt.h"
 
 // unpacks a string of 3 values (255,255,255) into an array of integers of size 3
-int		*unpack_3_int_values(char *values)
+double		*unpack_3_int_values(char *values)
 {
 	int		i;
-	int		*unpacked;
+	double		*unpacked;
 	char	**tokens;
 
 	i = 0;
 	tokens = ft_split(values, ',');
 	if (count_2d_array(tokens) > 3)
 		return (NULL);
-	unpacked = (int *) malloc(sizeof(int) * 3);
+	unpacked = (double *) malloc(sizeof(double) * 3);
 	while (i < 3)
 	{
 		if (is_digit(tokens[i]) == 0)
@@ -87,7 +87,7 @@ int	is_valid_3_values(char *str)
 
 int	handle_object_ambient(t_scene *scene, char **tokens)
 {
-	int			*a_rgb;
+	double			*a_rgb;
 	t_ambient	*new_ambient;
 
 	printf("found ambient object\n");
@@ -125,7 +125,7 @@ int	handle_object_camera(t_scene *scene, char **tokens)
 
 int	handle_object_light(t_scene *scene, char **tokens)
 {
-	int			*l_rgb;
+	double			*l_rgb;
 	double		*l_coords;
 	t_light		*new_light;
 
@@ -138,14 +138,14 @@ int	handle_object_light(t_scene *scene, char **tokens)
 	l_coords = unpack_3_double_values(tokens[1]);
 	if (!l_rgb || !l_coords)
 		return (-1);
-	new_light = scene_new_light(l_rgb, l_coords, (double) ft_atof(tokens[2]));
+	new_light = scene_new_light(l_rgb, l_coords);
 	scene_light_add_back(&scene->sc_lights, new_light);
 	return (0);
 }
 
 int	handle_object_sphere(t_scene *scene, char **tokens)
 {
-	int			*sp_rgb;
+	double			*sp_rgb;
 	double		*sp_coords;
 	t_sphere	*new_sphere;
 
@@ -165,7 +165,7 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 
 int	handle_object_plane(t_scene *scene, char **tokens)
 {
-	int			*pl_rgb;
+	double			*pl_rgb;
 	double		*pl_coords;
 	double		*pl_vec_normal;
 	t_plane		*new_plane;
@@ -187,7 +187,7 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 
 int	handle_object_cylinder(t_scene *scene, char **tokens)
 {
-	int			*cy_rgb;
+	double			*cy_rgb;
 	double		*cy_coords;
 	double		*cy_vec_axis;
 	t_cylinder	*new_cylinder;

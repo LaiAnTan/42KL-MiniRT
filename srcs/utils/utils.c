@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:19:47 by tlai-an           #+#    #+#             */
-/*   Updated: 2022/11/16 18:23:52 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/06/11 10:11:28 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	*ft_strdup(char *str)
 	return (dest);
 }
 
+// we wont use this arrays cringe use vector
 void	copy_int_arr(int *copy_from, int *copy_to, int size) // both arrays must have the same size
 {
 	int		i;

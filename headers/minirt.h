@@ -26,11 +26,6 @@
 #define WIDTH 600
 #define HEIGHT 450
 
-# define HORIFOV 120 
-# define VERTIFOV 120
-
-# define LIGHT_INTENS 106250000
-
 /* codes */
 # define SUCCESS 0
 # define FAILURE 1
@@ -57,7 +52,7 @@ typedef struct	s_mlx_info
 
 typedef struct s_ambient
 {
-	int					a_rgb[3];
+	t_vec3				*a_rgb;
 
 	double				a_ratio;
 
@@ -78,9 +73,7 @@ typedef struct s_camera
 
 typedef struct s_light
 {
-	int					l_rgb[3];
-
-	double				l_brightness;
+	t_vec3			*l_rgb;
 
 	t_vec4			*l_coords;
 
@@ -89,7 +82,7 @@ typedef struct s_light
 
 typedef struct s_sphere
 {
-	int					sp_rgb[3];
+	t_vec3				*sp_rgb;
 
 	double				sp_diameter;
 	double				sp_radius;
@@ -101,7 +94,7 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	int					pl_rgb[3];
+	t_vec3			*pl_rgb;
 
 	t_vec4			*pl_coords;
 	t_vec4			*pl_vec_normal;
@@ -111,10 +104,10 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
-	int					cy_rgb[3];
+	t_vec3			*cy_rgb;
 
-	double				cy_height;
-	double				cy_diameter;
+	double			cy_height;
+	double			cy_diameter;
 
 	t_vec4			*cy_coords;
 	t_vec4			*cy_vec_axis;
@@ -146,12 +139,12 @@ t_matrix *look_at_2(t_vec3 *position, t_vec3 *direction, t_vec3 *up); // view ma
 
 t_scene	*scene_init(void);
 
-t_ambient	*scene_new_ambient(int a_rgb[3], double a_ratio);
+t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio);
 t_camera	*scene_new_camera(int cam_fov, double cam_coords[3], double cam_vec_orient[3]);
-t_light		*scene_new_light(int l_rgb[3], double l_coords[3], double l_brightness);
-t_sphere	*scene_new_sphere(int sp_rgb[3], double sp_diameter, double sp_coords[3]);
-t_plane		*scene_new_plane(int pl_rgb[3], double pl_coords[3], double pl_vec_normal[3]);
-t_cylinder	*scene_new_cylinder(int cy_rgb[3], double cy_height, double cy_diameter, double cy_coords[3], double cy_vec_axis[3]);
+t_light		*scene_new_light(double l_rgb[3], double l_coords[3]);
+t_sphere	*scene_new_sphere(double sp_rgb[3], double sp_diameter, double sp_coords[3]);
+t_plane		*scene_new_plane(double pl_rgb[3], double pl_coords[3], double pl_vec_normal[3]);
+t_cylinder	*scene_new_cylinder(double cy_rgb[3], double cy_height, double cy_diameter, double cy_coords[3], double cy_vec_axis[3]);
 
 void	scene_ambient_add_back(t_ambient **list_ambient, t_ambient *new_ambient);
 void	scene_camera_add_back(t_camera **list_camera, t_camera *new_camera);
@@ -186,7 +179,6 @@ int		create_trgb(int r, int g, int b);
 
 /* Utils */
 
-void	copy_int_arr(int *copy_from, int *copy_to, int size);
 void	copy_double_arr(double *copy_from, double *copy_to, int size);
 
 int		ft_atoi(char *str);

@@ -16,7 +16,7 @@ t_vec4	*vec4_init_from_array(matrix_type array[4])
 	t_vec4	*ret;
 
 	ret = (t_vec4 *) malloc(sizeof(t_vec4));
-	ret->raw_matrix = init_matrix(array, 1, 4);
+	ret->raw_matrix = m_init(array, 1, 4);
 	return (ret);
 }
 
@@ -47,10 +47,10 @@ matrix_type	*vec4_to_array(t_vec4 *vector)
 	matrix_type	*array;
 
 	array = malloc(4 * sizeof(matrix_type));
-	array[0] = vector->raw_matrix->stuff[0][0];
-	array[1] = vector->raw_matrix->stuff[1][0];
-	array[2] = vector->raw_matrix->stuff[2][0];
-	array[3] = vector->raw_matrix->stuff[3][0];
+	array[0] = vector->raw_matrix->m[0][0];
+	array[1] = vector->raw_matrix->m[1][0];
+	array[2] = vector->raw_matrix->m[2][0];
+	array[3] = vector->raw_matrix->m[3][0];
 	return (array);
 }
 
@@ -71,10 +71,10 @@ void	vec4_print(t_vec4 *vector)
 
 	matrix = vector->raw_matrix;
 	printf("[ %.2f, %.2f, %.2f, %.2f ]\n", 
-		matrix->stuff[0][0], 
-		matrix->stuff[1][0], 
-		matrix->stuff[2][0], 
-		matrix->stuff[3][0]);
+		matrix->m[0][0], 
+		matrix->m[1][0], 
+		matrix->m[2][0], 
+		matrix->m[3][0]);
 }
 
 // does this exist? idk whoop whoop
@@ -93,7 +93,7 @@ double	vec4_dotproduct(t_vec4 *left_vector, t_vec4 *right_vector)
 
 	while (i < 4)
 	{
-		res += left_m->stuff[i][0] * right_m->stuff[i][0];
+		res += left_m->m[i][0] * right_m->m[i][0];
 		++i;
 	}
 	return (res);
@@ -108,7 +108,7 @@ double	vec4_magnitude(t_vec4 *vector)
 	res = 0;
 	while (i < 4)
 	{
-		res += vector->raw_matrix->stuff[i][0] * vector->raw_matrix->stuff[i][0];
+		res += vector->raw_matrix->m[i][0] * vector->raw_matrix->m[i][0];
 		++i;
 	}
 	return (sqrt(res));
@@ -123,7 +123,7 @@ double	vec4_magnitude_sqrd(t_vec4 *vector)
 	res = 0;
 	while (i < 4)
 	{
-		res += vector->raw_matrix->stuff[i][0] * vector->raw_matrix->stuff[i][0];
+		res += vector->raw_matrix->m[i][0] * vector->raw_matrix->m[i][0];
 		++i;
 	}
 	return (res);
@@ -144,7 +144,7 @@ t_vec4	*vec4_scalar_mult(t_vec4 *vector, double scalar)
 	return (vec4_init_from_matrix(m_scalar_multi(vector->raw_matrix, scalar)));
 }
 
-t_vec4	*vec4_get_unit_v(t_vec4 *vector)
+t_vec4	*vec4_normalize(t_vec4 *vector)
 {
 	double	mag;
 
@@ -160,7 +160,7 @@ t_vec4	*vec4_projection(t_vec4 *vector1, t_vec4 *vector2)
 	t_vec4	*ret;
 
 	project_mag = vec4_dotproduct(vector1, vector2) / vec4_magnitude(vector2);
-	vector2_norm = vec4_get_unit_v(vector2);
+	vector2_norm = vec4_normalize(vector2);
 	ret = vec4_scalar_mult(vector2_norm, project_mag);
 	vec4_free(&vector2_norm);
 	return (ret);

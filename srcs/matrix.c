@@ -1,13 +1,13 @@
 #include "../headers/matrix.h"
 
-t_matrix	*init_matrix(matrix_type *values, int x, int y)
+t_matrix	*m_init(matrix_type *values, int x, int y)
 {
 	t_matrix	*ret;
 	int	i;
 	int	j;
 
 	ret = malloc(sizeof(t_matrix));
-	ret->stuff = malloc(sizeof(matrix_type *) * y);
+	ret->m = malloc(sizeof(matrix_type *) * y);
 	
 	ret->x = x;
 	ret->y = y;
@@ -15,10 +15,10 @@ t_matrix	*init_matrix(matrix_type *values, int x, int y)
 	while (j < ret->y)
 	{
 		i = 0;
-		ret->stuff[j] = malloc(sizeof(matrix_type) * x);
+		ret->m[j] = malloc(sizeof(matrix_type) * x);
 		while (i < ret->x)
 		{
-			ret->stuff[j][i] = values[(j * ret->x) + i];
+			ret->m[j][i] = values[(j * ret->x) + i];
 			++i;
 		}
 		++j;
@@ -26,14 +26,14 @@ t_matrix	*init_matrix(matrix_type *values, int x, int y)
 	return (ret);
 }
 
-t_matrix	*init_empty_matrix(int x, int y)
+t_matrix	*m_init_empty(int x, int y)
 {
 	t_matrix	*ret;
 	int	i;
 	int	j;
 
 	ret = malloc(sizeof(t_matrix));
-	ret->stuff = malloc(sizeof(matrix_type *) * y);
+	ret->m = malloc(sizeof(matrix_type *) * y);
 	
 	ret->x = x;
 	ret->y = y;
@@ -41,10 +41,10 @@ t_matrix	*init_empty_matrix(int x, int y)
 	while (j < y)
 	{
 		i = 0;
-		ret->stuff[j] = malloc(sizeof(matrix_type) * x);
+		ret->m[j] = malloc(sizeof(matrix_type) * x);
 		while (i < x)
 		{
-			ret->stuff[j][i] = 0;
+			ret->m[j][i] = 0;
 			++i;
 		}
 		++j;
@@ -65,7 +65,7 @@ matrix_type	*m_convert_to_1d(t_matrix *source)
 		i = 0;
 		while (i < source->x)
 		{
-			ret[(j * source->x) + i] = source->stuff[j][i];
+			ret[(j * source->x) + i] = source->m[j][i];
 			++i;
 		}
 		++j;
@@ -79,14 +79,14 @@ t_matrix	*m_dup(t_matrix *source)
 	matrix_type	*temp;
 
 	temp = m_convert_to_1d(source);
-	ret = init_matrix(temp, source->x, source->y);
+	ret = m_init(temp, source->x, source->y);
 	free(temp);
 	return (ret);
 }
 
 t_matrix	*m_dup_emptymatrix(t_matrix *source)
 {
-	return (init_empty_matrix(source->x, source->y));
+	return (m_init_empty(source->x, source->y));
 }
 
 t_matrix	*m_addition(t_matrix *left, t_matrix *right)
@@ -104,7 +104,7 @@ t_matrix	*m_addition(t_matrix *left, t_matrix *right)
 		x = 0;
 		while (x < left->x)
 		{
-			ret->stuff[y][x] = left->stuff[y][x] + right->stuff[y][x];
+			ret->m[y][x] = left->m[y][x] + right->m[y][x];
 			++x;
 		}
 		++y;
@@ -127,7 +127,7 @@ t_matrix	*m_subtraction(t_matrix *left, t_matrix *right)
 		x = 0;
 		while (x < left->x)
 		{
-			ret->stuff[y][x] = left->stuff[y][x] - right->stuff[y][x];
+			ret->m[y][x] = left->m[y][x] - right->m[y][x];
 			++x;
 		}
 		++y;
@@ -146,7 +146,7 @@ static	matrix_type	line_multiplication(t_matrix *left, t_matrix *right, int x, i
 	y1 = 0;
 	while (x1 < left->x && y1 < right->y)
 	{
-		ret += left->stuff[y][x1] * right->stuff[y1][x];
+		ret += left->m[y][x1] * right->m[y1][x];
 		++x1;
 		++y1;
 	}
@@ -161,14 +161,14 @@ t_matrix	*m_multiplication(t_matrix *left, t_matrix *right)
 
 	if (left->x != right->y)
 		return (NULL);
-	ret = init_empty_matrix(right->x, left->y);
+	ret = m_init_empty(right->x, left->y);
 	y = 0;
 	while (y < ret->y)
 	{
 		x = 0;
 		while (x < ret->x)
 		{
-			ret->stuff[y][x] = line_multiplication(left, right, x, y);
+			ret->m[y][x] = line_multiplication(left, right, x, y);
 			++x;
 		}
 		++y;
@@ -189,7 +189,7 @@ t_matrix	*m_scalar_multi(t_matrix *left, double val)
 		x = 0;
 		while (x < left->x)
 		{
-			ret->stuff[y][x] = left->stuff[y][x] * val;
+			ret->m[y][x] = left->m[y][x] * val;
 			++x;
 		}
 		++y;
@@ -209,7 +209,7 @@ void		m_print_matrix(t_matrix *m)
 		printf("[ ");
 		for (int x = 0; x < m->x; ++x)
 		{
-			printf("%.2f ", m->stuff[y][x]);
+			printf("%.2f ", m->m[y][x]);
 		}
 		printf("]\n");
 	}
@@ -222,9 +222,9 @@ void	free_matrix(t_matrix **t_free)
 	y = 0;
 	while (y < (*t_free)->y)
 	{
-		free((*t_free)->stuff[y]);
+		free((*t_free)->m[y]);
 		++y;
 	}
-	free((*t_free)->stuff);
+	free((*t_free)->m);
 	free((*t_free));
 }

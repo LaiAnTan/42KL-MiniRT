@@ -19,8 +19,8 @@ typedef struct s_ray
 	// direction vector
 	t_vec4	*dir_vector;
 
-	// i dunno, rgb?
-	int			rgb[3];
+	// color of ray
+	t_vec3		rgb[3];
 
 } t_ray;
 
