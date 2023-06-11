@@ -131,9 +131,10 @@ typedef struct s_data
 	t_scene			*scene;
 }			t_data;
 
-/* MVP Matrices */
-t_matrix *look_at_1(t_vec3 *position, t_vec3 *direction, t_vec3 *up); // view matrix
-t_matrix *look_at_2(t_vec3 *position, t_vec3 *direction, t_vec3 *up); // view matrix
+/* view matrices */
+t_matrix *get_view_1(t_vec3 *position, t_vec3 *direction, t_vec3 *up); // view matrix
+t_matrix *get_view_2(t_vec3 *position, t_vec3 *direction, t_vec3 *up); // view matrix
+
 
 t_vec4	*convert_pixels(int pixel_y, int pixel_x, t_camera *camera);
 

@@ -52,6 +52,21 @@ t_matrix	*m_init_empty(int x, int y)
 	return (ret);
 }
 
+t_matrix	*m_init_identity(int x, int y)
+{
+	int			i;
+	t_matrix	*ret;
+
+	i = 0;
+	ret = m_init_empty(x , y);
+	while (i < x)
+	{
+		ret->m[i][i] = 1;
+		++i;
+	}
+	return (ret);
+}
+
 matrix_type	*m_convert_to_1d(t_matrix *source)
 {
 	matrix_type	*ret;

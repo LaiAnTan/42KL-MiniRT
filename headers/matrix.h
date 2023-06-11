@@ -17,6 +17,7 @@ typedef struct	s_matrix
 
 t_matrix	*m_init(matrix_type *values, int x, int y);
 t_matrix	*m_init_empty(int x, int y);
+t_matrix	*m_init_identity(int x, int y);
 t_matrix	*m_dup(t_matrix *source);
 t_matrix	*m_dup_emptymatrix(t_matrix *source);
 
