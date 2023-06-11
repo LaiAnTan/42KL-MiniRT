@@ -16,6 +16,9 @@
 # define WIDTH 600
 # define HEIGHT 450
 
+# define AMBIENCE_FACTOR 0.2f
+# define DIFFUSE_FACTOR 0.6f
+
 # define SUCCESS 0
 # define FAILURE 1
 # define ERROR -1
@@ -64,8 +67,8 @@ typedef struct	s_cam
 typedef struct	s_ambient
 {
 	t_vector	*color;
-	t_vector	*ambient_ratio;
-	t_matrix	*multiply_mtrx;
+	// t_vector	*ambient_ratio;
+	// t_matrix	*multiply_mtrx;
 }	t_ambient;
 
 typedef	struct	s_scene

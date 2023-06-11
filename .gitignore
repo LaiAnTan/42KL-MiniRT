@@ -2,7 +2,7 @@
 *.o
 test
 
-
+e
 mlx_linux/*
 mlx_linux
 test_code

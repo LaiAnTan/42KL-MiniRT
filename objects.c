@@ -31,6 +31,7 @@ t_cam		*init_cam(int x, int y, int z)
 t_light		*init_light(int x, int y, int z, matrix_type *color)
 {
 	matrix_type position[3] = {x, y, z};
+	matrix_type def_color[3] = {255,255,255}; // <-- white light
 	t_light		*ret;
 
 	ret = malloc(sizeof(t_light));
@@ -38,7 +39,7 @@ t_light		*init_light(int x, int y, int z, matrix_type *color)
 	if (color)
 		ret->color = init_vector_intarr(color);
 	else
-		ret->color = NULL;
+		ret->color = init_vector_intarr(def_color);
 	ret->next = NULL;
 	return (ret);
 }
@@ -54,8 +55,8 @@ t_ambient	*init_ambient(int r, int g, int b, double ambient_strength)
 
 	ret = malloc(sizeof(t_ambient));
 	ret->color = init_vector_intarr(stuff);
-	ret->ambient_ratio = v_scalar_divide(ret->color, 255);
-	ret->multiply_mtrx = m_make_diagonal_matrix(ret->ambient_ratio->raw_matrix);
+	// ret->ambient_ratio = v_scalar_divide(ret->color, 255);
+	// ret->multiply_mtrx = m_make_diagonal_matrix(ret->ambient_ratio->raw_matrix);
 	return (ret);
 }
 
@@ -108,8 +109,8 @@ void	free_light(t_light **l)
 void	free_ambient(t_ambient **a)
 {
 	free_vector(&(*a)->color);
-	free_vector(&(*a)->ambient_ratio);
-	free_matrix(&(*a)->multiply_mtrx);
+	// free_vector(&(*a)->ambient_ratio);
+	// free_matrix(&(*a)->multiply_mtrx);
 	free(*a);
 	(*a) = NULL;
 }

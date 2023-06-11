@@ -5,11 +5,16 @@ void	set_the_scene(t_scene *scene, double x)
 {
 	(void) x;
 	scene->camera = init_cam(0,0,0);
-	scene->circles = init_circle(x,0,100,55);
-	// scene->circles->next = init_circle(-100, 0, 0, 50);
+	scene->circles = init_circle( x, 0, 150, 55 );
+	// scene->circles = init_circle( 100, 0, 150, 55 );
+	// scene->circles->next = init_circle(-50, 0, 150, 32);
 
-	scene->lights = init_light(35,35,35, NULL);
-	scene->ambient = init_ambient(255, 255, 255, 0.5);
+	scene->lights = init_light( 35, 35, 35, NULL);
+	// scene->lights = init_light( -300, 100, 150, NULL);
+	// scene->lights->next = init_light( -300, -100, 150, NULL);
+
+	scene->ambient = init_ambient(255, 255, 255, 0.2);
+	// scene->ambient = init_ambient(255, 255, 255, 1);
 
 	// deprecated.. i think
 	// inten = 125000000;

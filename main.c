@@ -181,14 +181,16 @@ double	calculate_d_from_l(t_ray *r, t_light *l, t_scene *scene)
 
 	r_to_l = v_difference(l->position, r->pos_vector);
 
+	to_light = dup_ray(r);
+	free_vector(&to_light->dir_vector);
+	to_light->dir_vector = v_get_unit_v(r_to_l);
+	free_vector(&to_light->pos_vector);
+	to_light->pos_vector = v_addition(r->pos_vector, to_light->dir_vector);
+
 	cur = scene->circles;
 	while (cur)
 	{
-		to_light = dup_ray(r);
-		free_vector(&to_light->dir_vector);
-		to_light->dir_vector = v_get_unit_v(r_to_l);
-		free_vector(&to_light->pos_vector);
-		to_light->pos_vector = v_addition(r->pos_vector, to_light->dir_vector);
+		// if collided, it would be a shadow
 		if (intersect_circle(to_light, cur) != ERROR)
 		{
 			// printf("nope\n\n");
@@ -196,32 +198,83 @@ double	calculate_d_from_l(t_ray *r, t_light *l, t_scene *scene)
 			free_ray(&to_light);
 			return (ERROR);
 		}
-		free_ray(&to_light);
 		cur = cur->next;
 	}
 	free_vector(&r_to_l);
+	free_ray(&to_light);
 	return (SUCCESS);
 }
 
-void	ambient_color(t_ray	*ray, t_ambient *a)
+void	ambient_color(t_ray	*ray, t_ambient *a, t_circle *o)
 {
+	double		amb_coefficient = AMBIENCE_FACTOR;
+	t_vector	*store[2];
 	t_vector	*new;
 
-	new = init_vector(m_multiplication(a->multiply_mtrx, ray->color->raw_matrix));
-	free_vector(&ray->color);
-	ray->color = new;
-	// printf("Color is now = \n");
-	// print_vector(ray->color);
-	// printf("\n");
+	free_vector(&ray->a_color);
+	if (!o)
+	{
+		ray->a_color = v_scalar_multi(a->color, amb_coefficient);
+	}
+	else
+	{
+		store[0] = v_scalar_multi(a->color, amb_coefficient);
+		store[1] = v_scalar_multi(o->color, amb_coefficient);
+		ray->a_color = v_addition(store[0], store[1]);
+		free_vector(&store[0]);
+		free_vector(&store[1]);
+	}
 }
 
-void	object_collide_color(t_ray *r, t_circle *c)
+t_vector	*inverse_color(t_vector	*c)
 {
-	if (c)
+	int		i;
+	matrix_type	*c_stuff;
+
+	c_stuff = get_val(c);
+	i = 0;
+	while (i < 3)
 	{
-		free_vector(&r->color);
-		r->color = dup_vct(c->color);
+		c_stuff[i] = absolute(255 - c->raw_matrix->stuff[i][0]);
+		++i;
 	}
+	return (init_vector_intarr(c_stuff));
+}
+
+void	remove_negative(t_vector *v)
+{
+	int	i;
+
+	i = 0; 
+	while (i < 3)
+	{
+		if (v->raw_matrix->stuff[i][0] < 0)
+			v->raw_matrix->stuff[i][0] = 0;
+		++i;
+	}
+}
+
+void	calculate_diffuse_color(t_ray *r, t_light *l, t_circle *o, double costheta)
+{
+	double	angles = acos(costheta);
+	double	diff_strength = DIFFUSE_FACTOR;
+
+	t_vector	*d_c; // object diffuse color
+	t_vector	*a_o_c; // absorbed object color
+	t_vector	*store[2];
+
+	a_o_c = inverse_color(o->color);
+	store[0] = v_difference(l->color, a_o_c);
+	remove_negative(store[0]);
+
+	d_c = v_scalar_multi(store[0], (costheta * diff_strength));
+	store[1] = v_addition(r->d_color, d_c);
+
+	free_vector(&d_c);
+	free_vector(&a_o_c);
+	free_vector(&store[0]);
+	free_vector(&r->d_color);
+	r->d_color = store[1];
 }
 
 void	diffuse_the_bomb(t_ray *r, t_light *l, t_circle *o)
@@ -229,34 +282,14 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_circle *o)
 	t_vector	*a;
 	t_vector	*a_norm;
 
-	// printf("Light position = ");
-	// print_vector(l->position);
-	// printf("Ray position = ");
-	// print_vector(r->pos_vector);
-	// printf("Circle center = ");
-	// print_vector(o->position);
-
 	a = v_difference(l->position, r->pos_vector);
-
-	// printf("Intersection to Light");
-	// print_vector(a);
-
 	a_norm = v_get_unit_v(a);
 
 	t_vector	*b;
 	t_vector	*b_norm;
 
 	b = v_difference(r->pos_vector, o->position);
-
-	// printf("Center to Intersection");
-	// print_vector(b);
-
 	b_norm = v_get_unit_v(b);
-
-	// dot product
-	// a x b = |a||b| cos theta
-	// if a and b are both normal vector
-	// a x b = cos theta
 
 	double	costheta;
 	costheta = v_dotproduct(a_norm, b_norm);
@@ -266,19 +299,32 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_circle *o)
 	free_vector(&b);
 	free_vector(&b_norm);
 
-	double	angles = acos(costheta);
-	double	diff_strength = 2.0f;
+	calculate_diffuse_color(r, l, o, costheta);
+}
 
-	// printf("cos theta = %.2f\n", costheta);
-	// printf("Angles = %.2f rad, %.2f degree\n", angles, (angles * 180) / M_PI);
-	// printf("\n");
+void	calculate_result_color(t_ray *r)
+{
+	t_vector	*store[2];
 
-	t_vector	*new_c;
-	new_c = v_scalar_multi(r->color, (costheta * diff_strength) + 1);
-	// printf("New color = ");
-	// print_vector(new_c);
+	// printf("ambience = ");
+	// print_vector(r->a_color);
+	// printf("diffuse color = ");
+	// print_vector(r->d_color);
+
+	store[0] = v_addition(r->a_color, r->d_color);
 	free_vector(&r->color);
-	r->color = new_c;
+	r->color = store[0];
+
+	// printf("Color = ");
+	// print_vector(r->color);
+	// printf("\n");
+}
+
+void	shadow_diffuse(t_ray *ray)
+{
+	matrix_type	shadow[3] = {0,0,0};
+	// hard shadow
+	ray->d_color = init_vector_intarr(shadow);
 }
 
 void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
@@ -314,7 +360,6 @@ void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
 		}
 		cur = cur->next;
 	}
-	object_collide_color(ray, closest_object_src);
 
  //  detect light source
  //  ----------------------------------------------------------------------------
@@ -331,7 +376,10 @@ void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
 			if (p_from_light == -1)
 			{
 				if (!light->next && ray->type == SHADOW)
-					ray->type = SHADOW;	
+				{
+					ray->type = SHADOW;
+					shadow_diffuse(ray);
+				}
 				light = light->next;
 				continue;
 			}
@@ -348,9 +396,12 @@ void	do_ray_stuff(int x, int y, t_scene *scene, t_mlx_info *mlx)
 //  -----------------------------------------------------------------------------
 
 	// ambient
-	ambient_color(ray, scene->ambient);
+	ambient_color(ray, scene->ambient, closest_object_src);
 
 //  -----------------------------------------------------------------------------
+	
+	calculate_result_color(ray);
+	// write the pixel
 	write_pixel(&mlx->img, x, y, create_trgb(ray->color));
 	free_ray(&ray);
 }
@@ -413,7 +464,7 @@ int main()
 		mlx_put_image_to_window(mlx.mlx, mlx.mlx_win, mlx.img.img, 0, 0);
 		clean_loop(&mlx);
 		free_scene(&scene);
-		loop += 10;
+		loop += 5;
 		if (loop > HEIGHT)
 			loop = -1 * HEIGHT;
 	}
@@ -443,16 +494,4 @@ int main()
 // 	sleep(2);
 // 	free_scene(&scene);
 // 	free_mlx(&mlx);
-// }
-
-// // pure m a t h s
-// int main()
-// {
-// 	t_scene		scene;
-// 	t_mlx_info	mlx;
-// 	int			loop;
-
-// 	loop = 0;
-// 	set_the_scene(&scene);
-// 	kewl_quirky_raytrace(&scene, &mlx);
 // }

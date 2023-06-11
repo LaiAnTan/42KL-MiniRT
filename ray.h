@@ -19,6 +19,9 @@ typedef struct s_ray
 
 	// rgb
 	t_vector	*color;
+	t_vector	*a_color; // ambient
+	t_vector	*d_color; // diffuse
+	t_vector	*s_color; // specular
 
 } t_ray;
 
