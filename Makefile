@@ -22,7 +22,7 @@ SRCS_C =	srcs/utils/utils_atof.c				\
 
 SRCS_O = $(SRCS_C:.c=.o)
 
-CFLAG = -Wall -Wextra -Werror
+# CFLAG = -Wall -Wextra -Werror
 
 # FSAN = -fsanitize=address -g
 
