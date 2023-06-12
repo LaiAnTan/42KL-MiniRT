@@ -16,8 +16,9 @@ SRCS_C =	srcs/utils/utils_atof.c				\
 			srcs/matrix.c						\
 			srcs/ray.c							\
 			srcs/mlx.c							\
-			srcs/view.c	\
-			srcs/pixel_to_view.c	\
+			srcs/view.c							\
+			srcs/pixel.c						\
+			srcs/model.c						\
 
 SRCS_O = $(SRCS_C:.c=.o)
 

@@ -131,10 +131,12 @@ typedef struct s_data
 	t_scene			*scene;
 }			t_data;
 
-/* view matrices */
-t_matrix *get_view_1(t_vec3 *position, t_vec3 *direction, t_vec3 *up); // view matrix
-t_matrix *get_view_2(t_vec3 *position, t_vec3 *direction, t_vec3 *up); // view matrix
+/* coordinate systems transformation matrices */
+t_matrix	*get_view_matrix(t_vec3 *position, t_vec3 *reference, t_vec3 *up); // world-to-view matrix
 
+t_matrix	*get_model_matrix(t_cylinder *cylinder); // model-to-world for cylinder
+
+t_matrix	*get_inverse_transform(t_matrix *transform); // inverse for transformation matrices
 
 t_vec4	*convert_pixels(int pixel_y, int pixel_x, t_camera *camera);
 
@@ -178,7 +180,6 @@ void	clean_loop(t_mlx_info *mlx);
 void	write_pixel(t_img_info *img, int x, int y, int color);
 
 int		create_trgb(int r, int g, int b);
-
 
 /* Utils */
 
