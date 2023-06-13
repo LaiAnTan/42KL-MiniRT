@@ -57,7 +57,7 @@ void	print_vector(t_vector *stuff)
 	t_matrix	*mtrx;
 
 	mtrx = stuff->raw_matrix;
-	printf("[ %.2f, %.2f, %.2f ]\n", 
+	printf("( %.2f, %.2f, %.2f )\n", 
 		mtrx->stuff[0][0], mtrx->stuff[1][0], mtrx->stuff[2][0]);
 }
 
@@ -106,6 +106,7 @@ double	v_magnitude(t_vector *vctr)
 }
 
 // magnitude, but not square-rooted
+// use this if posible as this is faster (no sqrt)
 double	v_magnitude_sqrd(t_vector *vctr)
 {
 	double	x;
@@ -142,8 +143,10 @@ t_vector	*v_get_unit_v(t_vector *vctr)
 {
 	double	mag;
 
-	mag = v_magnitude(vctr);
-	return (v_scalar_multi(vctr, 1/mag));
+	mag = v_magnitude_sqrd(vctr);
+	if (mag == 1)
+		return (dup_vct(vctr));
+	return (v_scalar_multi(vctr, 1/sqrt(mag)));
 }
 
 double	*v_direction_cosines(t_vector *vctr)

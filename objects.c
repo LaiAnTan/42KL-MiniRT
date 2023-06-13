@@ -1,17 +1,11 @@
 #include "minirt.h"
 
-t_circle	*init_circle(int x, int y, int z, int r)
+t_circle	*init_circle(int r)
 {
-	matrix_type	stuff[3] = {x, y, z};
-	matrix_type	color[3] = {255,0,0};
 	t_circle	*ret;
 
 	ret = malloc(sizeof(t_circle));
-	// hardcode some stuff here for testing;
-	ret->position = init_vector_intarr(stuff);
-	ret->color = init_vector_intarr(color);
 	ret->radius = r;
-	ret->next = NULL;
 	return ret;
 }
 
@@ -60,25 +54,42 @@ t_ambient	*init_ambient(int r, int g, int b, double ambient_strength)
 	return (ret);
 }
 
+t_objects	*init_object(int type, double *pos, double *rgb)
+{
+	t_objects	*ret;
+
+	ret = malloc(sizeof(t_objects));
+	ret->type = type;
+	ret->position = init_vector_intarr(pos);
+	ret->color = init_vector_intarr(rgb);
+	ret->circle = NULL;
+	ret->plane = NULL;
+	ret->next = NULL;
+	return (ret);
+}
+
+t_plane	*init_plane(double *normal)
+{
+	t_plane	*ret;
+
+	ret = malloc(sizeof(t_plane));
+	ret->normal_vect = init_vector_intarr(normal);
+	ret->normal_vect = v_get_unit_v(ret->normal_vect);
+	return (ret);
+}
+
 void	free_circle(t_circle **c)
 {
-	t_circle	*temp;
-	t_circle	*cur;
-
-	cur = (*c);
-	while (cur)
-	{
-		temp = cur->next;
-
-		free_vector(&cur->position);
-		free_vector(&cur->color);
-		free(cur);
-
-		cur = temp;
-	}
+	free((*c));
 	(*c) = NULL;
 }
 
+void	free_plane(t_plane **p)
+{
+	free_vector(&(*p)->normal_vect);
+	free((*p));
+	(*p) = NULL;
+}
 
 void	free_cam(t_cam **cam)
 {
@@ -99,6 +110,7 @@ void	free_light(t_light **l)
 		temp = cur->next;
 
 		free_vector(&cur->position);
+		free_vector(&cur->color);
 		free(cur);
 
 		cur = temp;
@@ -106,11 +118,36 @@ void	free_light(t_light **l)
 	(*l) = NULL;
 }
 
+void	free_objects(t_objects	**obj)
+{
+	t_objects	*cur;
+	t_objects	*temp;
+
+	cur = (*obj);
+	while (cur)
+	{
+		temp = cur->next;
+
+		free_vector(&(cur->position));
+		free_vector(&(cur->color));
+		if (cur->type == CIRCLE)
+		{
+			free_circle(&(cur->circle));
+		}
+		else if (cur->type == PLANE)
+		{
+			free_plane(&(cur->plane));
+		}
+		free(cur);
+
+		cur = temp;
+	}
+	(*obj) = NULL;
+}
+
 void	free_ambient(t_ambient **a)
 {
 	free_vector(&(*a)->color);
-	// free_vector(&(*a)->ambient_ratio);
-	// free_matrix(&(*a)->multiply_mtrx);
 	free(*a);
 	(*a) = NULL;
 }
