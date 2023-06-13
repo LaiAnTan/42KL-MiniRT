@@ -28,6 +28,19 @@ t_ray	*dup_ray(t_ray *source)
 	return (ret);
 }
 
+// moves the ray to the direction of ray->dir_vector based on the k value given
+void	move_ray(t_ray *ray, double k)
+{
+	t_vector	*store;
+	t_vector	*new;
+
+	store = v_scalar_multi(ray->dir_vector, k);
+	new = v_addition(ray->pos_vector, store);
+	free_vector(&store);
+	free_vector(&ray->pos_vector);
+	ray->pos_vector = new;
+}
+
 void	free_ray(t_ray **ray)
 {
 	free_vector(&(*ray)->pos_vector);

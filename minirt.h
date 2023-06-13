@@ -13,12 +13,12 @@
 # define R_DEPTH 2
 
 // settings
-# define WIDTH 600
-# define RAYS_IN_X 600
-# define HEIGHT 450
-# define RAYS_IN_Y 450
+# define WIDTH 600.0f
+# define RAYS_IN_X 600.0f
+# define HEIGHT 450.0f
+# define RAYS_IN_Y 450.0f
 
-# define HORI_FOV 60
+# define HORI_FOV 60.0f
 
 # define AMBIENCE_FACTOR 0.2f
 # define DIFFUSE_FACTOR 0.6f
@@ -108,13 +108,33 @@ t_cam		*init_cam(int x, int y, int z);
 t_light		*init_light(int x, int y, int z, matrix_type *color);
 t_ambient	*init_ambient(int r, int g, int b, double a_strength);
 
-void	free_circle(t_circle **c);
-void	free_cam(t_cam **cam);
-void	free_light(t_light **l);
-void	free_objects(t_objects	**obj);
-void	free_ambient(t_ambient **a);
+void		free_circle(t_circle **c);
+void		free_cam(t_cam **cam);
+void		free_light(t_light **l);
+void		free_objects(t_objects	**obj);
+void		free_ambient(t_ambient **a);
 
+void		get_image(t_img_info *img_info, void *mlx);
+void		clean_loop(t_mlx_info *mlx);
+void		write_pixel(t_img_info *img, int x, int y, int color);
+int			create_trgb(t_vector *color);
 
-void	set_the_scene(t_scene *scene, double x);
+double		intersect_plane(t_ray *ray, t_objects *o);
+double		intersect_circle(t_ray	*ray, t_objects *o);
+
+void		ambient_color(t_ray	*ray, t_ambient *a, t_objects *o);
+t_vector	*inverse_color(t_vector	*c);
+void		shadow_diffuse(t_ray *ray);
+void		diffuse_the_bomb(t_ray *r, t_light *l, t_objects *o);
+void		calculate_result_color(t_ray *r);
+
+t_objects	*get_closest_object(t_ray *ray, t_scene *scene, int closest, double	*k_val);
+int			get_closest_light(t_ray *r, t_light *l, t_scene *scene);
+
+void		set_the_scene(t_scene *scene, double x);
+
+double		absolute(double val);
+double		to_radian(double degree);
+double		to_degree(double rad);
 
 #endif

@@ -28,5 +28,6 @@ typedef struct s_ray
 t_ray	*init_ray(t_vector	*pos_vector, t_vector *dir_vector);
 void	free_ray(t_ray **ray);
 t_ray	*dup_ray(t_ray *source);
+void	move_ray(t_ray *ray, double k);
 
 #endif

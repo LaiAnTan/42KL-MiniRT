@@ -30,15 +30,11 @@ t_vector	*dup_vct(t_vector *vctr)
 	return (ret);
 }
 
-matrix_type	*get_val(t_vector *vector)
+void	get_val(t_vector *vector, matrix_type array[3])
 {
-	matrix_type	*array;
-
-	array = malloc(3 * sizeof(matrix_type));
 	array[0] = vector->raw_matrix->stuff[0][0]; // x i
 	array[1] = vector->raw_matrix->stuff[1][0]; // y j
 	array[2] = vector->raw_matrix->stuff[2][0]; // z k
-	return (array);
 }
 
 void	free_vector(t_vector **stuff)
@@ -177,15 +173,13 @@ double	*v_u_direction_cosines(t_vector *v_norm)
 t_vector	*v_crossproduct(t_vector *left, t_vector *right)
 {
 	matrix_type	stuff[3];
-	matrix_type	*left_val;
-	matrix_type	*right_val;
+	matrix_type	left_val[3];
+	matrix_type	right_val[3];
 
-	left_val = get_val(left);
-	right_val = get_val(right);
+	get_val(left, left_val);
+	get_val(right, right_val);
 	stuff[0] = (left_val[1] * right_val[2]) - (left_val[2] * right_val[1]);
 	stuff[1] = -1 * ((left_val[0] * right_val[2]) - (left_val[2] * right_val[0]));
 	stuff[2] = (left_val[0] * right_val[1]) - (left_val[1] * right_val[0]);
-	free(left_val);
-	free(right_val);
 	return (init_vector_intarr(stuff));
 }

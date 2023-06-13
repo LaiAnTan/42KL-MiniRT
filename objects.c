@@ -70,11 +70,13 @@ t_objects	*init_object(int type, double *pos, double *rgb)
 
 t_plane	*init_plane(double *normal)
 {
-	t_plane	*ret;
+	t_plane		*ret;
+	t_vector	*temp;
 
 	ret = malloc(sizeof(t_plane));
-	ret->normal_vect = init_vector_intarr(normal);
-	ret->normal_vect = v_get_unit_v(ret->normal_vect);
+	temp = init_vector_intarr(normal);
+	ret->normal_vect = v_get_unit_v(temp);
+	free_vector(&temp);
 	return (ret);
 }
 
