@@ -100,6 +100,10 @@ typedef	struct	s_scene
 
 } t_scene;
 
+void		kewl_quirky_raytrace(t_scene *scene, t_mlx_info *mlx);
+void		calculate_ray_positions(double store[3], double x, double y);
+t_ray		*project_ray(double x, double y, t_cam *camera);
+void		do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx);
 
 t_circle	*init_circle(int r);
 t_objects	*init_object(int type, double *pos, double *rgb);
