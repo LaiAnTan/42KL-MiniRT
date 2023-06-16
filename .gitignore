@@ -1,6 +1,8 @@
 .vscode
+.DS_Store
+minirt
+
 *.o
-test
 
 e
 mlx_linux/*
@@ -9,3 +11,8 @@ test_code
 test_code/*
 old_code
 old_code/*
+
+obj/
+mlx_linux/
+old_code/
+test_code/

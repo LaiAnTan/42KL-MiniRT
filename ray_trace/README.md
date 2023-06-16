@@ -1,5 +1,6 @@
 # 42KL-MiniRT
 A simple raytracing engine.
 
+todo: 
 
-haha no not simple at all sucky sucky
+kill myself
