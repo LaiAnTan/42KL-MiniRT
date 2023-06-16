@@ -7,11 +7,10 @@ t_matrix	*m_init(matrix_type *values, int x, int y)
 	int	j;
 
 	ret = malloc(sizeof(t_matrix));
-	ret->m = malloc(sizeof(matrix_type *) * y);
-	
 	ret->x = x;
 	ret->y = y;
 	j = 0;
+	ret->m = malloc(sizeof(matrix_type *) * y);
 	while (j < ret->y)
 	{
 		i = 0;
@@ -33,11 +32,10 @@ t_matrix	*m_init_empty(int x, int y)
 	int	j;
 
 	ret = malloc(sizeof(t_matrix));
-	ret->m = malloc(sizeof(matrix_type *) * y);
-	
 	ret->x = x;
 	ret->y = y;
 	j = 0;
+	ret->m = malloc(sizeof(matrix_type *) * y);
 	while (j < y)
 	{
 		i = 0;

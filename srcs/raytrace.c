@@ -1,4 +1,4 @@
-#include "minirt.h"
+# include "../headers/minirt.h"
 
 // wOw actually ray-tracing!1!!11!11!!
 
@@ -34,31 +34,31 @@ void	calculate_ray_positions(double store[3], double x, double y)
 }
 
 // projects a ray
-t_ray	*project_ray(double x, double y, t_cam *camera)
+t_ray	*project_ray(double x, double y, t_camera *camera)
 {
 	double		store[3];
-	t_vector	*store_vec;
-	t_vector	*dir_vector;
+	t_vec3	*store_vec;
+	t_vec3	*dir_vector;
 
 	calculate_ray_positions(store, x, y);
-	store_vec = init_vector_intarr(store);
+	store_vec = init_vec3_intarr(store);
 	dir_vector = v_get_unit_v(store_vec);
 	free_vector(&store_vec);
 
-	return (init_ray(dup_vct(camera->position), dir_vector));
+	return (init_ray(dup_vct(camera->cam_coords), dir_vector));
 }
 
 void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 {
 	t_light		*light;
-	t_objects	*closest_object_src;
+	t_object	*closest_object_src;
 	t_ray		*ray;
 	double		k_val;
 
  //  ray projection
  //  ----------------------------------------------------------------------------
 
-	ray = project_ray(x, y, scene->camera);
+	ray = project_ray(x, y, scene->sc_camera);
 
  //  detect collision
  //  ----------------------------------------------------------------------------
@@ -78,7 +78,7 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 	if (ray->type == COLLIDED)
 	{
 		ray->type = SHADOW;
-		light = scene->lights;
+		light = scene->sc_lights;
 		while (light)
 		{
 			p_from_light = get_closest_light(ray, light, scene);
@@ -106,7 +106,7 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 //  -----------------------------------------------------------------------------
 
 	// ambient
-	ambient_color(ray, scene->ambient, closest_object_src);
+	ambient_color(ray, scene->sc_ambients, closest_object_src);
 
 //  -----------------------------------------------------------------------------
 	

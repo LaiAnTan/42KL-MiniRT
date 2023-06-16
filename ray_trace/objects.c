@@ -1,4 +1,4 @@
-#include "minirt.h"
+# include "../headers/minirt.h"
 
 t_circle	*init_circle(int r)
 {
@@ -17,8 +17,8 @@ t_cam		*init_cam(int x, int y, int z)
 
 	ret = malloc(sizeof(t_cam));
 	// hardcode some stuff also
-	ret->position = init_vector_intarr(position);
-	ret->orientation = init_vector_intarr(orientation);
+	ret->position = init_vec3_intarr(position);
+	ret->orientation = init_vec3_intarr(orientation);
 	return (ret);
 }
 
@@ -29,11 +29,11 @@ t_light		*init_light(int x, int y, int z, matrix_type *color)
 	t_light		*ret;
 
 	ret = malloc(sizeof(t_light));
-	ret->position = init_vector_intarr(position);
+	ret->position = init_vec3_intarr(position);
 	if (color)
-		ret->color = init_vector_intarr(color);
+		ret->color = init_vec3_intarr(color);
 	else
-		ret->color = init_vector_intarr(def_color);
+		ret->color = init_vec3_intarr(def_color);
 	ret->next = NULL;
 	return (ret);
 }
@@ -48,20 +48,20 @@ t_ambient	*init_ambient(int r, int g, int b, double ambient_strength)
 	t_ambient	*ret;
 
 	ret = malloc(sizeof(t_ambient));
-	ret->color = init_vector_intarr(stuff);
+	ret->color = init_vec3_intarr(stuff);
 	// ret->ambient_ratio = v_scalar_divide(ret->color, 255);
 	// ret->multiply_mtrx = m_make_diagonal_matrix(ret->ambient_ratio->raw_matrix);
 	return (ret);
 }
 
-t_objects	*init_object(int type, double *pos, double *rgb)
+t_object	*init_object(int type, double *pos, double *rgb)
 {
-	t_objects	*ret;
+	t_object	*ret;
 
-	ret = malloc(sizeof(t_objects));
+	ret = malloc(sizeof(t_object));
 	ret->type = type;
-	ret->position = init_vector_intarr(pos);
-	ret->color = init_vector_intarr(rgb);
+	ret->position = init_vec3_intarr(pos);
+	ret->color = init_vec3_intarr(rgb);
 	ret->circle = NULL;
 	ret->plane = NULL;
 	ret->next = NULL;
@@ -71,10 +71,10 @@ t_objects	*init_object(int type, double *pos, double *rgb)
 t_plane	*init_plane(double *normal)
 {
 	t_plane		*ret;
-	t_vector	*temp;
+	t_vec3	*temp;
 
 	ret = malloc(sizeof(t_plane));
-	temp = init_vector_intarr(normal);
+	temp = init_vec3_intarr(normal);
 	ret->normal_vect = v_get_unit_v(temp);
 	free_vector(&temp);
 	return (ret);
@@ -120,10 +120,10 @@ void	free_light(t_light **l)
 	(*l) = NULL;
 }
 
-void	free_objects(t_objects	**obj)
+void	free_objects(t_object	**obj)
 {
-	t_objects	*cur;
-	t_objects	*temp;
+	t_object	*cur;
+	t_object	*temp;
 
 	cur = (*obj);
 	while (cur)

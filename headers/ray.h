@@ -19,8 +19,11 @@ typedef struct s_ray
 	// direction vector
 	t_vec4	*dir_vector;
 
-	// color of ray
-	t_vec3		rgb[3];
+	// rgb
+	t_vec3	*color;
+	t_vec3	*a_color; // ambient
+	t_vec3	*d_color; // diffuse
+	t_vec3	*s_color; // specular
 
 } t_ray;
 

@@ -1,4 +1,4 @@
-#include "minirt.h"
+# include "../headers/minirt.h"
 
 void solve_quad(double	*coefficients, double *result)
 {
@@ -23,24 +23,24 @@ void solve_quad(double	*coefficients, double *result)
 }
 
 // ax^2 + bx + c
-double	intersect_circle(t_ray	*ray, t_objects *o)
+double	intersect_circle(t_ray	*ray, t_object *o)
 {
 	double	values[3];
 	double	coefficients[3];
 	double	mag;
 
 	// me cheese this (not sure if works :skull)
-	t_vector	*modified_ray_pos;
-	t_vector	*zeroed_pos;
+	t_vec3	*modified_ray_pos;
+	t_vec3	*zeroed_pos;
 
-	modified_ray_pos = v_difference(ray->pos_vector, o->position);
-	zeroed_pos = v_difference(o->position, o->position);
+	modified_ray_pos = v_difference(ray->pos_vector, o->ob_coords);
+	zeroed_pos = v_difference(o->ob_coords, o->ob_coords);
 	// in theory this would work (theory)
 
 	// le ipad formulas
 	coefficients[0] = v_magnitude_sqrd(ray->dir_vector);
 	coefficients[1] = v_dotproduct(modified_ray_pos, ray->dir_vector) * 2;
-	coefficients[2] = v_magnitude_sqrd(modified_ray_pos) - (o->circle->radius * o->circle->radius);
+	coefficients[2] = v_magnitude_sqrd(modified_ray_pos) - (o->ob_spheres->sp_radius * o->ob_spheres->sp_radius);
 
 	solve_quad(coefficients, values);
 	free_vector(&modified_ray_pos);

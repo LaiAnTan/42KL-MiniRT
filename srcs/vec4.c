@@ -91,7 +91,7 @@ void	vec4_print(t_vec4 *vector)
 }
 
 // does this exist? idk whoop whoop
-double	vec4_dotproduct(t_vec4 *left_vector, t_vec4 *right_vector)
+double	vec4_dotproduct(t_vec4 *left_vec3, t_vec4 *right_vec3)
 {
 	int			i;
 	double		res;
@@ -101,8 +101,8 @@ double	vec4_dotproduct(t_vec4 *left_vector, t_vec4 *right_vector)
 
 	i = 0;
 	res = 0;
-	left_m = left_vector->raw_matrix;
-	right_m = right_vector->raw_matrix;
+	left_m = left_vec3->raw_matrix;
+	right_m = right_vec3->raw_matrix;
 
 	while (i < 4)
 	{
@@ -142,14 +142,14 @@ double	vec4_magnitude_sqrd(t_vec4 *vector)
 	return (res);
 }
 
-t_vec4	*vec4_diff(t_vec4 *left_vector, t_vec4 *right_vector)
+t_vec4	*vec4_diff(t_vec4 *left_vec3, t_vec4 *right_vec3)
 {
-	return (vec4_init_from_matrix(m_subtraction(left_vector->raw_matrix, right_vector->raw_matrix)));
+	return (vec4_init_from_matrix(m_subtraction(left_vec3->raw_matrix, right_vec3->raw_matrix)));
 }
 
-t_vec4	*vec4_add(t_vec4 *left_vector, t_vec4 *right_vector)
+t_vec4	*vec4_add(t_vec4 *left_vec3, t_vec4 *right_vec3)
 {
-	return (vec4_init_from_matrix(m_addition(left_vector->raw_matrix, right_vector->raw_matrix)));
+	return (vec4_init_from_matrix(m_addition(left_vec3->raw_matrix, right_vec3->raw_matrix)));
 }
 
 t_vec4	*vec4_scalar_mult(t_vec4 *vector, double scalar)
