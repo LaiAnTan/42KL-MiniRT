@@ -311,23 +311,26 @@ void	raytrace(t_scene *scene, t_mlx_info *mlx)
 // 	scene_free_objects(data->scene);
 // }
 
-// test transpose
+// test view matrices
 // delete once done
 
 int main(void)
 {
-	double coords[] = {-50, 0 ,20};
-	double ori[] = {0, 0, 0};
-	double up[] = {0, 1, 0};
+	t_cylinder cy;
 
-	t_vec3 *coords_vec = vec3_init_from_array(coords);
-	t_vec3 *ori_vec = vec3_init_from_array(ori);
-	t_vec3 *up_vec = vec3_init_from_array(up);
+	cy.cy_coords = vec4_init(-50, 0, 20, 1);
+	cy.cy_vec_axis = vec4_init(0, 1, 0, 1);
 
-	vec3_print(coords_vec);
-	vec3_print(ori_vec);
-	vec3_print(up_vec);
-	t_matrix *view_matrix = get_view_1(coords_vec, ori_vec, up_vec);
-	printf("view matrix = \n");
-	m_print_matrix(view_matrix);
+	printf("cylinder coords\n");
+	vec4_print(cy.cy_coords);
+	printf("cylinder axis vector\n");
+	vec4_print(cy.cy_vec_axis);
+
+	t_matrix *model_matrix = get_model_matrix(&cy);
+	printf("model_matrix = \n");
+	m_print_matrix(model_matrix);
+	t_matrix *inv_model_matrix = get_inverse_transform(model_matrix);
+	printf("inverse model matrix = \n");
+	m_print_matrix(inv_model_matrix);
+
 }

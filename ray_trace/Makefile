@@ -16,34 +16,41 @@ SRCS_C =	srcs/utils/utils_atof.c				\
 			srcs/matrix.c						\
 			srcs/ray.c							\
 			srcs/mlx.c							\
-			srcs/view.c	\
-			srcs/pixel_to_view.c	\
+			srcs/view.c							\
+			srcs/pixel.c						\
+			srcs/model.c						\
 
-SRCS_O = $(SRCS_C:.c=.o)
-
-CFLAG = -Wall -Wextra -Werror
+# CFLAGS := -Wall -Wextra -Werror
 
 # FSAN = -fsanitize=address -g
 
-LIB = -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+INCS := 
 
-all : $(NAME) move
+LIBS := -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
-%.o:%.c
-		@gcc $(CFLAG) -I/usr/include -Imlx_linux -O3 -c $< -o $(<:.c=.o)
+SRCS_O := $(addprefix $(ODIR)/,$(notdir $(SRCS_C:.c=.o)))
+
+vpath %.c srcs/builtins:srcs/cmd:srcs/redirection:srcs/utils:srcs/vars:srcs
+
+# Colors
+L_RESET = \e[1K\r
+C_CYAN = \033[0;96m
+C_GREEN = \033[0;92m
+C_RESET = \033[0m
+
+
+all : $(NAME)
 
 $(NAME): $(SRCS_O)
-		@gcc $(SRCS_O) $(CFLAG) $(LIB) $(FSAN) -o $(NAME) 
+	@gcc ${CFLAGS} $^ $(LIBS) -o $@
+	@printf "$(L_RESET)$(C_GREEN)Done!$(C_RESET)\n"
 
 $(ODIR) :
-	@echo "Folder $(ODIR) does not exist, making a new one..."
-	@mkdir $@
+	@mkdir -p $@
 
-move : $(ODIR)
-	@clear
-	@echo "Storing object files into $(ODIR)..."
-	@mv $(SRCS_O) $(ODIR)
-	
+$(ODIR)/%.o: %.c | $(ODIR)
+	@gcc $(CFLAGS) $(INCS) $(LIBS) -c $< -o $@
+	@printf "$(L_RESET)$(C_RESET)Creating object file $(C_CYAN)$@$(C_RESET) from $(C_CYAN)$<$(C_RESET)"
 
 run :
 	@./$(NAME)
@@ -52,14 +59,14 @@ vg :
 	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
 
 clean :
-	@echo "Removing object files..."
-	@rm -f $(ODIR)/*.o
+	@echo 'Removing executable files...'
+	@rm -rf $(NAME)
 
 fclean : clean
-	@echo "Removing executable $(NAME) and folder $(ODIR)..."
+	@echo "Removing executable $(NAME) and object file folder $(ODIR)..."
 	@rm -f $(NAME)
-	@rmdir $(ODIR)
+	@rm -rf $(ODIR)
 
 re : fclean all
 
-.PHONY: all clean fclean re git $(NAME)
+.PHONY: all clean fclean re
