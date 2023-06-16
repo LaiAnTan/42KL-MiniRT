@@ -4,6 +4,14 @@ minirt
 
 *.o
 
+e
+mlx_linux/*
+mlx_linux
+test_code
+test_code/*
+old_code
+old_code/*
+
 obj/
 mlx_linux/
 old_code/
