@@ -5,13 +5,14 @@
 
 void	ambient_color(t_ray	*ray, t_ambient *a, t_object *o)
 {
-	double	amb_coefficient;
-	t_vec3	*store[2];
-	t_vec3	*new;
-
-	amb_coefficient = a->a_ratio;
 	vec3_free(&ray->a_color);
-	ray->a_color = vec3_scalar_multi(a->a_rgb, amb_coefficient);
+	if (o)
+	{
+		ray->a_color = vec3_multi_each_elem(o->ob_rgb, a->a_strength);
+		vec3_print(ray->a_color);
+	}
+	else
+		ray->a_color = vec3_dup(a->bg_color);
 }
 
  // diffuse coloring
@@ -100,6 +101,7 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 	}
 	else
 	{
+		r->type = COLLIDED;
 		calculate_diffuse_color(r, l, o, costheta);
 	}
 }
