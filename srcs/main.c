@@ -51,7 +51,7 @@ int main(int argc, char **argv)
 	raytrace(data->scene, data->mlx);
 	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
 	clean_loop(data->mlx);
-	sleep(5);
+	sleep(5000);
 	scene_free(data->scene);
 }
 
