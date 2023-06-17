@@ -14,10 +14,10 @@ typedef struct s_ray
 	// ray type
 	int			type;
 	// position vector
-	t_vec4	*pos_vector;
+	t_vec3	*pos_vector;
 
 	// direction vector
-	t_vec4	*dir_vector;
+	t_vec3	*dir_vector;
 
 	// rgb
 	t_vec3	*color;
@@ -27,8 +27,9 @@ typedef struct s_ray
 
 } t_ray;
 
-t_ray	*init_ray(t_vec4 *pos_vector, t_vec4 *dir_vector);
+t_ray	*init_ray(t_vec3 *pos_vector, t_vec3 *dir_vector);
 void	free_ray(t_ray **ray);
+void	move_ray(t_ray *ray, double k);
 t_ray	*dup_ray(t_ray *source);
 
 #endif

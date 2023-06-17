@@ -53,6 +53,13 @@ matrix_type	*vec3_get_val(t_vec3 *vector)
 	return (array);
 }
 
+void	vec3_store_val(t_vec3 *vector, matrix_type array[3])
+{
+	array[0] = vector->raw_matrix->m[0][0];
+	array[1] = vector->raw_matrix->m[1][0];
+	array[2] = vector->raw_matrix->m[2][0];
+}
+
 void	vec3_free(t_vec3 **stuff)
 {
 	if (!(*stuff))

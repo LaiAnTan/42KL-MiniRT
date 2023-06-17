@@ -4,7 +4,8 @@ CDIR = srcs
 
 ODIR = obj
 
-SRCS_C =	srcs/utils/utils_atof.c				\
+SRCS_C =	srcs/utils/utils_2.c				\
+			srcs/utils/utils_atof.c				\
 			srcs/utils/utils_get_next_line.c	\
 			srcs/utils/utils_split.c			\
 			srcs/utils/utils.c					\
@@ -19,6 +20,12 @@ SRCS_C =	srcs/utils/utils_atof.c				\
 			srcs/view.c							\
 			srcs/pixel.c						\
 			srcs/model.c						\
+			srcs/circle.c						\
+			srcs/collision.c					\
+			srcs/lighting.c						\
+			srcs/pixel.c						\
+			srcs/plane.c						\
+			srcs/raytrace.c
 
 # CFLAGS := -Wall -Wextra -Werror
 

@@ -41,11 +41,11 @@ t_ray	*project_ray(double x, double y, t_camera *camera)
 	t_vec3	*dir_vector;
 
 	calculate_ray_positions(store, x, y);
-	store_vec = init_vec3_intarr(store);
-	dir_vector = v_get_unit_v(store_vec);
-	free_vector(&store_vec);
+	store_vec = vec3_init_from_array(store);
+	dir_vector = vec3_normalize(store_vec);
+	vec3_free(&store_vec);
 
-	return (init_ray(dup_vct(camera->cam_coords), dir_vector));
+	return (init_ray(vec3_dup(camera->cam_coords), dir_vector));
 }
 
 void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
@@ -106,7 +106,8 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 //  -----------------------------------------------------------------------------
 
 	// ambient
-	ambient_color(ray, scene->sc_ambients, closest_object_src);
+	if (scene->sc_ambients)
+		ambient_color(ray, scene->sc_ambients, closest_object_src);
 
 //  -----------------------------------------------------------------------------
 	
@@ -117,7 +118,7 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 	// printf("\n");
 }
 
-void	kewl_quirky_raytrace(t_scene *scene, t_mlx_info *mlx)
+void	raytrace(t_scene *scene, t_mlx_info *mlx)
 {
 	double	x;
 	double	y;

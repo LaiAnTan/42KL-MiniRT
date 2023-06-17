@@ -24,8 +24,15 @@ void	write_pixel(t_img_info *img, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int	create_trgb(int r, int g, int b)
+int	create_trgb(t_vec3 *color)
 {
+	int	r;
+	int	g;
+	int	b;
+
+	r = color->raw_matrix->m[0][0];
+	g = color->raw_matrix->m[1][0];
+	b = color->raw_matrix->m[2][0];
 	// overflow checker
 	if (r > 255)
 		r = 255;
@@ -33,6 +40,15 @@ int	create_trgb(int r, int g, int b)
 		g = 255;
 	if (b > 255)
 		b = 255;
-	// printf("r = %d, g = %d, b = %d\n", r, g, b);
+
+	// underflow
+	if (r < 0)
+		r = 0; 
+	if (g < 0)
+		g = 0;
+	if (b < 0)
+		b = 0;
+
+	// my brother in christ, what is transparancy
 	return (0 << 24 | r << 16 | g << 8 | b);
 }

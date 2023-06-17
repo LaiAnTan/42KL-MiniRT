@@ -16,8 +16,10 @@ t_camera	*scene_new_camera(int cam_fov, double cam_coords[3], double cam_vec_ori
 
 	new_camera = (t_camera *) malloc(sizeof(t_camera));
 	new_camera->cam_fov = cam_fov;
-	new_camera->cam_coords = vec_4_init_from_coordinates(cam_coords);
-	new_camera->cam_vec_orient = vec_4_init_from_coordinates(cam_vec_orient);
+	new_camera->cam_coords = vec3_init_from_array(cam_coords);
+	new_camera->cam_vec_orient = vec3_init_from_array(cam_vec_orient);
+	new_camera->cam_coords_v4 = NULL;
+	new_camera->cam_vec_orient_v4 = NULL;
 	new_camera->view_matrix = NULL;
 	new_camera->next = NULL;
 	return (new_camera);
@@ -29,7 +31,7 @@ t_light		*scene_new_light(double l_rgb[3], double l_coords[3])
 
 	new_light = (t_light *) malloc(sizeof(t_light));
 	new_light->l_rgb = vec3_init_from_array(l_rgb);
-	new_light->l_coords = vec_4_init_from_coordinates(l_coords);
+	new_light->l_coords = vec3_init_from_array(l_coords);
 	new_light->next = NULL;
 	return (new_light);
 }
@@ -77,7 +79,7 @@ t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_r
 	return (new_object);
 }
 
-t_sphere	*scene_new_sphere(double sp_diameter)
+t_sphere	*object_new_sphere(double sp_diameter)
 {
 	t_sphere	*new_sphere;
 
@@ -87,16 +89,17 @@ t_sphere	*scene_new_sphere(double sp_diameter)
 	return (new_sphere);
 }
 
-t_plane		*scene_new_plane(double pl_vec_normal[3])
+t_plane		*object_new_plane(double pl_vec_normal[3])
 {
 	t_plane		*new_plane;
 
 	new_plane = (t_plane *) malloc(sizeof(t_plane));
-	new_plane->pl_vec_normal = vec_4_init_from_coordinates(pl_vec_normal);
+	new_plane->pl_vec_normal = vec3_init_from_array(pl_vec_normal);
+	new_plane->pl_vec_normal_v4 = NULL;
 	return (new_plane);
 }
 
-t_cylinder	*scene_new_cylinder(double cy_height, double cy_diameter, double cy_vec_axis[3])
+t_cylinder	*object_new_cylinder(double cy_height, double cy_diameter, double cy_vec_axis[3])
 {
 	t_cylinder	*new_cylinder;
 
@@ -156,8 +159,10 @@ void	scene_free_camera_list(t_camera *camera_list_head)
 	while (curr)
 	{
 		temp = curr->next;
-		vec4_free(&curr->cam_coords);
-		vec4_free(&curr->cam_vec_orient);
+		vec3_free(&curr->cam_coords);
+		vec3_free(&curr->cam_vec_orient);
+		vec4_free(&curr->cam_coords_v4);
+		vec4_free(&curr->cam_vec_orient_v4);
 		free(curr);
 		curr = temp;
 	}
@@ -172,7 +177,8 @@ void	scene_free_light_list(t_light *light_list_head)
 	while (curr)
 	{
 		temp = curr->next;
-		vec4_free(&curr->l_coords);
+		vec3_free(&curr->l_rgb);
+		vec3_free(&curr->l_coords);
 		free(curr->l_rgb);
 		free(curr);
 		curr = temp;
@@ -190,7 +196,9 @@ void	object_free_plane(t_plane *plane)
 {
 	if (!plane)
 		return ;
-	vec4_free(&plane->pl_vec_normal);
+	vec3_free(&plane->pl_vec_normal);
+	if (plane->pl_vec_normal_v4)
+		vec4_free(&plane->pl_vec_normal_v4);
 	free(plane);
 }
 
@@ -205,20 +213,20 @@ void	object_free_cylinder(t_cylinder *cylinder)
 // damn lazy check type lah
 void	object_free_node(t_object *obj)
 {
-	vec3_free(obj->ob_coords);
-	vec3_free(obj->ob_rgb);
+	vec3_free(&obj->ob_coords);
+	vec3_free(&obj->ob_rgb);
 	object_free_cylinder(obj->ob_cylinders);
 	object_free_plane(obj->ob_planes);
 	object_free_sphere(obj->ob_spheres);
 	free(obj);
 }
 
-void	scene_free_object_list(t_object	**object_list_head)
+void	scene_free_object_list(t_object	*object_list_head)
 {
 	t_object	*temp;
 	t_object	*curr;
 
-	curr = (*object_list_head);
+	curr = object_list_head;
 	while (curr)
 	{
 		temp = curr->next;
@@ -230,9 +238,9 @@ void	scene_free_object_list(t_object	**object_list_head)
 void	scene_free(t_scene *scene)
 {
 	if (scene->sc_ambients)
-		scene_free_ambient_list(scene->sc_ambients);
+		scene_free_ambient(scene->sc_ambients);
 	if (scene->sc_cameras)
-		scene_free_camera_list(scene->sc_objs);
+		scene_free_camera_list(scene->sc_cameras);
 	if (scene->sc_lights)
 		scene_free_light_list(scene->sc_lights);
 	if (scene->sc_objs)
@@ -253,26 +261,26 @@ t_scene	*scene_init(void)
 
 // Debug
 
-void	scene_print_ambient_stats(t_ambient *ambient)
-{
-	printf("a_ratio = %f\n", ambient->a_ratio);
-	// printf("a_rgb = %d,%d,%d\n", ambient->a_rgb[0], ambient->a_rgb[1], ambient->a_rgb[2]);
-}
+// void	scene_print_ambient_stats(t_ambient *ambient)
+// {
+// 	printf("a_ratio = %f\n", ambient->a_ratio);
+// 	// printf("a_rgb = %d,%d,%d\n", ambient->a_rgb[0], ambient->a_rgb[1], ambient->a_rgb[2]);
+// }
 
-void	scene_print_camera_stats(t_camera *camera)
-{
-	printf("cam_coords = ");
-	vec4_print(camera->cam_coords);
-	printf("cam_vec_orient = ");
-	vec4_print(camera->cam_vec_orient);
-	printf("cam_fov = %d\n", camera->cam_fov);
-}
+// void	scene_print_camera_stats(t_camera *camera)
+// {
+// 	printf("cam_coords = ");
+// 	vec4_print(camera->cam_coords);
+// 	printf("cam_vec_orient = ");
+// 	vec4_print(camera->cam_vec_orient);
+// 	printf("cam_fov = %d\n", camera->cam_fov);
+// }
 
-void	scene_print_light_stats(t_light *light)
-{
-	printf("l_coords = ");
-	vec4_print(light->l_coords);
-}
+// void	scene_print_light_stats(t_light *light)
+// {
+// 	printf("l_coords = ");
+// 	vec4_print(light->l_coords);
+// }
 
 // void	scene_print_sphere_stats(t_sphere *sphere)
 // {

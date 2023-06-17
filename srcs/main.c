@@ -9,24 +9,25 @@ int main(int argc, char **argv)
 		return (ERROR);
 	data = (t_data *) malloc(sizeof(t_data));
 	data->mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
+	printf("Getting RT file..\n");
 	data->scene = file_create_scene(argv[1]);
-	scene_print_stats(data->scene);
+	printf("Done!\n");
+	// scene_print_stats(data->scene);
 	data->mlx->mlx = mlx_init();
 	data->mlx->mlx_win = mlx_new_window(data->mlx->mlx, WIDTH, HEIGHT, argv[1]);
 	data->mlx->img.img = NULL;
 	loop = 0;
 	while (1)
 	{
+		++loop;
 		get_image(&data->mlx->img, data->mlx->mlx);
 		raytrace(data->scene, data->mlx);
 		mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
 		clean_loop(data->mlx);
-		loop += 10;
-		if (loop > WIDTH)
-			loop = -1 * WIDTH;
+		printf("LOOP = %d\n", loop);
 	}
 	mlx_loop(data->mlx->mlx);
-	scene_free_objects(data->scene);
+	scene_free(data->scene);
 }
 
 // test view matrices

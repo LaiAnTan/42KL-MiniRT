@@ -19,6 +19,7 @@ t_vec3	*vec3_init_from_array(matrix_type array[3]);
 t_vec3	*vec3_dup(t_vec3 *vctr);
 
 matrix_type	*vec3_get_val(t_vec3 *vector);
+void		vec3_store_val(t_vec3 *vector, matrix_type array[3]);
 
 void		vec3_print(t_vec3 *stuff);
 void		vec3_free(t_vec3 **stuff);

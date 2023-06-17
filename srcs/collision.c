@@ -38,20 +38,20 @@ t_object	*get_closest_object(t_ray *ray, t_scene *scene, int closest,
 
 int	get_closest_light(t_ray *r, t_light *l, t_scene *scene)
 {
-	t_vec3	*r_to_l;
+	t_vec3		*r_to_l;
 	t_ray		*to_light;
 	t_object	*collided_obj;
 
-	r_to_l = v_difference(l->l_coords, r->pos_vector);
+	r_to_l = vec3_difference(l->l_coords, r->pos_vector);
 
 	to_light = dup_ray(r);
-	free_vector(&to_light->dir_vector);
-	to_light->dir_vector = v_get_unit_v(r_to_l);
-	free_vector(&to_light->pos_vector);
-	to_light->pos_vector = v_addition(r->pos_vector, to_light->dir_vector);
+	vec3_free(&to_light->dir_vector);
+	to_light->dir_vector = vec3_normalize(r_to_l);
+	vec3_free(&to_light->pos_vector);
+	to_light->pos_vector = vec3_addition(r->pos_vector, to_light->dir_vector);
 
 	collided_obj = get_closest_object(to_light, scene, 0, NULL);
-	free_vector(&r_to_l);
+	vec3_free(&r_to_l);
 	free_ray(&to_light);
 
 	if (collided_obj == NULL)
