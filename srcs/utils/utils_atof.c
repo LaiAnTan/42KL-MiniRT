@@ -12,7 +12,10 @@ float	ft_atof(char *str)
 	if (is_decimal(str) == 0)
 		return (0); // i dont like this but sure
 	if (*str == '-')
+	{
 		sign = -1;
+		++str;
+	}
 	while ((*str != '.' && *str != '\0') && (*str >= '0' && *str <= '9'))
 	{
 		val = (val * 10) + (*str - '0');
