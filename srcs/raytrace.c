@@ -10,8 +10,13 @@ void	calculate_ray_positions(double store[3], double x, double y, double fov)
 	double	hori_fov_per_x = hori_fov / WIDTH;
 	double	verti_fov_per_y = verti_fov / HEIGHT;
 
-	double	x_relative_to_mid  = x - (WIDTH / 2);
+	// right coordinate
+	double	x_relative_to_mid = (WIDTH / 2) - x;
 	double	y_relative_to_mid = (HEIGHT / 2) - y;
+
+	// left coordinate
+	// double	x_relative_to_mid  = x - (WIDTH / 2);
+	// double	y_relative_to_mid = (HEIGHT / 2) - y;
 
 	double	hori_angle = absolute(x_relative_to_mid) * hori_fov_per_x;
 	double	verti_angle = absolute(y_relative_to_mid) * verti_fov_per_y;
@@ -86,8 +91,6 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 			{
 				if (!light->next && ray->type == SHADOW)
 				{
-					// is a shadow ray
-					printf("This is a shadow\n");
 					ray->type = SHADOW;
 					shadow_diffuse(ray);
 				}

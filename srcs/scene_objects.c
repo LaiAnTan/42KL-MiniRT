@@ -2,11 +2,19 @@
 
 t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio)
 {
+	matrix_type	black[3] = {255,255,255};
+	t_vec3		*store;
 	t_ambient	*new_ambient;
 
 	new_ambient = (t_ambient *) malloc(sizeof(t_ambient));
 	new_ambient->a_ratio = a_ratio;
 	new_ambient->a_rgb = vec3_init_from_array(a_rgb);
+	store = vec3_scalar_multi(new_ambient->a_rgb, (double) 1/255);
+	new_ambient->a_strength = vec3_scalar_multi(store, a_ratio);
+	vec3_free(&store);
+	store = vec3_init_from_array(black);
+	new_ambient->bg_color = vec3_multi_each_elem(store, new_ambient->a_strength);
+	vec3_free(&store);
 	return (new_ambient);
 }
 
@@ -264,8 +272,10 @@ t_scene	*scene_init(void)
 void	scene_print_ambient_stats(t_ambient *ambient)
 {
 	printf("a_ratio = %f\n", ambient->a_ratio);
-	printf("a_rgb =\n");
+	printf("a_rgb = ");
 	vec3_print(ambient->a_rgb);
+	printf("a_strength = ");
+	vec3_print(ambient->a_strength);
 	// printf("a_rgb = %d,%d,%d\n", ambient->a_rgb[0], ambient->a_rgb[1], ambient->a_rgb[2]);
 }
 
@@ -282,6 +292,8 @@ void	scene_print_light_stats(t_light *light)
 {
 	printf("l_coords = ");
 	vec3_print(light->l_coords);
+	printf("l_rgb = ");
+	vec3_print(light->l_rgb);
 }
 
 void	scene_print_sphere_stats(t_sphere *sphere)

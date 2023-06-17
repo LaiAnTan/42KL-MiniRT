@@ -16,17 +16,11 @@ int main(int argc, char **argv)
 	data->mlx->mlx = mlx_init();
 	data->mlx->mlx_win = mlx_new_window(data->mlx->mlx, WIDTH, HEIGHT, argv[1]);
 	data->mlx->img.img = NULL;
-	loop = 0;
-	while (1)
-	{
-		++loop;
-		get_image(&data->mlx->img, data->mlx->mlx);
-		raytrace(data->scene, data->mlx);
-		mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
-		clean_loop(data->mlx);
-		printf("LOOP = %d\n", loop);
-	}
-	mlx_loop(data->mlx->mlx);
+	get_image(&data->mlx->img, data->mlx->mlx);
+	raytrace(data->scene, data->mlx);
+	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
+	clean_loop(data->mlx);
+	sleep(2);
 	scene_free(data->scene);
 }
 

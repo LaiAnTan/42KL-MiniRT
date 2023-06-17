@@ -61,6 +61,9 @@ typedef struct	s_mlx_info
 typedef struct s_ambient
 {
 	t_vec3				*a_rgb;
+	// google can go suck my dick
+	t_vec3				*a_strength;
+	t_vec3				*bg_color;
 
 	double				a_ratio;
 }			t_ambient;

@@ -12,6 +12,19 @@ t_vec3	*vec3_init(double x, double y, double z)
 	return (ret);
 }
 
+t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right)
+{
+	matrix_type	store[3];
+	int			i;
+
+	i = 0;
+	while (i < 3)
+	{
+		store[i] = left->raw_matrix->m[i][0] * right->raw_matrix->m[i][0];
+		++i;
+	}
+	return(vec3_init_from_array(store));
+}
 
 t_vec3	*vec3_init_from_matrix(t_matrix *stuff)
 {
