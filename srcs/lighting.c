@@ -5,13 +5,14 @@
 
 void	ambient_color(t_ray	*ray, t_ambient *a, t_object *o)
 {
-	double		amb_coefficient = AMBIENCE_FACTOR;
+	double	amb_coefficient;
 	t_vec3	*store[2];
 	t_vec3	*new;
 
+	amb_coefficient = a->a_ratio;
 	vec3_free(&ray->a_color);
 	if (!o)
-		ray->a_color = vec3_dup(a->a_rgb);
+		ray->a_color = vec3_scalar_multi(a->a_rgb, amb_coefficient);
 	else
 	{
 		store[0] = vec3_scalar_multi(a->a_rgb, amb_coefficient);

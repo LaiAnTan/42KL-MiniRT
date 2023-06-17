@@ -48,8 +48,8 @@ t_matrix *get_view_matrix(t_vec3 *position, t_vec3 *reference, t_vec3 *up)
 	t_matrix	*res;
 
 	// find the forward vector, from cam to reference
-	forward = 	vec3_difference(reference, position);
-	forward =	vec3_normalize(forward);
+	forward = vec3_difference(reference, position);
+	forward = vec3_normalize(forward);
 	printf("forward = \n");
 	vec3_print(forward);
 	right = vec3_crossproduct(forward, up);
