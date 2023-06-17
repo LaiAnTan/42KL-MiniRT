@@ -328,11 +328,8 @@ void	scene_print_stats(t_scene *scene)
 	curr_camera = scene->sc_cameras;
 	curr_light = scene->sc_lights;
 	printf("--ambients--\n");
-	while (curr_ambient != NULL)
-	{
-		scene_print_ambient_stats(curr_ambient);
-		printf("next\n");
-	}
+	scene_print_ambient_stats(curr_ambient);
+	printf("next\n");
 	printf("--cameras--\n");
 	while (curr_camera != NULL)
 	{
