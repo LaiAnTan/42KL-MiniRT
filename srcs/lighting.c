@@ -101,9 +101,14 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 	vec3_free(&a_norm);
 	vec3_free(&b_norm);
 	if (costheta < 0)
+	{
+		printf("no light LMAO\n");
 		shadow_diffuse(r);
+	}
 	else
+	{
 		calculate_diffuse_color(r, l, o, costheta);
+	}
 }
 
 void	calculate_result_color(t_ray *r)

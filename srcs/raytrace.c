@@ -87,6 +87,7 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 				if (!light->next && ray->type == SHADOW)
 				{
 					// is a shadow ray
+					printf("This is a shadow\n");
 					ray->type = SHADOW;
 					shadow_diffuse(ray);
 				}

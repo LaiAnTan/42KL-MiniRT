@@ -261,111 +261,91 @@ t_scene	*scene_init(void)
 
 // Debug
 
-// void	scene_print_ambient_stats(t_ambient *ambient)
-// {
-// 	printf("a_ratio = %f\n", ambient->a_ratio);
-// 	// printf("a_rgb = %d,%d,%d\n", ambient->a_rgb[0], ambient->a_rgb[1], ambient->a_rgb[2]);
-// }
+void	scene_print_ambient_stats(t_ambient *ambient)
+{
+	printf("a_ratio = %f\n", ambient->a_ratio);
+	printf("a_rgb =\n");
+	vec3_print(ambient->a_rgb);
+	// printf("a_rgb = %d,%d,%d\n", ambient->a_rgb[0], ambient->a_rgb[1], ambient->a_rgb[2]);
+}
 
-// void	scene_print_camera_stats(t_camera *camera)
-// {
-// 	printf("cam_coords = ");
-// 	vec4_print(camera->cam_coords);
-// 	printf("cam_vec_orient = ");
-// 	vec4_print(camera->cam_vec_orient);
-// 	printf("cam_fov = %d\n", camera->cam_fov);
-// }
+void	scene_print_camera_stats(t_camera *camera)
+{
+	printf("cam_coords = ");
+	vec3_print(camera->cam_coords);
+	printf("cam_vec_orient = ");
+	vec3_print(camera->cam_vec_orient);
+	printf("cam_fov = %d\n", camera->cam_fov);
+}
 
-// void	scene_print_light_stats(t_light *light)
-// {
-// 	printf("l_coords = ");
-// 	vec4_print(light->l_coords);
-// }
+void	scene_print_light_stats(t_light *light)
+{
+	printf("l_coords = ");
+	vec3_print(light->l_coords);
+}
 
-// void	scene_print_sphere_stats(t_sphere *sphere)
-// {
-// 	printf("sp_coords = ");
-// 	vec4_print(sphere->sp_coords);
-// 	printf("sp_diameter = %f\n", sphere->sp_diameter);
-// 	// printf("sp_rgb = %d,%d,%d\n", sphere->sp_rgb[0], sphere->sp_rgb[1], sphere->sp_rgb[2]);
-// }
+void	scene_print_sphere_stats(t_sphere *sphere)
+{
+	printf("sp_diameter = %f\n", sphere->sp_diameter);
+}
 
-// void	scene_print_plane_stats(t_plane *plane)
-// {
-// 	printf("pl_coords = ");
-// 	vec4_print(plane->pl_coords);
-// 	printf("pl_vec_normal = ");
-// 	vec4_print(plane->pl_vec_normal);
-// 	// printf("pl_rgb = %d,%d,%d\n", plane->pl_rgb[0], plane->pl_rgb[1], plane->pl_rgb[2]);
-// }
+void	scene_print_plane_stats(t_plane *plane)
+{
+	printf("pl_vec_normal = ");
+	vec3_print(plane->pl_vec_normal);
+}
 
-// void	scene_print_cylinder_stats(t_cylinder *cylinder)
-// {
-// 	printf("cy_coords = ");
-// 	vec4_print(cylinder->cy_coords);
-// 	printf("cy_vec_axis = ");
-// 	vec4_print(cylinder->cy_vec_axis);
-// 	printf("cy_diameter = %f\n", cylinder->cy_diameter);
-// 	printf("cy_height = %f\n", cylinder->cy_height);
-// 	// printf("cy_rgb = %d,%d,%d\n", cylinder->cy_rgb[0], cylinder->cy_rgb[1], cylinder->cy_rgb[2]);
-// }
+void	scene_print_cylinder_stats(t_cylinder *cylinder)
+{
+	printf("cy_vec_axis = ");
+	vec4_print(cylinder->cy_vec_axis);
+	printf("cy_diameter = %f\n", cylinder->cy_diameter);
+	printf("cy_height = %f\n", cylinder->cy_height);
+}
 
-// void	scene_print_stats(t_scene *scene)
-// {
-// 	t_ambient *curr_ambient;
-// 	t_camera *curr_camera;
-// 	t_light *curr_light;
-// 	t_sphere *curr_sphere;
-// 	t_plane *curr_plane;
-// 	t_cylinder *curr_cylinder;
+void	scene_print_object_stats(t_object *obj)
+{
+	printf("obj_coord =");
+	vec3_print(obj->ob_coords);
+	printf("obj_rgb =");
+	vec3_print(obj->ob_rgb);
+	printf("obj_type = %f\n", obj->ob_type);
+	if (obj->ob_cylinders)
+		scene_print_cylinder_stats(obj->ob_cylinders);
+	if (obj->ob_planes)
+		scene_print_plane_stats(obj->ob_planes);
+	if (obj->ob_spheres)
+		scene_print_sphere_stats(obj->ob_spheres);
+}
 
-// 	curr_ambient = scene->sc_ambients;
-// 	curr_camera = scene->sc_cameras;
-// 	curr_light = scene->sc_lights;
-// 	curr_sphere = scene->sc_spheres;
-// 	curr_plane = scene->sc_planes;
-// 	curr_cylinder = scene->sc_cylinders;
-// 	printf("--ambients--\n");
-// 	while (curr_ambient != NULL)
-// 	{
-// 		scene_print_ambient_stats(curr_ambient);
-// 		curr_ambient = curr_ambient->next;
-// 		printf("next\n");
-// 	}
-// 	printf("--cameras--\n");
-// 	while (curr_camera != NULL)
-// 	{
-// 		scene_print_camera_stats(curr_camera);
-// 		curr_camera = curr_camera->next;
-// 		printf("next\n");
-// 	}
-// 	printf("--lights--\n");
-// 	while (curr_light != NULL)
-// 	{
-// 		scene_print_light_stats(curr_light);
-// 		curr_light = curr_light->next;
-// 		printf("next\n");
-// 	}
-// 	printf("--spheres--\n");
-// 	while (curr_sphere != NULL)
-// 	{
-// 		scene_print_sphere_stats(curr_sphere);
-// 		curr_sphere = curr_sphere->next;
-// 		printf("next\n");
-// 	}
-// 	printf("--planes--\n");
-// 	while (curr_plane != NULL)
-// 	{
-// 		scene_print_plane_stats(curr_plane);
-// 		curr_plane = curr_plane->next;
-// 		printf("next\n");
-// 	}
-// 	printf("--cylinders--\n");
-// 	while (curr_cylinder != NULL)
-// 	{
-// 		scene_print_cylinder_stats(curr_cylinder);
-// 		curr_cylinder = curr_cylinder->next;
-// 		printf("next\n");
-// 	}
-// }
+void	scene_print_stats(t_scene *scene)
+{
+	t_ambient *curr_ambient;
+	t_camera *curr_camera;
+	t_light *curr_light;
+
+	curr_ambient = scene->sc_ambients;
+	curr_camera = scene->sc_cameras;
+	curr_light = scene->sc_lights;
+	printf("--ambients--\n");
+	while (curr_ambient != NULL)
+	{
+		scene_print_ambient_stats(curr_ambient);
+		printf("next\n");
+	}
+	printf("--cameras--\n");
+	while (curr_camera != NULL)
+	{
+		scene_print_camera_stats(curr_camera);
+		curr_camera = curr_camera->next;
+		printf("next\n");
+	}
+	printf("--lights--\n");
+	while (curr_light != NULL)
+	{
+		scene_print_light_stats(curr_light);
+		curr_light = curr_light->next;
+		printf("next\n");
+	}
+}
 
