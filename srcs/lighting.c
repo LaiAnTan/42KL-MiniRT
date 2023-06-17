@@ -59,6 +59,9 @@ void	shadow_diffuse(t_ray *ray)
 {
 	matrix_type	shadow[3] = {0,0,0};
 	// hard shadow
+
+	if (ray->type != SHADOW)
+		return ;
 	vec3_free(&ray->d_color);
 	ray->d_color = vec3_init_from_array(shadow);
 }
