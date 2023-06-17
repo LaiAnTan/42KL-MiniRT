@@ -22,10 +22,6 @@
 /* get_next_line attributes */
 # define BUFFER_SIZE 100
 
-/* raytracing attributes */
-#define WIDTH 1280
-#define HEIGHT 720
-
 /* codes */
 # define SUCCESS 0
 # define FAILURE 1
@@ -41,10 +37,6 @@
 
 # define AMBIENCE_FACTOR 0.2f
 # define DIFFUSE_FACTOR 0.6f
-
-# define SUCCESS 0
-# define FAILURE 1
-# define ERROR -1
 
 typedef struct	s_img_info
 {

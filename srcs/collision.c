@@ -1,6 +1,7 @@
 # include "../headers/minirt.h"
 
-t_object	*get_closest_object(t_ray *ray, t_scene *scene, int closest, double	*k_val)
+t_object	*get_closest_object(t_ray *ray, t_scene *scene, int closest,
+		double	*k_val)
 {
 	t_object	*cur;
 	t_object	*closest_object_src;

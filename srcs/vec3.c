@@ -158,10 +158,10 @@ t_vec3	*vec3_normalize(t_vec3 *vctr)
 // 1 - angle between ray and y axis
 // 2 - angle between ray and z axis
 // dont port this to t_vec3 (good luck figuring out angle between the 4th dimension )
-double    *vec3_direction_cosines(t_vec3 *vctr)
+double	*vec3_direction_cosines(t_vec3 *vctr)
 {
-    double    *ret;
-    double    mag;
+    double	*ret;
+    double	mag;
 
     ret = malloc(sizeof(double) * 3);
     mag = vec3_magnitude(vctr);
@@ -173,33 +173,38 @@ double    *vec3_direction_cosines(t_vec3 *vctr)
 }
 
 
-double    *vec3_u_direction_cosines(t_vec3 *vec3_norm)
+double	*vec3_u_direction_cosines(t_vec3 *vec3_norm)
 {
-    double    *ret;
+	double	*ret;
 
-    ret = malloc(sizeof(double) * 3);
-    ret[0] = acos(vec3_norm->raw_matrix->m[0][0]);
-    ret[1] = acos(vec3_norm->raw_matrix->m[1][0]); 
-    ret[2] = acos(vec3_norm->raw_matrix->m[2][0]);
-    return (ret);
+	ret = malloc(sizeof(double) * 3);
+	ret[0] = acos(vec3_norm->raw_matrix->m[0][0]);
+	ret[1] = acos(vec3_norm->raw_matrix->m[1][0]); 
+	ret[2] = acos(vec3_norm->raw_matrix->m[2][0]);
+	return (ret);
 }
 
 // A x B = |A| |B| sin theta ^n
 // ^n is the unit vector perpendicular to the both vectors
 // ONLY WORKS FOR VEC3
 // THERE IS NO CROSSPRODUCT FOR A 4-D VECTOR
-t_vec3    *vec3_crossproduct(t_vec3 *left, t_vec3 *right)
+t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right)
 {
-    matrix_type    stuff[3];
-    matrix_type    *left_val;
-    matrix_type    *right_val;
+	matrix_type	stuff[3];
+	matrix_type	*left_val;
+	matrix_type	*right_val;
 
-    left_val = vec3_get_val(left);
-    right_val = vec3_get_val(right);
-    stuff[0] = (left_val[1] * right_val[2]) - (left_val[2] * right_val[1]);
-    stuff[1] = -1 * ((left_val[0] * right_val[2]) - (left_val[2] * right_val[0]));
-    stuff[2] = (left_val[0] * right_val[1]) - (left_val[1] * right_val[0]);
-    free(left_val);
-    free(right_val);
-    return (vec3_init_from_array(stuff));
+	left_val = vec3_get_val(left);
+	right_val = vec3_get_val(right);
+	stuff[0] = (left_val[1] * right_val[2]) - (left_val[2] * right_val[1]);
+	stuff[1] = -1 * ((left_val[0] * right_val[2]) - (left_val[2] * right_val[0]));
+	stuff[2] = (left_val[0] * right_val[1]) - (left_val[1] * right_val[0]);
+	free(left_val);
+	free(right_val);
+	return (vec3_init_from_array(stuff));
+}
+
+t_vec3	*vec4_to_vec3(t_vec4 *vector)
+{
+	return (vec3_init(vector->raw_matrix->m[0][0], vector->raw_matrix->m[1][0], vector->raw_matrix->m[2][0]));
 }
