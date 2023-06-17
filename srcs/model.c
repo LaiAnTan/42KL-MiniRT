@@ -42,6 +42,7 @@ static t_matrix	*construct_model_rotation(t_cylinder *cylinder)
 	return (rotation);
 }
 
+// this is the correct one
 static t_matrix	*construct_model_rotation_2(t_cylinder *cylinder)
 {
 	t_vec3		*model_orientation; // we are transforming default model orientation (0, 0, 1) to world orientation

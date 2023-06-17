@@ -40,7 +40,8 @@ double	intersect_circle(t_ray	*ray, t_object *o)
 	// le ipad formulas
 	coefficients[0] = v_magnitude_sqrd(ray->dir_vector);
 	coefficients[1] = v_dotproduct(modified_ray_pos, ray->dir_vector) * 2;
-	coefficients[2] = v_magnitude_sqrd(modified_ray_pos) - (o->ob_spheres->sp_radius * o->ob_spheres->sp_radius);
+	coefficients[2] = v_magnitude_sqrd(modified_ray_pos) -
+			(o->ob_spheres->sp_radius * o->ob_spheres->sp_radius);
 
 	solve_quad(coefficients, values);
 	free_vector(&modified_ray_pos);

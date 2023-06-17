@@ -3,6 +3,7 @@
 
 #define _USE_MATH_DEFINES 
 #include "matrix.h"
+#include "vec3.h"
 
 /*
 Vec4 datatype, used in coordinate calculations
