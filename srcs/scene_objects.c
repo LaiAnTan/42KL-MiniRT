@@ -275,7 +275,7 @@ void	scene_print_camera_stats(t_camera *camera)
 	vec3_print(camera->cam_coords);
 	printf("cam_vec_orient = ");
 	vec3_print(camera->cam_vec_orient);
-	printf("cam_fov = %d\n", camera->cam_fov);
+	printf("cam_fov = %f\n", camera->cam_fov);
 }
 
 void	scene_print_light_stats(t_light *light)
@@ -309,7 +309,7 @@ void	scene_print_object_stats(t_object *obj)
 	vec3_print(obj->ob_coords);
 	printf("obj_rgb =");
 	vec3_print(obj->ob_rgb);
-	printf("obj_type = %f\n", obj->ob_type);
+	printf("obj_type = %d\n", obj->ob_type);
 	if (obj->ob_cylinders)
 		scene_print_cylinder_stats(obj->ob_cylinders);
 	if (obj->ob_planes)
