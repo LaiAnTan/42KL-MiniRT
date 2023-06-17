@@ -1,15 +1,5 @@
 # include "../headers/minirt.h"
 
-// runs under the assumtion that the orientation is (0, 0, 1)
-matrix_type	get_plane_intersect(matrix_type *point, matrix_type *normal)
-{
-	matrix_type	val;
-
-	val = (-1 * ((normal[0] * point[0]) + (normal[1] * point[1]))) / normal[2];
-	free(normal);
-	return (val);
-}
-
 double	intersect_plane(t_ray *ray, t_object *o)
 {
 	t_vec3	*modified_ray_pos;

@@ -58,7 +58,7 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
  //  ray projection
  //  ----------------------------------------------------------------------------
 
-	ray = project_ray(x, y, scene->sc_camera);
+	ray = project_ray(x, y, scene->sc_cameras);
 
  //  detect collision
  //  ----------------------------------------------------------------------------

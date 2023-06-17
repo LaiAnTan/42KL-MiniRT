@@ -141,57 +141,6 @@ void	scene_light_add_back(t_light **list_light, t_light *new_light)
 	curr_node->next = new_light;
 }
 
-// void	scene_sphere_add_back(t_sphere **list_sphere, t_sphere *new_sphere)
-// {
-// 	t_sphere *curr_node;
-
-// 	if (!new_sphere)
-// 		return ;
-// 	if (!*list_sphere)
-// 	{
-// 		*list_sphere = new_sphere;
-// 		return ;
-// 	}
-// 	curr_node = *list_sphere;
-// 	while (curr_node->next != NULL)
-// 		curr_node = curr_node->next;
-// 	curr_node->next = new_sphere;
-// }
-
-// void	scene_plane_add_back(t_plane **list_plane, t_plane *new_plane)
-// {
-// 	t_plane *curr_node;
-
-// 	if (!new_plane)
-// 		return ;
-// 	if (!*list_plane)
-// 	{
-// 		*list_plane = new_plane;
-// 		return ;
-// 	}
-// 	curr_node = *list_plane;
-// 	while (curr_node->next != NULL)
-// 		curr_node = curr_node->next;
-// 	curr_node->next = new_plane;
-// }
-
-// void	scene_cylinder_add_back(t_cylinder **list_cylinder, t_cylinder *new_cylinder)
-// {
-// 	t_cylinder *curr_node;
-
-// 	if (!new_cylinder)
-// 		return ;
-// 	if (!*list_cylinder)
-// 	{
-// 		*list_cylinder = new_cylinder;
-// 		return ;
-// 	}
-// 	curr_node = *list_cylinder;
-// 	while (curr_node->next != NULL)
-// 		curr_node = curr_node->next;
-// 	curr_node->next = new_cylinder;
-// }
-
 void	scene_free_ambient(t_ambient *ambient)
 {
 	free(ambient->a_rgb);
@@ -229,56 +178,6 @@ void	scene_free_light_list(t_light *light_list_head)
 		curr = temp;
 	}
 }
-
-// void	scene_free_sphere_list(t_sphere *sphere_list_head)
-// {
-// 	t_sphere	*temp;
-// 	t_sphere	*curr;
-
-// 	curr = sphere_list_head;
-// 	while (curr)
-// 	{
-// 		temp = curr->next;
-// 		vec4_free(&curr->sp_coords);
-// 		free(curr->sp_rgb);
-// 		free(curr);
-// 		curr = temp;
-// 	}
-// }
-
-// void	scene_free_plane_list(t_plane *plane_list_head)
-// {
-// 	t_plane	*temp;
-// 	t_plane	*curr;
-
-// 	curr = plane_list_head;
-// 	while (curr)
-// 	{
-// 		temp = curr->next;
-// 		vec4_free(&curr->pl_coords);
-// 		vec4_free(&curr->pl_vec_normal);
-// 		free(curr->pl_rgb);
-// 		free(curr);
-// 		curr = temp;
-// 	}
-// }
-
-// void	scene_free_cylinder_list(t_cylinder *cylinder_list_head)
-// {
-// 	t_cylinder	*temp;
-// 	t_cylinder	*curr;
-
-// 	curr = cylinder_list_head;
-// 	while (curr)
-// 	{
-// 		temp = curr->next;
-// 		vec4_free(&curr->cy_coords);
-// 		vec4_free(&curr->cy_vec_axis);
-// 		free(curr->cy_rgb);
-// 		free(curr);
-// 		curr = temp;
-// 	}
-// }
 
 void	object_free_sphere(t_sphere *sphere)
 {
@@ -332,7 +231,7 @@ void	scene_free(t_scene *scene)
 {
 	if (scene->sc_ambients)
 		scene_free_ambient_list(scene->sc_ambients);
-	if (scene->sc_camera)
+	if (scene->sc_cameras)
 		scene_free_camera_list(scene->sc_objs);
 	if (scene->sc_lights)
 		scene_free_light_list(scene->sc_lights);
@@ -348,7 +247,7 @@ t_scene	*scene_init(void)
 	new_scene->sc_ambients = NULL;
 	new_scene->sc_lights = NULL;
 	new_scene->sc_objs = NULL;
-	new_scene->sc_camera = NULL;
+	new_scene->sc_cameras = NULL;
 	return (new_scene);
 }
 

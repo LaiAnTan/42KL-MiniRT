@@ -23,15 +23,6 @@
 # define BUFFER_SIZE 100
 
 /* raytracing attributes */
-#define WIDTH 1280
-#define HEIGHT 720
-
-/* codes */
-# define SUCCESS 0
-# define FAILURE 1
-# define ERROR -1
-
-// settings
 # define WIDTH 600.0f
 # define RAYS_IN_X 600.0f
 # define HEIGHT 450.0f
@@ -42,6 +33,7 @@
 # define AMBIENCE_FACTOR 0.2f
 # define DIFFUSE_FACTOR 0.6f
 
+/* codes */
 # define SUCCESS 0
 # define FAILURE 1
 # define ERROR -1
@@ -76,11 +68,11 @@ typedef struct s_camera
 {
 	float			cam_fov;
 
-	t_vec4			*cam_coords;
-	t_vec4			*cam_vec_orient;
+	t_vec3			*cam_coords;
+	t_vec3			*cam_vec_orient;
 
 	t_matrix		*view_matrix; // 4x4 view matrix that converts world coordinates -> view coordinates
-	t_camera		*next;
+	struct s_camera	*next;
 }			t_camera;
 
 typedef struct s_light
@@ -88,7 +80,7 @@ typedef struct s_light
 	t_vec3			*l_rgb;
 	t_vec3			*l_coords;
 
-	struct s_light		*next;
+	struct s_light	*next;
 }			t_light;
 
 typedef struct s_sphere
@@ -123,13 +115,13 @@ typedef struct s_object
 
 	t_vec3			*ob_coords;
 	t_vec3			*ob_rgb;
-	t_object		*next;
+	struct s_object	*next;
 }		t_object;
 
 typedef struct s_scene
 {
 	t_ambient		*sc_ambients;
-	t_camera		*sc_camera;
+	t_camera		*sc_cameras;
 	t_light			*sc_lights;
 	t_object		*sc_objs;
 }			t_scene;
