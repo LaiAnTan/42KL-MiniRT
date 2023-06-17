@@ -11,16 +11,7 @@ void	ambient_color(t_ray	*ray, t_ambient *a, t_object *o)
 
 	amb_coefficient = a->a_ratio;
 	vec3_free(&ray->a_color);
-	if (!o)
-		ray->a_color = vec3_scalar_multi(a->a_rgb, amb_coefficient);
-	else
-	{
-		store[0] = vec3_scalar_multi(a->a_rgb, amb_coefficient);
-		store[1] = vec3_scalar_multi(o->ob_rgb, amb_coefficient);
-		ray->a_color = vec3_addition(store[0], store[1]);
-		vec3_free(&store[0]);
-		vec3_free(&store[1]);
-	}
+	ray->a_color = vec3_scalar_multi(a->a_rgb, amb_coefficient);
 }
 
  // diffuse coloring
