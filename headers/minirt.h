@@ -23,15 +23,16 @@
 # define BUFFER_SIZE 100
 
 /* raytracing attributes */
-# define WIDTH 600.0f
-# define RAYS_IN_X 600.0f
-# define HEIGHT 450.0f
-# define RAYS_IN_Y 450.0f
+# define WIDTH 1280.0f
+# define RAYS_IN_X 1280.0f
+# define HEIGHT 720.0f
+# define RAYS_IN_Y 720.0f
 
-# define HORI_FOV 60.0f
+# define HORI_FOV 70.0f
 
 # define AMBIENCE_FACTOR 0.2f
 # define DIFFUSE_FACTOR 0.6f
+# define SPECULAR_FACTOR 0.8f
 
 /* codes */
 # define SUCCESS 0
@@ -142,7 +143,7 @@ t_matrix	*get_model_matrix(t_object *cylinder); // model-to-world for cylinder
 
 t_matrix	*get_inverse_transform(t_matrix *transform); // inverse for transformation matrices
 
-t_vec4		*convert_pixels(int pixel_y, int pixel_x, t_camera *camera);
+t_vec3	*convert_pixels(int pixel_x, int pixel_y, t_camera *camera);
 
 /* Scene Objects Boilerplate */
 
@@ -214,7 +215,7 @@ double	to_degree(double rad);
 // --------------------------- uhhh have fun seperating ------------------------- //
 
 void		kewl_quirky_raytrace(t_scene *scene, t_mlx_info *mlx);
-void		calculate_ray_positions(double store[3], double x, double y);
+void		calculate_ray_positions(double store[3], double x, double y, double fov);
 t_ray		*project_ray(double x, double y, t_camera *camera);
 void		do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx);
 

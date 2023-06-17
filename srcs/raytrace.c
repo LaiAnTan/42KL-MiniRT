@@ -2,9 +2,9 @@
 
 // wOw actually ray-tracing!1!!11!11!!
 
-void	calculate_ray_positions(double store[3], double x, double y)
+void	calculate_ray_positions(double store[3], double x, double y, double fov)
 {
-	double	hori_fov = to_radian(HORI_FOV);
+	double	hori_fov = to_radian(fov);
 	double	verti_fov = 2 * atan((HEIGHT / WIDTH) * tan(hori_fov / 2));
 
 	double	hori_fov_per_x = hori_fov / WIDTH;
@@ -40,7 +40,7 @@ t_ray	*project_ray(double x, double y, t_camera *camera)
 	t_vec3	*store_vec;
 	t_vec3	*dir_vector;
 
-	calculate_ray_positions(store, x, y);
+	calculate_ray_positions(store, x, y, camera->cam_fov);
 	store_vec = vec3_init_from_array(store);
 	dir_vector = vec3_normalize(store_vec);
 	vec3_free(&store_vec);
@@ -96,7 +96,7 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 			}
 			else
 			{
-				// calculate diffuse lighting
+				// calculate diffuse & specular lighting
 				ray->type = COLLIDED;
 				diffuse_the_bomb(ray, light, closest_object_src);
 			}

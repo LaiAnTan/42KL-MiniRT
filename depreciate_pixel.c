@@ -21,11 +21,11 @@ void	screen_to_view(double *x, double *y, double fov)
 	*y = (1 - 2 * (*y)) * tan(fov / 2);
 }
 
-t_vec4	*convert_pixels(int pixel_y, int pixel_x, t_camera *camera)
+t_vec3	*convert_pixels(int pixel_x, int pixel_y, t_camera *camera)
 {
 	double	*x;
 	double	*y;
-	t_vec4	*center;
+	t_vec3	*center;
 
 	x = (double *) malloc(sizeof(double));
 	y = (double *) malloc(sizeof(double));
@@ -35,7 +35,7 @@ t_vec4	*convert_pixels(int pixel_y, int pixel_x, t_camera *camera)
 	ndc_to_screen(x, y);
 	screen_to_view(x, y, camera->cam_fov);
 
-	center = vec4_init(*x, *y, -1.0f, 1.0f);
+	center = vec3_init(*x, *y, 1.0f);
 	return (center);
 }
 
