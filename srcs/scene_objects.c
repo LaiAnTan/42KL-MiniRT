@@ -52,6 +52,7 @@ t_object	*object_init()
 	object->ob_type = -1;
 	object->ob_coords = NULL;
 	object->ob_rgb = NULL;
+	object->ob_spec = -1;
 	object->ob_cylinders = NULL;
 	object->ob_planes = NULL;
 	object->ob_spheres = NULL;
@@ -76,7 +77,7 @@ void	scene_object_add_back(t_object **list_object, t_object *new_object)
 	curr_node->next = new_object;
 }
 
-t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_rgb)
+t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_rgb, double specular)
 {
 	t_object	*new_object;
 
@@ -84,6 +85,7 @@ t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_r
 	new_object->ob_type = ob_type;
 	new_object->ob_coords = vec3_init_from_array(ob_coord);
 	new_object->ob_rgb = vec3_init_from_array(ob_rgb);
+	new_object->ob_spec = specular;
 	return (new_object);
 }
 
@@ -321,6 +323,7 @@ void	scene_print_object_stats(t_object *obj)
 	vec3_print(obj->ob_coords);
 	printf("obj_rgb =");
 	vec3_print(obj->ob_rgb);
+	printf("obj_specular = %f\n", obj->ob_spec);
 	printf("obj_type = %d\n", obj->ob_type);
 	if (obj->ob_cylinders)
 		scene_print_cylinder_stats(obj->ob_cylinders);
@@ -335,10 +338,12 @@ void	scene_print_stats(t_scene *scene)
 	t_ambient *curr_ambient;
 	t_camera *curr_camera;
 	t_light *curr_light;
+	t_object *curr_object;
 
 	curr_ambient = scene->sc_ambients;
 	curr_camera = scene->sc_cameras;
 	curr_light = scene->sc_lights;
+	curr_object = scene->sc_objs;
 	printf("--ambients--\n");
 	scene_print_ambient_stats(curr_ambient);
 	printf("next\n");
@@ -356,5 +361,13 @@ void	scene_print_stats(t_scene *scene)
 		curr_light = curr_light->next;
 		printf("next\n");
 	}
+	printf("--objects--\n");
+	while (curr_object != NULL)
+	{
+		scene_print_object_stats(curr_object);
+		curr_object = curr_object->next;
+		printf("next\n");
+	}
+	printf("done\n");
 }
 

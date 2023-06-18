@@ -1,0 +1,6 @@
+A <ambient lighting ratio> <ambient colour>
+C <camera coordinates> <camera normalized orientation vector> <camera fov>
+L <light coordinates> <light brightness> <light colour>
+S <sphere coordinates> <sphere diameter> <sphere colour> <specular ratio>
+pl <plane coordinates> <plane normalized normal vector> <plane colour> <specular ratio>
+cy <cylinder coordinates> <cylinder normalized axis vector> <cylinder diameter> <cylinder height> <cylinder colour> <specular ratio>

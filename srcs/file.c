@@ -148,7 +148,7 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 	t_object	*new_object;
 
 	printf("found sphere object\n");
-	if (count_2d_array(tokens) != 4)
+	if (count_2d_array(tokens) != 5)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[3]) == 0)
 		return (-1);
@@ -156,7 +156,7 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 	sp_coords = unpack_3_double_values(tokens[1]);
 	if (!sp_rgb || !sp_coords)
 		return (-1);
-	new_object = scene_new_object(CIRCLE, sp_coords, sp_rgb);
+	new_object = scene_new_object(CIRCLE, sp_coords, sp_rgb, ft_atof(tokens[4]));
 	new_object->ob_spheres = object_new_sphere((double) ft_atof(tokens[2]));
 	scene_object_add_back(&scene->sc_objs, new_object);
 	// new_sphere = scene_new_sphere(sp_rgb, (double) ft_atof(tokens[2]), sp_coords);
@@ -172,7 +172,7 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 	t_object	*new_object;
 
 	printf("found plane object\n");
-	if (count_2d_array(tokens) != 4)
+	if (count_2d_array(tokens) != 5)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[3]) == 0)
 		return (-1);
@@ -181,7 +181,7 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 	pl_vec_normal = unpack_3_double_values(tokens[2]);
 	if (!pl_rgb || !pl_coords || !pl_vec_normal)
 		return (-1);
-	new_object = scene_new_object(PLANE, pl_coords, pl_rgb);
+	new_object = scene_new_object(PLANE, pl_coords, pl_rgb,  ft_atof(tokens[4]));
 	new_object->ob_planes = object_new_plane(pl_vec_normal);
 	scene_object_add_back(&scene->sc_objs, new_object);
 	// new_plane = scene_new_plane(pl_rgb, pl_coords, pl_vec_normal);
@@ -197,7 +197,7 @@ int	handle_object_cylinder(t_scene *scene, char **tokens)
 	t_object	*new_object;
 
 	printf("found cylinder object\n");
-	if (count_2d_array(tokens) != 6)
+	if (count_2d_array(tokens) != 7)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[5]) == 0)
 		return (-1);
@@ -206,7 +206,7 @@ int	handle_object_cylinder(t_scene *scene, char **tokens)
 	cy_vec_axis = unpack_3_double_values(tokens[2]);
 	if (!cy_rgb || !cy_coords || !cy_vec_axis)
 		return (-1);
-	new_object = scene_new_object(CIRCLE, cy_coords, cy_rgb);
+	new_object = scene_new_object(CIRCLE, cy_coords, cy_rgb, ft_atof(tokens[6]));
 	new_object->ob_cylinders = object_new_cylinder((double) ft_atof(tokens[4]), (double) ft_atof(tokens[3]), cy_vec_axis);
 	scene_object_add_back(&scene->sc_objs, new_object);
 	// new_cylinder = scene_new_cylinder(cy_rgb, (double) ft_atof(tokens[4]), (double) ft_atof(tokens[3]), cy_coords, cy_vec_axis);

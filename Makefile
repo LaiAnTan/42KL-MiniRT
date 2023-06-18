@@ -18,18 +18,16 @@ SRCS_C =	srcs/utils/utils_2.c				\
 			srcs/ray.c							\
 			srcs/mlx.c							\
 			srcs/view.c							\
-			srcs/pixel.c						\
 			srcs/model.c						\
 			srcs/circle.c						\
 			srcs/collision.c					\
 			srcs/lighting.c						\
-			srcs/pixel.c						\
 			srcs/plane.c						\
-			srcs/raytrace.c
+			srcs/raytrace.c						\
 
 # CFLAGS := -Wall -Wextra -Werror
 
-# FSAN = -fsanitize=address -g
+FSAN = -fsanitize=address -g
 
 INCS := 
 
@@ -49,7 +47,7 @@ C_RESET = \033[0m
 all : $(NAME)
 
 $(NAME): $(SRCS_O)
-	@gcc ${CFLAGS} $^ $(LIBS) -o $@
+	@gcc ${CFLAGS} $^ $(LIBS) -o $@ $(FSAN)
 	@printf "$(L_RESET)$(C_GREEN)Done!$(C_RESET)\n"
 
 $(ODIR) :

@@ -120,6 +120,7 @@ typedef struct s_object
 	t_plane			*ob_planes;
 	t_cylinder		*ob_cylinders;
 
+	double			ob_spec;
 	t_vec3			*ob_coords;
 	t_vec3			*ob_rgb;
 	struct s_object	*next;
@@ -155,7 +156,7 @@ t_scene	*scene_init(void);
 t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio);
 t_camera	*scene_new_camera(int cam_fov, double cam_coords[3], double cam_vec_orient[3]);
 
-t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_rgb);
+t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_rgb, double specular);
 t_light		*scene_new_light(double l_rgb[3], double l_coords[3]);
 
 t_object	*object_init();

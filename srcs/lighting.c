@@ -9,7 +9,7 @@ void	ambient_color(t_ray	*ray, t_ambient *a, t_object *o)
 	if (o)
 	{
 		ray->a_color = vec3_multi_each_elem(o->ob_rgb, a->a_strength);
-		vec3_print(ray->a_color);
+		// vec3_print(ray->a_color);
 	}
 	else
 		ray->a_color = vec3_dup(a->bg_color);
