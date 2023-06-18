@@ -15,6 +15,12 @@ int main(int argc, char **argv)
 	data->mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
 	printf("Getting RT file..\n");
 	data->scene = file_create_scene(argv[1]);
+	if (!data->scene)
+	{
+		free(data->mlx);
+		free(data);
+		return (0);
+	}
 	printf("Done!\n");
 	scene_print_stats(data->scene);
 	data->mlx->mlx = mlx_init();

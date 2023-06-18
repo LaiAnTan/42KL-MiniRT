@@ -123,7 +123,7 @@ int	handle_object_camera(t_scene *scene, char **tokens)
 
 int	handle_object_light(t_scene *scene, char **tokens)
 {
-	double			*l_rgb;
+	double		*l_rgb;
 	double		*l_coords;
 	t_light		*new_light;
 
@@ -136,7 +136,7 @@ int	handle_object_light(t_scene *scene, char **tokens)
 	l_coords = unpack_3_double_values(tokens[1]);
 	if (!l_rgb || !l_coords)
 		return (-1);
-	new_light = scene_new_light(l_rgb, l_coords);
+	new_light = scene_new_light(l_rgb, l_coords, atof(tokens[2]));
 	scene_light_add_back(&scene->sc_lights, new_light);
 	return (0);
 }
@@ -159,8 +159,6 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 	new_object = scene_new_object(CIRCLE, sp_coords, sp_rgb, ft_atof(tokens[4]));
 	new_object->ob_spheres = object_new_sphere((double) ft_atof(tokens[2]));
 	scene_object_add_back(&scene->sc_objs, new_object);
-	// new_sphere = scene_new_sphere(sp_rgb, (double) ft_atof(tokens[2]), sp_coords);
-	// scene_sphere_add_back(&scene->sc_spheres, new_sphere);
 	return (0);
 }
 
@@ -184,8 +182,6 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 	new_object = scene_new_object(PLANE, pl_coords, pl_rgb,  ft_atof(tokens[4]));
 	new_object->ob_planes = object_new_plane(pl_vec_normal);
 	scene_object_add_back(&scene->sc_objs, new_object);
-	// new_plane = scene_new_plane(pl_rgb, pl_coords, pl_vec_normal);
-	// scene_plane_add_back(&scene->sc_planes, new_plane);
 	return (0);
 }
 
@@ -209,8 +205,6 @@ int	handle_object_cylinder(t_scene *scene, char **tokens)
 	new_object = scene_new_object(CIRCLE, cy_coords, cy_rgb, ft_atof(tokens[6]));
 	new_object->ob_cylinders = object_new_cylinder((double) ft_atof(tokens[4]), (double) ft_atof(tokens[3]), cy_vec_axis);
 	scene_object_add_back(&scene->sc_objs, new_object);
-	// new_cylinder = scene_new_cylinder(cy_rgb, (double) ft_atof(tokens[4]), (double) ft_atof(tokens[3]), cy_coords, cy_vec_axis);
-	// scene_cylinder_add_back(&scene->sc_cylinders, new_cylinder);
 	return (0);
 }
 
@@ -270,7 +264,10 @@ t_scene	*file_create_scene(char *filename)
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
+	{
+		printf("file not found\n");
 		return (NULL);
+	}
 	line = NULL;
 	new_scene = scene_init();
 	while (1)

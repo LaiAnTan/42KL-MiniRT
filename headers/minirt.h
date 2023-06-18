@@ -70,7 +70,7 @@ typedef struct s_ambient
 
 typedef struct s_camera
 {
-	float			cam_fov;
+	double			cam_fov;
 
 	t_vec3			*cam_coords;
 	t_vec3			*cam_vec_orient;
@@ -83,7 +83,7 @@ typedef struct s_camera
 
 typedef struct s_light
 {
-	
+	double			l_brightness;
 
 	t_vec3			*l_rgb;
 	t_vec3			*l_coords;
@@ -156,10 +156,10 @@ t_vec3	*convert_pixels(int pixel_x, int pixel_y, t_camera *camera);
 t_scene	*scene_init(void);
 
 t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio);
-t_camera	*scene_new_camera(int cam_fov, double cam_coords[3], double cam_vec_orient[3]);
+t_camera	*scene_new_camera(double cam_fov, double cam_coords[3], double cam_vec_orient[3]);
 
 t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_rgb, double specular);
-t_light		*scene_new_light(double l_rgb[3], double l_coords[3]);
+t_light		*scene_new_light(double l_rgb[3], double l_coords[3], double l_brightness);
 
 t_object	*object_init();
 t_sphere	*object_new_sphere(double sp_diameter);

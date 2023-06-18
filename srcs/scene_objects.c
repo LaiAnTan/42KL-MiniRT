@@ -18,7 +18,7 @@ t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio)
 	return (new_ambient);
 }
 
-t_camera	*scene_new_camera(int cam_fov, double cam_coords[3], double cam_vec_orient[3])
+t_camera	*scene_new_camera(double cam_fov, double cam_coords[3], double cam_vec_orient[3])
 {
 	t_camera	*new_camera;
 
@@ -33,13 +33,14 @@ t_camera	*scene_new_camera(int cam_fov, double cam_coords[3], double cam_vec_ori
 	return (new_camera);
 }
 
-t_light		*scene_new_light(double l_rgb[3], double l_coords[3])
+t_light		*scene_new_light(double l_rgb[3], double l_coords[3], double l_brightness)
 {
 	t_light		*new_light;
 
 	new_light = (t_light *) malloc(sizeof(t_light));
 	new_light->l_rgb = vec3_init_from_array(l_rgb);
 	new_light->l_coords = vec3_init_from_array(l_coords);
+	new_light->l_brightness = l_brightness;
 	new_light->next = NULL;
 	return (new_light);
 }
@@ -296,6 +297,7 @@ void	scene_print_light_stats(t_light *light)
 	vec3_print(light->l_coords);
 	printf("l_rgb = ");
 	vec3_print(light->l_rgb);
+	printf("l_brightness = %f\n", light->l_brightness);
 }
 
 void	scene_print_sphere_stats(t_sphere *sphere)
