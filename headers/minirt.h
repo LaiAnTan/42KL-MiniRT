@@ -83,6 +83,8 @@ typedef struct s_camera
 
 typedef struct s_light
 {
+	
+
 	t_vec3			*l_rgb;
 	t_vec3			*l_coords;
 

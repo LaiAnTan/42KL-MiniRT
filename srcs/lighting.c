@@ -64,19 +64,26 @@ t_vec3	*reflect_light(t_vec3 *light, t_vec3 *normal)
 					vec3_scalar_multi(normal, (2 * vec3_dotproduct(light, normal))),
 								light
 								);
-
 	return (reflected);
 }
 
 void	calculate_specular_color(t_ray *r, t_light *l, t_object *o, t_vec3 *light, t_vec3 *normal)
 {
-	double	specular_exponent = 250 * o->ob_spec;
-	double	ks = 0.15;
+	double	dot_vr;
+	double	specular_exponent;
+	double	ks;
 	t_vec3	*s_c;
 	t_vec3	*reflect;
 
+	if (o->ob_spec <= 0)
+		return ;
+	specular_exponent = o->ob_spec;
+	ks = 0.24f * log(0.14f * o->ob_spec) + 0.6f;
 	reflect = reflect_light(light, normal);
-	s_c = vec3_scalar_multi(vec3_scalar_multi(l->l_rgb, pow(vec3_dotproduct(reflect, r->dir_vector), specular_exponent)), ks);
+	dot_vr = vec3_dotproduct(reflect, vec3_difference(vec3_init(0, 0, 0), r->dir_vector));
+	if (dot_vr < 0)
+		return ;
+	s_c = vec3_scalar_multi(vec3_scalar_multi(l->l_rgb, pow(dot_vr, specular_exponent)), ks);
 	r->s_color = s_c;
 }
 
