@@ -84,7 +84,8 @@ void	calculate_specular_color(t_ray *r, t_light *l, t_object *o, t_vec3 *light, 
 	if (dot_vr < 0)
 		return ;
 	s_c = vec3_scalar_multi(vec3_scalar_multi(l->l_rgb, pow(dot_vr, specular_exponent)), ks);
-	r->s_color = s_c;
+	r->s_color = vec3_addition(r->s_color, s_c);
+	// r->s_color = s_c;
 }
 
 void	shadow_diffuse(t_ray *ray)
