@@ -32,7 +32,7 @@
 
 # define AMBIENCE_FACTOR 0.2f
 # define DIFFUSE_FACTOR 0.6f
-# define SPECULAR_FACTOR 0.8f
+# define SPECULAR_FACTOR 100 // specular exponent
 
 /* codes */
 # define SUCCESS 0

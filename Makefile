@@ -27,7 +27,7 @@ SRCS_C =	srcs/utils/utils_2.c				\
 
 # CFLAGS := -Wall -Wextra -Werror
 
-FSAN = -fsanitize=address -g
+# FSAN = -fsanitize=address -g
 
 INCS := 
 

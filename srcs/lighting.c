@@ -55,11 +55,28 @@ void	calculate_diffuse_color(t_ray *r, t_light *l, t_object *o, double costheta)
 	r->d_color = store[1];
 }
 
-void	calculate_specular_color(t_ray *r, t_light	*l, double costheta)
+// takes in a light-to-object vector and its normal
+t_vec3	*reflect_light(t_vec3 *light, t_vec3 *normal)
 {
-	t_vec3	*s_c;
+	t_vec3	*reflected;
 
-	s_c = vec3_scalar_multi(l->l_rgb, costheta);
+	reflected = vec3_difference(
+					vec3_scalar_multi(normal, (2 * vec3_dotproduct(light, normal))),
+								light
+								);
+
+	return (reflected);
+}
+
+void	calculate_specular_color(t_ray *r, t_light *l, t_object *o, t_vec3 *light, t_vec3 *normal)
+{
+	double	specular_exponent = 250 * o->ob_spec;
+	double	ks = 0.15;
+	t_vec3	*s_c;
+	t_vec3	*reflect;
+
+	reflect = reflect_light(light, normal);
+	s_c = vec3_scalar_multi(vec3_scalar_multi(l->l_rgb, pow(vec3_dotproduct(reflect, r->dir_vector), specular_exponent)), ks);
 	r->s_color = s_c;
 }
 
@@ -100,8 +117,6 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 	costheta = vec3_dotproduct(a_norm, b_norm);
 	// printf("angle collided = %.2f\n", (acos(costheta) * 180 / M_PI));
 
-	vec3_free(&a_norm);
-	
 	if (costheta < 0)
 	{
 		shadow_diffuse(r);
@@ -110,8 +125,9 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 	{
 		r->type = COLLIDED;
 		calculate_diffuse_color(r, l, o, costheta);
-		calculate_specular_color(r, l, costheta);
+		calculate_specular_color(r, l, o, a_norm, b_norm);
 	}
+	vec3_free(&a_norm);
 	vec3_free(&b_norm);
 }
 
@@ -119,7 +135,7 @@ void	calculate_result_color(t_ray *r)
 {
 	t_vec3	*store[2];
 
-	store[0] = vec3_addition(r->a_color, r->d_color);
+	store[0] = vec3_addition(vec3_addition(r->a_color, r->d_color), r->s_color);
 	vec3_free(&r->color);
 	r->color = store[0];
 }
