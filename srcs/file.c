@@ -41,7 +41,7 @@ double	*unpack_3_double_values(char *values)
 	unpacked = (double *) malloc(sizeof(double) * 3);
 	while (i < 3)
 	{
-		if (is_decimal(tokens[i]) == 0)
+		if (is_valid(tokens[i]) == 0)
 		{
 			free(tokens);
 			free(unpacked);
@@ -78,7 +78,7 @@ int	is_valid_3_values(char *str)
 	while (values[i])
 	{
 		// printf("checking = %s\n", values[i]);
-		if (is_digit(values[i]) == 0 && is_decimal(values[i]) == 0)
+		if (is_digit(values[i]) == 0 && is_valid(values[i]) == 0)
 			return (0);
 		++i;
 	}

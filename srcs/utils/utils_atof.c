@@ -9,24 +9,26 @@ float	ft_atof(char *str)
 	dec = -1;
 	sign = 1;
 	val = 0;
-	if (is_decimal(str) == 0)
-		return (0); // i dont like this but sure
+	if (is_valid(str) == 0)
+		return (NAN);
 	if (*str == '-')
 	{
 		sign = -1;
 		++str;
 	}
-	while ((*str != '.' && *str != '\0') && (*str >= '0' && *str <= '9'))
+	while (*str != '\0' && *str != '.')
 	{
-		val = (val * 10) + (*str - '0');
+		if (*str >= '0' && *str <= '9')
+			val = (val * 10) + (*str - '0');
 		++str;
 	}
-	++str;
-	while ((*str != '\0') && *str >= '0' && *str <= '9')
-	{
-		val += (pow(10, dec) * (*str - '0'));
+	if (*str == '.')
 		++str;
-		--dec;
+	while (*str != '\0' && *str != '.')
+	{
+		if (*str >= '0' && *str <= '9')
+			val += (pow(10, dec) * (*str - '0'));
+		++str;
 	}
 	return (val * sign);
 }

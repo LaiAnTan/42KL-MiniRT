@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:19:47 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/06/11 10:11:28 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:42:30 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,27 +186,26 @@ int		is_digit(char *str)
 	return (1);
 }
 
-int		is_decimal(char *str)
+int	is_valid(char *str)
 {
-	int	before_point;
-	int	after_point;
+	int	point_num;
+	int	digits;
 
-	before_point = 0;
-	after_point = 0;
-	if (*str == '-' || *str == '+')
+	point_num = 0;
+	digits = 0;
+	if (*str == '+' || *str == '-')
 		++str;
-	while ((*str != '\0' && *str != '.') && (*str >= '0' && *str <= '9'))
+	while (*str != '\0')
 	{
-		before_point += 1;
+		if (*str == '.')
+			++point_num;
+		else if (*str >= '0' && *str <= '9')
+			++digits;
+		else
+			return (0);
 		++str;
 	}
-	++str;
-	while ((*str != '\0') && (*str >= '0' && *str <= '9'))
-	{
-		after_point += 1;
-		++str;
-	}
-	if (before_point <= 0 && after_point <= 0)
+	if (point_num > 1 || !digits)
 		return (0);
 	return (1);
 }

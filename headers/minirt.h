@@ -202,7 +202,7 @@ void	copy_double_arr(double *copy_from, double *copy_to, int size);
 int		ft_atoi(char *str);
 int		count_2d_array(char **e);
 int		is_digit(char *str);
-int		is_decimal(char *str);
+int		is_valid(char *str);
 int		ft_strcmp(char *s1, char *s2);
 
 float	ft_atof(char *str);
