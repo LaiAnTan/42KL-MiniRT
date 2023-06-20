@@ -73,6 +73,7 @@ void	calculate_specular_color(t_ray *r, t_light *l, t_object *o, t_vec3 *light, 
 	double	specular_exponent;
 	double	ks;
 	t_vec3	*s_c;
+	t_vec3	*dir;
 	t_vec3	*reflect;
 
 	if (o->ob_spec <= 0)
@@ -80,12 +81,16 @@ void	calculate_specular_color(t_ray *r, t_light *l, t_object *o, t_vec3 *light, 
 	specular_exponent = o->ob_spec;
 	ks = 0.24f * log(0.14f * o->ob_spec) + 0.6f;
 	reflect = reflect_light(light, normal);
-	dot_vr = vec3_dotproduct(reflect, vec3_difference(vec3_init(0, 0, 0), r->dir_vector));
+	dir = vec3_dup(r->dir_vector);
+	vec3_negate(dir);
+	dot_vr = vec3_dotproduct(reflect, dir);
 	if (dot_vr < 0)
 		return ;
 	s_c = vec3_scalar_multi(vec3_scalar_multi(l->l_rgb, pow(dot_vr, specular_exponent)), ks);
 	r->s_color = vec3_addition(r->s_color, s_c);
-	// r->s_color = s_c;
+	vec3_free(&s_c);
+	vec3_free(&dir);
+	vec3_free(&reflect);
 }
 
 void	shadow_diffuse(t_ray *ray)
@@ -141,9 +146,12 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 
 void	calculate_result_color(t_ray *r)
 {
+	t_vec3	*a_d;
 	t_vec3	*store[2];
 
-	store[0] = vec3_addition(vec3_addition(r->a_color, r->d_color), r->s_color);
+	a_d = vec3_addition(r->a_color, r->d_color);
+	store[0] = vec3_addition(a_d, r->s_color);
 	vec3_free(&r->color);
+	vec3_free(&a_d);
 	r->color = store[0];
 }
