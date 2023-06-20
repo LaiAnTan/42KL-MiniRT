@@ -63,7 +63,7 @@ run :
 	@./$(NAME)
 
 vg :
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) scenes/empty.rt
 
 clean :
 	@echo 'Removing executable files...'

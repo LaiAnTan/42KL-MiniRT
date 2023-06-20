@@ -45,6 +45,10 @@ void	free_ray(t_ray **ray)
 {
 	vec3_free(&(*ray)->pos_vector);
 	vec3_free(&(*ray)->dir_vector);
+	vec3_free(&(*ray)->color);
+	vec3_free(&(*ray)->a_color);
+	vec3_free(&(*ray)->s_color);
+	vec3_free(&(*ray)->d_color);
 	free((*ray));
 	*ray = NULL;
 }

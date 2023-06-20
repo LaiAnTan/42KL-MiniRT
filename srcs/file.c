@@ -9,8 +9,13 @@ double		*unpack_3_int_values(char *values)
 
 	i = 0;
 	tokens = ft_split(values, ',');
-	if (count_2d_array(tokens) > 3)
+	if (!tokens)
 		return (NULL);
+	else if (count_2d_array(tokens) > 3)
+	{
+		free(tokens);
+		return (NULL);
+	}
 	unpacked = (double *) malloc(sizeof(double) * 3);
 	while (i < 3)
 	{
@@ -23,6 +28,7 @@ double		*unpack_3_int_values(char *values)
 		unpacked[i] = ft_atoi(tokens[i]);
 		++i;
 	}
+	free(tokens);
 	return (unpacked);
 }
 
@@ -36,8 +42,13 @@ double	*unpack_3_double_values(char *values)
 
 	i = 0;
 	tokens = ft_split(values, ',');
-	if (!tokens || count_2d_array(tokens) > 3)
+	if (!tokens)
 		return (NULL);
+	else if (count_2d_array(tokens) > 3)
+	{
+		free(tokens);
+		return (NULL);
+	}
 	unpacked = (double *) malloc(sizeof(double) * 3);
 	while (i < 3)
 	{
@@ -74,14 +85,20 @@ int	is_valid_3_values(char *str)
 	i = 0;
 	values = ft_split(str, ',');
 	if (count_2d_array(values) != 3)
+	{
+		free(values);
 		return (0);
+	}
 	while (values[i])
 	{
-		// printf("checking = %s\n", values[i]);
 		if (is_digit(values[i]) == 0 && is_valid(values[i]) == 0)
+		{
+			free(values);
 			return (0);
+		}
 		++i;
 	}
+	free(values);
 	return (1);
 }
 
@@ -233,27 +250,27 @@ int	parse_line(t_scene *scene, char *line)
 	return (0);
 }
 
-char	*strip_nl(char *str)
+void	strip_nl(char **str)
 {
 	int		i;
 	int		len;
 	char	*new_str;
 
 	i = 0;
-	len = ft_strlen(str);
-	if (!str)
-		return (NULL);
-	if (str[len - 1] != '\n')
-		return (str);
-	new_str = (char *) malloc (sizeof(char) * ft_strlen(str));
+	if (!str || !*str)
+		return ;
+	len = ft_strlen(*str);
+	if ((*str)[len - 1] != '\n')
+		return ;
+	new_str = (char *) malloc (sizeof(char) * ft_strlen(*str));
 	while (i < len - 1)
 	{
-		new_str[i] = str[i];
+		new_str[i] = (*str)[i]; // i fucking hate this
 		++i;
 	}
 	new_str[i] = '\0';
-	free(str);
-	return (new_str);
+	free(*str);
+	*str = new_str;
 }
 
 t_scene	*file_create_scene(char *filename)
@@ -272,15 +289,14 @@ t_scene	*file_create_scene(char *filename)
 	new_scene = scene_init();
 	while (1)
 	{
-		line = strip_nl(get_next_line(fd));
+		line = get_next_line(fd);
+		strip_nl(&line);
 		if (!line)
 			break ;
-		else if (line[0] == '\n' && ft_strlen(line) == 1)
-			continue ;
-		// printf("curr line = %s\n", line);
 		if (parse_line(new_scene, line))
 		{
-			printf("error in file configuration\n");
+			printf("error in file configuration at line = %s\n", line);
+			scene_free(new_scene);
 			exit(0);
 		}
 		free(line);
