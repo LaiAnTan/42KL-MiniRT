@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   utils_get_next_line.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:19:52 by tlai-an           #+#    #+#             */
-/*   Updated: 2022/11/16 18:38:46 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/06/20 21:12:49 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char	*transfer(int fd, char *content, char *buffer)
 	return (content);
 }
 
+// how is gnl leaking what.
 char	*get_next_line(int fd)
 {
 	char			*buffer;
@@ -98,6 +99,6 @@ char	*get_next_line(int fd)
 		free(content);
 		content = NULL;
 	}
-	free(temp);
+	free_2d_array(temp);
 	return (output);
 }

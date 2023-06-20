@@ -34,5 +34,7 @@ t_vec4	*vec4_diff(t_vec4 *left_vector, t_vec4 *right_vector);
 t_vec4	*vec4_scalar_mult(t_vec4 *vector, double scalar);
 t_vec4	*vec4_normalize(t_vec4 *vector);
 t_vec4	*vec4_projection(t_vec4 *vector1, t_vec4 *vector2);
+t_vec4	*vec3_to_vec4(t_vec3 *vector);
+t_vec3	*vec4_to_vec3(t_vec4 *vector);
 
 #endif

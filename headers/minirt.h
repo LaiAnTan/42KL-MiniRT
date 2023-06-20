@@ -191,6 +191,7 @@ t_scene	*file_create_scene(char *filename);
 void	get_image(t_img_info *img_info, void *mlx);
 void	clean_loop(t_mlx_info *mlx);
 void	write_pixel(t_img_info *img, int x, int y, int color);
+void	mlx_free(t_mlx_info *mlx);
 
 /* Events */
 int	keypress_event(int key_symbol, t_data *data);
@@ -219,6 +220,8 @@ char	**ft_split(char *s, char c);
 double	absolute(double val);
 double	to_radian(double degree);
 double	to_degree(double rad);
+
+void	free_2d_array(char **arr);
 
 // --------------------------- uhhh have fun seperating ------------------------- //
 

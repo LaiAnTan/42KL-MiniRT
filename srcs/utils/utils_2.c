@@ -18,3 +18,15 @@ double	to_degree(double rad)
 {
 	return (rad * 180 / PI);
 }
+
+void	free_2d_array(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return ;
+	i = -1;
+	while (arr[++i])
+		free(arr[i]);
+	free(arr);
+}

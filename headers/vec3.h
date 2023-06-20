@@ -3,7 +3,6 @@
 
 #define _USE_MATH_DEFINES 
 #include "matrix.h"
-#include "vec4.h"
 
 // vectors usually is expressed in [x,y,z]
 // HOWEVER, not using a 3x3 matrix for a vector will make calculation, VERY painful

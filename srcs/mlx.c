@@ -52,3 +52,12 @@ int	create_trgb(t_vec3 *color)
 	// my brother in christ, what is transparancy
 	return (0 << 24 | r << 16 | g << 8 | b);
 }
+
+void	mlx_free(t_mlx_info *mlx)
+{
+	mlx_destroy_window(mlx->mlx, mlx->mlx_win);
+	mlx_destroy_display(mlx->mlx);
+	// do not ask me why i need to free this, i have no idea, ask the author of mlx
+	free(mlx->mlx);
+	free(mlx);
+}

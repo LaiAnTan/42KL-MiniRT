@@ -1,6 +1,7 @@
 # include "../headers/minirt.h"
 
 // unpacks a string of 3 values (255,255,255) into an array of integers of size 3
+// tokens is a 2d array aso.... (leaky)
 double		*unpack_3_int_values(char *values)
 {
 	int		i;
@@ -13,7 +14,7 @@ double		*unpack_3_int_values(char *values)
 		return (NULL);
 	else if (count_2d_array(tokens) > 3)
 	{
-		free(tokens);
+		free_2d_array(tokens);
 		return (NULL);
 	}
 	unpacked = (double *) malloc(sizeof(double) * 3);
@@ -21,18 +22,19 @@ double		*unpack_3_int_values(char *values)
 	{
 		if (is_digit(tokens[i]) == 0)
 		{
-			free(tokens);
+			free_2d_array(tokens);
 			free(unpacked);
 			return (NULL);
 		}
 		unpacked[i] = ft_atoi(tokens[i]);
 		++i;
 	}
-	free(tokens);
+	free_2d_array(tokens);
 	return (unpacked);
 }
 
 // unpacks a string of 3 values (1.0,2.3,3.21) into an array of doubles of size 3
+// tokens a 2d array (leak)
 double	*unpack_3_double_values(char *values)
 {
 	int		i;
@@ -46,7 +48,7 @@ double	*unpack_3_double_values(char *values)
 		return (NULL);
 	else if (count_2d_array(tokens) > 3)
 	{
-		free(tokens);
+		free_2d_array(tokens);
 		return (NULL);
 	}
 	unpacked = (double *) malloc(sizeof(double) * 3);
@@ -54,18 +56,19 @@ double	*unpack_3_double_values(char *values)
 	{
 		if (is_valid(tokens[i]) == 0)
 		{
-			free(tokens);
+			free_2d_array(tokens);
 			free(unpacked);
 			return (NULL);
 		}
 		unpacked[i] = (double) ft_atof(tokens[i]);
 		++i;
 	}
-	free(tokens);
+	free_2d_array(tokens);
 	return (unpacked);
 }
 
 // checks if the string is a valid string of 3 values (255,255,255)
+// values is a 2d array.... (leak)
 int	is_valid_3_values(char *str)
 {
 	int		i;
@@ -86,19 +89,19 @@ int	is_valid_3_values(char *str)
 	values = ft_split(str, ',');
 	if (count_2d_array(values) != 3)
 	{
-		free(values);
+		free_2d_array(values);
 		return (0);
 	}
 	while (values[i])
 	{
 		if (is_digit(values[i]) == 0 && is_valid(values[i]) == 0)
 		{
-			free(values);
+			free_2d_array(values);
 			return (0);
 		}
 		++i;
 	}
-	free(values);
+	free_2d_array(values);
 	return (1);
 }
 
@@ -115,6 +118,7 @@ int	handle_object_ambient(t_scene *scene, char **tokens)
 	if (!a_rgb)
 		return (-1);
 	scene->sc_ambients = scene_new_ambient(a_rgb, ft_atof(tokens[1]));
+	free(a_rgb);
 	return (0);
 }
 
@@ -135,6 +139,8 @@ int	handle_object_camera(t_scene *scene, char **tokens)
 		return (-1);
 	new_camera = scene_new_camera(ft_atoi(tokens[3]), cam_coords, cam_vec_orient);
 	scene_camera_add_back(&scene->sc_cameras, new_camera);
+	free(cam_coords);
+	free(cam_vec_orient);
 	return (0);
 }
 
@@ -155,6 +161,8 @@ int	handle_object_light(t_scene *scene, char **tokens)
 		return (-1);
 	new_light = scene_new_light(l_rgb, l_coords, atof(tokens[2]));
 	scene_light_add_back(&scene->sc_lights, new_light);
+	free(l_rgb);
+	free(l_coords);
 	return (0);
 }
 
@@ -176,6 +184,8 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 	new_object = scene_new_object(CIRCLE, sp_coords, sp_rgb, ft_atof(tokens[4]));
 	new_object->ob_spheres = object_new_sphere((double) ft_atof(tokens[2]));
 	scene_object_add_back(&scene->sc_objs, new_object);
+	free(sp_rgb);
+	free(sp_coords);
 	return (0);
 }
 
@@ -199,6 +209,9 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 	new_object = scene_new_object(PLANE, pl_coords, pl_rgb,  ft_atof(tokens[4]));
 	new_object->ob_planes = object_new_plane(pl_vec_normal);
 	scene_object_add_back(&scene->sc_objs, new_object);
+	free(pl_rgb);
+	free(pl_coords);
+	free(pl_vec_normal);
 	return (0);
 }
 
@@ -222,9 +235,13 @@ int	handle_object_cylinder(t_scene *scene, char **tokens)
 	new_object = scene_new_object(CIRCLE, cy_coords, cy_rgb, ft_atof(tokens[6]));
 	new_object->ob_cylinders = object_new_cylinder((double) ft_atof(tokens[4]), (double) ft_atof(tokens[3]), cy_vec_axis);
 	scene_object_add_back(&scene->sc_objs, new_object);
+	free(cy_rgb);
+	free(cy_coords);
+	free(cy_vec_axis);
 	return (0);
 }
 
+// ten points to who who managed to guess where leaked
 int	parse_line(t_scene *scene, char *line)
 {
 	int		error;
@@ -244,7 +261,7 @@ int	parse_line(t_scene *scene, char *line)
 		error = handle_object_plane(scene, tokens);
 	else if (ft_strcmp("cy", tokens[0]) == 0)
 		error = handle_object_cylinder(scene, tokens);
-	free(tokens);
+	free_2d_array(tokens);
 	if (error)
 		return (error);
 	return (0);

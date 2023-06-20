@@ -47,6 +47,7 @@ int main(int argc, char **argv)
 
 	if (argc != 2)
 		return (ERROR);
+	// HEY LISTEN - data doesnt need to be malloced
 	data = (t_data *) malloc(sizeof(t_data));
 	data->mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
 	printf("Getting RT file..\n");
@@ -57,6 +58,7 @@ int main(int argc, char **argv)
 	data->mlx->mlx_win = mlx_new_window(data->mlx->mlx, WIDTH, HEIGHT, argv[1]);
 
 	clock_t		time;
+	printf("begin\n");
 	time = clock();
 	data->mlx->img.img = NULL;
 	get_image(&data->mlx->img, data->mlx->mlx);
@@ -66,8 +68,9 @@ int main(int argc, char **argv)
 	printf("Total Render Time = %ld s\n", time);
 	clean_loop(data->mlx);
 	sleep(5);
-
 	scene_free(data->scene);
+	mlx_free(data->mlx);
+	free(data);
 	return (0);
 }
 

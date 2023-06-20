@@ -157,7 +157,9 @@ void	scene_light_add_back(t_light **list_light, t_light *new_light)
 
 void	scene_free_ambient(t_ambient *ambient)
 {
-	free(ambient->a_rgb);
+	vec3_free(&ambient->a_rgb);
+	vec3_free(&ambient->a_strength);
+	vec3_free(&ambient->bg_color);
 	free(ambient);
 }
 
@@ -256,6 +258,7 @@ void	scene_free(t_scene *scene)
 		scene_free_light_list(scene->sc_lights);
 	if (scene->sc_objs)
 		scene_free_object_list(scene->sc_objs);
+	free(scene);
 }
 
 t_scene	*scene_init(void)

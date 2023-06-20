@@ -231,8 +231,3 @@ void	vec3_negate(t_vec3 *vector)
 	vector->raw_matrix->m[2][0] = -vector->raw_matrix->m[2][0];
 	return ;
 }
-
-t_vec3	*vec4_to_vec3(t_vec4 *vector)
-{
-	return (vec3_init(vector->raw_matrix->m[0][0], vector->raw_matrix->m[1][0], vector->raw_matrix->m[2][0]));
-}
