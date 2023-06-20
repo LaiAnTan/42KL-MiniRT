@@ -9,6 +9,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
+#include <time.h>
+# include <X11/X.h>
 
 # include "../mlx_linux/mlx.h"
 # include "ray.h"
@@ -28,11 +30,8 @@
 # define HEIGHT 720.0f
 # define RAYS_IN_Y 720.0f
 
-# define HORI_FOV 70.0f
-
 # define AMBIENCE_FACTOR 0.2f
 # define DIFFUSE_FACTOR 0.6f
-# define SPECULAR_FACTOR 100 // specular exponent
 
 /* codes */
 # define SUCCESS 0
@@ -192,6 +191,9 @@ t_scene	*file_create_scene(char *filename);
 void	get_image(t_img_info *img_info, void *mlx);
 void	clean_loop(t_mlx_info *mlx);
 void	write_pixel(t_img_info *img, int x, int y, int color);
+
+/* Events */
+int	keypress_event(int key_symbol, t_data *data);
 
 /* Utils */
 

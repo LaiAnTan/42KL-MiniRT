@@ -1,11 +1,23 @@
 #include "../headers/minirt.h"
 
-#include <time.h>
+int	render(void *rt)
+{
+	clock_t		time;
+	t_data		*data = (t_data *) rt;
+
+	data = (t_data *)rt;
+	time = clock();
+	data->mlx->img.img = NULL;
+	get_image(&data->mlx->img, data->mlx->mlx);
+	raytrace(data->scene, data->mlx);
+	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
+	time = (clock() - time) / CLOCKS_PER_SEC;
+	printf("Total Render Time = %ld s\n", time);
+	clean_loop(data->mlx);
+}
 
 int main(int argc, char **argv)
 {
-	clock_t		start;
-	clock_t		end;
 	t_data		*data;
 	int			loop;
 
@@ -15,57 +27,16 @@ int main(int argc, char **argv)
 	data->mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
 	printf("Getting RT file..\n");
 	data->scene = file_create_scene(argv[1]);
-	if (!data->scene)
-	{
-		free(data->mlx);
-		free(data);
-		return (0);
-	}
 	printf("Done!\n");
-	scene_print_stats(data->scene);
+	// scene_print_stats(data->scene);
 	data->mlx->mlx = mlx_init();
 	data->mlx->mlx_win = mlx_new_window(data->mlx->mlx, WIDTH, HEIGHT, argv[1]);
-	data->mlx->img.img = NULL;
-	loop = 0;
-	while (1)
-	{
-		++loop;
-		get_image(&data->mlx->img, data->mlx->mlx);
-		start = clock();
-		raytrace(data->scene, data->mlx);
-		end = clock();
-		mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
-		clean_loop(data->mlx);
-		printf("LOOP = %d, time taken = %ld\n", loop, ((end - start) / CLOCKS_PER_SEC));
-	}
+	mlx_key_hook(data->mlx->mlx_win, keypress_event, data);
+	mlx_loop_hook(data->mlx->mlx, render, (void *)data);
 	mlx_loop(data->mlx->mlx);
 	scene_free(data->scene);
+	return (0);
 }
-
-// loop once- for debug
-// int main(int argc, char **argv)
-// {
-// 	t_data		*data;
-// 	int			loop;
-
-// 	if (argc != 2)
-// 		return (ERROR);
-// 	data = (t_data *) malloc(sizeof(t_data));
-// 	data->mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
-// 	printf("Getting RT file..\n");
-// 	data->scene = file_create_scene(argv[1]);
-// 	printf("Done!\n");
-// 	// scene_print_stats(data->scene);
-// 	data->mlx->mlx = mlx_init();
-// 	data->mlx->mlx_win = mlx_new_window(data->mlx->mlx, WIDTH, HEIGHT, argv[1]);
-// 	data->mlx->img.img = NULL;
-// 	get_image(&data->mlx->img, data->mlx->mlx);
-// 	raytrace(data->scene, data->mlx);
-// 	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
-// 	clean_loop(data->mlx);
-// 	sleep(5);
-// 	scene_free(data->scene);
-// }
 
 // test view matrices
 // delete once done
