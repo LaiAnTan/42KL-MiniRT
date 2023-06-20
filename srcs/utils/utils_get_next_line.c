@@ -6,7 +6,7 @@
 /*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:19:52 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/06/20 21:12:49 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/06/20 21:25:44 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ char	**seperate_nl(char *str)
 	if (i == -1)
 		i = len;
 	j = 0;
-	arr = (char **) malloc (sizeof(char *) * 2);
+	arr = (char **) malloc (sizeof(char *) * 3);
 	arr[0] = (char *) malloc (sizeof(char) * (i + 2));
 	arr[1] = (char *) malloc (sizeof(char) * (len - i + 1));
+	arr[2] = NULL;
 	while (j <= i && str[j])
 	{
 		arr[0][j] = str[j];
@@ -75,7 +76,7 @@ char	*transfer(int fd, char *content, char *buffer)
 	return (content);
 }
 
-// how is gnl leaking what.
+// how is g
 char	*get_next_line(int fd)
 {
 	char			*buffer;
