@@ -9,7 +9,6 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
-#include <time.h>
 # include <X11/X.h>
 
 # include "../mlx_linux/mlx.h"
@@ -17,6 +16,7 @@
 # include "matrix.h"
 # include "vec3.h"
 # include "vec4.h"
+# include "timer.h"
 
 /* Constants */
 # define PI 3.14159265358979323846

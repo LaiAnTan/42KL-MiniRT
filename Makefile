@@ -26,6 +26,7 @@ SRCS_C =	srcs/utils/utils_2.c				\
 			srcs/raytrace.c						\
 			srcs/cylinder.c						\
 			srcs/events.c						\
+			srcs/timer.c						\
 
 # CFLAGS := -Wall -Wextra -Werror
 

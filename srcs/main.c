@@ -1,26 +1,29 @@
 #include "../headers/minirt.h"
 
-// // prod
+// prod
 // int	render(void *rt)
 // {
-// 	clock_t		time;
-// 	t_data		*data = (t_data *) rt;
+// 	t_data		*data;
+// 	t_timer		*timer;
 
 // 	data = (t_data *)rt;
-// 	time = clock();
 // 	data->mlx->img.img = NULL;
 // 	get_image(&data->mlx->img, data->mlx->mlx);
+
+// 	timer = timer_init();
+// 	timer_start(timer);
 // 	raytrace(data->scene, data->mlx);
+// 	timer_end(timer);
+// 	timer_print_diff(timer);
+// 	timer_destroy(&timer);
+
 // 	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
-// 	time = (clock() - time) / CLOCKS_PER_SEC;
-// 	printf("Total Render Time = %ld s\n", time);
 // 	clean_loop(data->mlx);
 // }
 
 // int main(int argc, char **argv)
 // {
 // 	t_data		*data;
-// 	int			loop;
 
 // 	if (argc != 2)
 // 		return (ERROR);
@@ -39,38 +42,38 @@
 // 	return (0);
 // }
 
-// debug
+// // debug
 int main(int argc, char **argv)
 {
-	t_data		*data;
 	int			loop;
+	t_timer		*timer;
+	t_data		data;
 
 	if (argc != 2)
 		return (ERROR);
-	// HEY LISTEN - data doesnt need to be malloced
-	data = (t_data *) malloc(sizeof(t_data));
-	data->mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
+	
+	data.mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
 	printf("Getting RT file..\n");
-	data->scene = file_create_scene(argv[1]);
+	data.scene = file_create_scene(argv[1]);
 	printf("Done!\n");
-	// scene_print_stats(data->scene);
-	data->mlx->mlx = mlx_init();
-	data->mlx->mlx_win = mlx_new_window(data->mlx->mlx, WIDTH, HEIGHT, argv[1]);
+	scene_print_stats(data.scene);
+	data.mlx->mlx = mlx_init();
+	data.mlx->mlx_win = mlx_new_window(data.mlx->mlx, WIDTH, HEIGHT, argv[1]);
+	data.mlx->img.img = NULL;
+	get_image(&data.mlx->img, data.mlx->mlx);
 
-	clock_t		time;
-	printf("begin\n");
-	time = clock();
-	data->mlx->img.img = NULL;
-	get_image(&data->mlx->img, data->mlx->mlx);
-	raytrace(data->scene, data->mlx);
-	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
-	time = (clock() - time) / CLOCKS_PER_SEC;
-	printf("Total Render Time = %ld s\n", time);
-	clean_loop(data->mlx);
+	timer = timer_init();
+	timer_start(timer);
+	raytrace(data.scene, data.mlx);
+	timer_end(timer);
+	timer_print_diff(timer);
+	timer_destroy(&timer);
+
+	mlx_put_image_to_window(data.mlx->mlx, data.mlx->mlx_win, data.mlx->img.img, 0, 0);
+	clean_loop(data.mlx);
 	sleep(5);
-	scene_free(data->scene);
-	mlx_free(data->mlx);
-	free(data);
+	scene_free(data.scene);
+	mlx_free(data.mlx);
 	return (0);
 }
 

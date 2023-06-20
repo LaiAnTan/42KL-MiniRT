@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_get_next_line.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:19:52 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/06/20 21:25:44 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/06/20 21:26:41 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ char	*transfer(int fd, char *content, char *buffer)
 	return (content);
 }
 
-// how is g
 char	*get_next_line(int fd)
 {
 	char			*buffer;
