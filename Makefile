@@ -80,8 +80,8 @@ $(ODIR) :
 	@mkdir -p $@
 
 $(ODIR)/%.o: %.c | $(ODIR)
-	@if $(B_OPEN) $(UNAME) == Darwin $(B_CLOSE); then gcc $(CFLAGS) $(INCS) -c $< -o $@; fi;
-	@if $(B_OPEN) $(UNAME) == Linux $(B_CLOSE); then gcc $(CFLAGS) $(INCS) $(LIBS) -c $< -o $@; fi;
+	@if $(B_OPEN) $(UNAME)==Darwin $(B_CLOSE); then gcc $(CFLAGS) $(INCS) -c $< -o $@; fi;
+	@if $(B_OPEN) $(UNAME)==Linux $(B_CLOSE); then gcc $(CFLAGS) $(INCS) $(LIBS) -c $< -o $@; fi;
 	@printf "$(L_RESET)$(C_RESET)Creating object file $(C_CYAN)$@$(C_RESET) from $(C_CYAN)$<$(C_RESET)"
 
 run :w
