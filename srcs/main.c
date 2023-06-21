@@ -19,6 +19,7 @@ int	render(void *rt)
 
 	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
 	clean_loop(data->mlx);
+	return (0);
 }
 
 int main(int argc, char **argv)
