@@ -49,15 +49,13 @@ LIBS :=
 	ifeq ($(UNAME), Darwin)
 		LIBS := -lmlx -framework OpenGL -framework AppKit
 	endif
-
-B_OPEN :=
-	ifeq ($(UNAME), Darwin)
-		B_OPEN := [[
+	
+LIBS_O :=
+	ifeq ($(UNAME), Linux)
+		LIBS_O := -Lmlx_linux -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
 	endif
-
-B_CLOSE :=
 	ifeq ($(UNAME), Darwin)
-		B_CLOSE := ]]
+		LIBS_O := ""
 	endif
 
 SRCS_O := $(addprefix $(ODIR)/,$(notdir $(SRCS_C:.c=.o)))
@@ -80,8 +78,7 @@ $(ODIR) :
 	@mkdir -p $@
 
 $(ODIR)/%.o: %.c | $(ODIR)
-	@if $(B_OPEN) $(UNAME)==Darwin $(B_CLOSE); then gcc $(CFLAGS) $(INCS) -c $< -o $@; fi;
-	@if $(B_OPEN) $(UNAME)==Linux $(B_CLOSE); then gcc $(CFLAGS) $(INCS) $(LIBS) -c $< -o $@; fi;
+	@gcc $(CFLAGS) $(INCS) $(LIBS_O) -c $< -o $@;
 	@printf "$(L_RESET)$(C_RESET)Creating object file $(C_CYAN)$@$(C_RESET) from $(C_CYAN)$<$(C_RESET)"
 
 run :w
