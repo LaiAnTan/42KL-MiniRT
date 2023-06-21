@@ -70,11 +70,11 @@ $(ODIR) :
 	@mkdir -p $@
 
 $(ODIR)/%.o: %.c | $(ODIR)
-	@if	[ "$(UNAME)" == "Darwin" ];	then gcc $(CFLAGS) $(INCS) -c $< -o $@;	fi;
-	@if	[ "$(UNAME)" == "Linux" ]; then	gcc $(CFLAGS) $(INCS) $(LIBS) -c $< -o $@; fi;
+	@if	[ $(UNAME)=Darwin ];	then gcc $(CFLAGS) $(INCS) -c $< -o $@;	fi;
+	@if	[ $(UNAME)=Linux ]; then	gcc $(CFLAGS) $(INCS) $(LIBS) -c $< -o $@; fi;
 	@printf "$(L_RESET)$(C_RESET)Creating object file $(C_CYAN)$@$(C_RESET) from $(C_CYAN)$<$(C_RESET)"
 
-run :
+run :w
 	@./$(NAME)
 
 vg :
