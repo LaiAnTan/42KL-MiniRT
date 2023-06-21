@@ -50,6 +50,16 @@ LIBS :=
 		LIBS := -lmlx -framework OpenGL -framework AppKit
 	endif
 
+B_OPEN :=
+	ifeq ($(UNAME), Darwin)
+		B_OPEN := [[
+	endif
+
+B_CLOSE :=
+	ifeq ($(UNAME), Darwin)
+		B_CLOSE := ]]
+	endif
+
 SRCS_O := $(addprefix $(ODIR)/,$(notdir $(SRCS_C:.c=.o)))
 
 vpath %.c srcs/builtins:srcs/cmd:srcs/redirection:srcs/utils:srcs/vars:srcs
@@ -70,8 +80,7 @@ $(ODIR) :
 	@mkdir -p $@
 
 $(ODIR)/%.o: %.c | $(ODIR)
-	@if	[ $(UNAME)=Darwin ];	then gcc $(CFLAGS) $(INCS) -c $< -o $@;	fi;
-	@if	[ $(UNAME)=Linux ]; then	gcc $(CFLAGS) $(INCS) $(LIBS) -c $< -o $@; fi;
+	@if $(B_OPEN) $(UNAME) == Darwin $(B_CLOSE); then gcc $(CFLAGS) $(INCS) -c $< -o $@; else gcc $(CFLAGS) $(INCS) $(LIBS) -c $< -o $@; fi;
 	@printf "$(L_RESET)$(C_RESET)Creating object file $(C_CYAN)$@$(C_RESET) from $(C_CYAN)$<$(C_RESET)"
 
 run :w
