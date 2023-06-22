@@ -6,7 +6,7 @@ int	keypress_event(int key_symbol, t_data *data)
 	{
 		printf("ESC pressed, exiting...");
 		mlx_destroy_window(data->mlx->mlx, data->mlx->mlx_win);
-		mlx_destroy_display(data->mlx->mlx);
+		// mlx_destroy_display(data->mlx->mlx);
 		scene_free(data->scene);
 		exit(0);
 	}

@@ -9,9 +9,14 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
-# include <X11/X.h>
 
-# include "../mlx_linux/mlx.h"
+#if __linux__
+	# include <X11/X.h>
+	# include "../mlx_linux/mlx.h"
+#elif __APPLE__
+	# include <mlx.h>
+#endif
+
 # include "ray.h"
 # include "matrix.h"
 # include "vec3.h"

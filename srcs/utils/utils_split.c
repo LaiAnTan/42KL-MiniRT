@@ -51,7 +51,7 @@ char	**insertwords(char **strs, char *s, char c, int wordcount)
 			|| ((s[start] == c) && (s[start - 1] == c)) || (s[start] == c))
 		{
 			start++;
-			if ((s[start] == '\0'))
+			if (s[start] == '\0')
 				return (strs);
 		}
 		strs[j] = ft_substr(s, start, start + countletters(s, c, start) - 1);
@@ -88,4 +88,3 @@ char	**ft_split(char *s, char c)
 	strs[words] = NULL;
 	return (strs);
 }
-

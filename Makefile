@@ -33,9 +33,31 @@ SRCS_C =	srcs/utils/utils_2.c				\
 
 # FSAN = -fsanitize=address -g
 
-INCS := 
+UNAME := $(shell uname -s)
 
-LIBS := -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+INCS  :=
+	ifeq ($(UNAME), Linux)
+		INCS := -Imlx_linux
+	endif
+	ifeq ($(UNAME), Darwin)
+		INCS := -Imlx
+	endif
+
+LIBS :=
+	ifeq ($(UNAME), Linux)
+		LIBS := -Lmlx_linux -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
+	endif
+	ifeq ($(UNAME), Darwin)
+		LIBS := -lmlx -framework OpenGL -framework AppKit
+	endif
+	
+LIBS_O :=
+	ifeq ($(UNAME), Linux)
+		LIBS_O := -Lmlx_linux -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
+	endif
+	ifeq ($(UNAME), Darwin)
+		LIBS_O := ""
+	endif
 
 SRCS_O := $(addprefix $(ODIR)/,$(notdir $(SRCS_C:.c=.o)))
 
@@ -47,7 +69,6 @@ C_CYAN = \033[0;96m
 C_GREEN = \033[0;92m
 C_RESET = \033[0m
 
-
 all : $(NAME)
 
 $(NAME): $(SRCS_O)
@@ -58,10 +79,10 @@ $(ODIR) :
 	@mkdir -p $@
 
 $(ODIR)/%.o: %.c | $(ODIR)
-	@gcc $(CFLAGS) $(INCS) $(LIBS) -c $< -o $@
+	@gcc $(CFLAGS) $(INCS) $(LIBS_O) -c $< -o $@;
 	@printf "$(L_RESET)$(C_RESET)Creating object file $(C_CYAN)$@$(C_RESET) from $(C_CYAN)$<$(C_RESET)"
 
-run :
+run :w
 	@./$(NAME)
 
 vg :

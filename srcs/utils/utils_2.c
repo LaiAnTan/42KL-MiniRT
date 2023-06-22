@@ -1,4 +1,4 @@
-# include "../headers/minirt.h"
+# include "../../headers/minirt.h"
 
 // WHY IS THERE NO ABS FOR DOUBLE WTF
 double	absolute(double val)
