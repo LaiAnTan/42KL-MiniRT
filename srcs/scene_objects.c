@@ -21,11 +21,14 @@ t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio)
 t_camera	*scene_new_camera(double cam_fov, double cam_coords[3], double cam_vec_orient[3])
 {
 	t_camera	*new_camera;
+	t_vec3		*stuff;
 
 	new_camera = (t_camera *) malloc(sizeof(t_camera));
 	new_camera->cam_fov = cam_fov;
 	new_camera->cam_coords = vec3_init_from_array(cam_coords);
-	new_camera->cam_vec_orient = vec3_init_from_array(cam_vec_orient);
+	stuff = vec3_init_from_array(cam_vec_orient);
+	new_camera->cam_vec_orient = vec3_normalize(stuff);
+	vec3_free(&stuff);
 	new_camera->cam_coords_v4 = NULL;
 	new_camera->cam_vec_orient_v4 = NULL;
 	new_camera->view_matrix = NULL;

@@ -76,6 +76,9 @@ typedef struct s_camera
 	t_vec4			*cam_coords_v4;
 	t_vec4			*cam_vec_orient_v4;
 
+	// use on orientation vectors
+	t_matrix		*orr_matrix;
+	// use on points
 	t_matrix		*view_matrix; // 4x4 view matrix that converts world coordinates -> view coordinates
 	struct s_camera	*next;
 }			t_camera;
@@ -245,5 +248,9 @@ void		calculate_result_color(t_ray *r);
 
 t_object	*get_closest_object(t_ray *ray, t_scene *scene, int closest, double	*k_val);
 int			get_closest_light(t_ray *r, t_light *l, t_scene *scene);
+
+// hm
+void	cam_view_matrix(t_camera *cam);
+void	change_to_view_port(t_scene *scn);
 
 # endif

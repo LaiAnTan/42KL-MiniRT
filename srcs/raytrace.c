@@ -10,18 +10,23 @@ void	calculate_ray_positions(double store[3], double x, double y, double fov)
 	double	hori_fov_per_x = hori_fov / WIDTH;
 	double	verti_fov_per_y = verti_fov / HEIGHT;
 
-	// right coordinate
-	double	x_relative_to_mid = (WIDTH / 2) - x;
-	double	y_relative_to_mid = (HEIGHT / 2) - y;
+	// heads up, right hand orienation
 
-	// left coordinate
-	// double	x_relative_to_mid  = x - (WIDTH / 2);
+	// use this if orienation is (0,0,1)
+	// double	x_relative_to_mid = (WIDTH / 2) - x;
 	// double	y_relative_to_mid = (HEIGHT / 2) - y;
+
+	// use this if orientation is (0,0,-1)
+	double	x_relative_to_mid  = (WIDTH / 2) - x;
+	double	y_relative_to_mid = y - (HEIGHT / 2);
 
 	double	hori_angle = absolute(x_relative_to_mid) * hori_fov_per_x;
 	double	verti_angle = absolute(y_relative_to_mid) * verti_fov_per_y;
 
-	double	alpha = (WIDTH / 2) / (tan(hori_fov / 2));
+	//  orientation is (0,0,1)
+	// double	alpha = (WIDTH / 2) / (tan(hori_fov / 2));
+	// orientation is (0,0,-1)
+	double	alpha = - (WIDTH / 2) / (tan(hori_fov / 2));
 
 	double	acc_x = alpha * tan(hori_angle);
 	if (x_relative_to_mid < 0)

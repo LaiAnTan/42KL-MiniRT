@@ -27,6 +27,7 @@ SRCS_C =	srcs/utils/utils_2.c				\
 			srcs/cylinder.c						\
 			srcs/events.c						\
 			srcs/timer.c						\
+			srcs/viewport.c						\
 
 # CFLAGS := -Wall -Wextra -Werror
 
