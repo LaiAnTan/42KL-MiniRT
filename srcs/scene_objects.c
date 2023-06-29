@@ -106,9 +106,12 @@ t_sphere	*object_new_sphere(double sp_diameter)
 t_plane		*object_new_plane(double pl_vec_normal[3])
 {
 	t_plane		*new_plane;
+	t_vec3		*stuff;
 
 	new_plane = (t_plane *) malloc(sizeof(t_plane));
-	new_plane->pl_vec_normal = vec3_init_from_array(pl_vec_normal);
+	stuff = vec3_init_from_array(pl_vec_normal);
+	new_plane->pl_vec_normal = vec3_normalize(stuff);
+	vec3_free(&stuff);
 	new_plane->pl_vec_normal_v4 = NULL;
 	return (new_plane);
 }
