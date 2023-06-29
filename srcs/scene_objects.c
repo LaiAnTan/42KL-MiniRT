@@ -182,8 +182,10 @@ void	scene_free_camera_list(t_camera *camera_list_head)
 		vec3_free(&curr->cam_vec_orient);
 		vec4_free(&curr->cam_coords_v4);
 		vec4_free(&curr->cam_vec_orient_v4);
+
 		free_matrix(&curr->orr_matrix);
 		free_matrix(&curr->view_matrix);
+
 		free(curr);
 		curr = temp;
 	}

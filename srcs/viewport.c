@@ -56,7 +56,7 @@ void	change_to_view_port(t_scene *scn)
 		{
 			apply_matrix(&(o->ob_planes->pl_vec_normal), cam->orr_matrix);
 			store = vec3_normalize(o->ob_planes->pl_vec_normal);
-			free(o->ob_planes->pl_vec_normal);
+			vec3_free(&o->ob_planes->pl_vec_normal);
 			o->ob_planes->pl_vec_normal = store;
 		}
 		o = o->next;
