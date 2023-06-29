@@ -56,14 +56,19 @@ void	calculate_diffuse_color(t_ray *r, t_light *l, t_object *o, double costheta)
 }
 
 // takes in a light-to-object vector and its normal
+
+// man
 t_vec3	*reflect_light(t_vec3 *light, t_vec3 *normal)
 {
+	t_vec3	*projected;
+
+	projected = vec3_scalar_multi(normal, (2 * vec3_dotproduct(light, normal)));
+
 	t_vec3	*reflected;
 
-	reflected = vec3_difference(
-					vec3_scalar_multi(normal, (2 * vec3_dotproduct(light, normal))),
-								light
-								);
+	reflected = vec3_difference(projected, light);
+	vec3_free(&projected);
+
 	return (reflected);
 }
 
@@ -85,12 +90,25 @@ void	calculate_specular_color(t_ray *r, t_light *l, t_object *o, t_vec3 *light, 
 	vec3_negate(dir);
 	dot_vr = vec3_dotproduct(reflect, dir);
 	if (dot_vr < 0)
+	{
+		vec3_free(&reflect);
+		vec3_free(&dir);
 		return ;
-	s_c = vec3_scalar_multi(vec3_scalar_multi(l->l_rgb, pow(dot_vr, specular_exponent)), ks);
-	r->s_color = vec3_addition(r->s_color, s_c);
+	}
+	t_vec3	*spec_col;
+	spec_col = vec3_scalar_multi(l->l_rgb, pow(dot_vr, specular_exponent));
+
+	s_c = vec3_scalar_multi(spec_col, ks);
+
+	t_vec3	*store;
+	store = vec3_addition(r->s_color, s_c);
+	vec3_free(&r->s_color);
+	r->s_color = store;
+
 	vec3_free(&s_c);
 	vec3_free(&dir);
 	vec3_free(&reflect);
+	vec3_free(&spec_col);
 }
 
 void	shadow_diffuse(t_ray *ray)
