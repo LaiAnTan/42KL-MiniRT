@@ -22,6 +22,7 @@ void	change_to_view_port(t_scene *scn)
 {
 	// get view matrix and orientation matrix
 	t_camera	*cam;
+	t_vec3		*store;
 
 	cam = scn->sc_cameras;
 	cam_view_matrix(cam);
@@ -54,7 +55,9 @@ void	change_to_view_port(t_scene *scn)
 		if (o->ob_type == PLANE)
 		{
 			apply_matrix(&(o->ob_planes->pl_vec_normal), cam->orr_matrix);
-			o->ob_planes->pl_vec_normal = vec3_normalize(o->ob_planes->pl_vec_normal);
+			store = vec3_normalize(o->ob_planes->pl_vec_normal);
+			free(o->ob_planes->pl_vec_normal);
+			o->ob_planes->pl_vec_normal = store;
 		}
 		o = o->next;
 	}

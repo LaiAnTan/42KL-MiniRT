@@ -88,6 +88,7 @@ void	cam_view_matrix(t_camera *cam)
 	t_vec3	*forward;
 	t_vec3	*right;
 	t_vec3	*true_up;
+	t_matrix	*trans;
 
 	position = cam->cam_coords;
 	forward = cam->cam_vec_orient;
@@ -105,11 +106,13 @@ void	cam_view_matrix(t_camera *cam)
 	vec3_print(true_up);
 
 	cam->orr_matrix = construct_rotation(right, true_up, forward);
-	cam->view_matrix = m_multiplication(construct_translation(position), cam->orr_matrix);
+	trans = construct_translation(position);
+	cam->view_matrix = m_multiplication(trans, cam->orr_matrix);
 
 	vec3_free(&up);
 	vec3_free(&right);
 	vec3_free(&true_up);
+	free_matrix(&trans);
 }
 
 t_matrix	*get_rotation_inverse(t_matrix *transform)

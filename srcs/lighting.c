@@ -128,7 +128,9 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 
 	double	costheta;
 	costheta = vec3_dotproduct(a_norm, b_norm);
-	// printf("angle collided = %.2f\n", (acos(costheta) * 180 / M_PI));
+	// wow im sure am lazy to recalculate the costheta angle for the opposite normal for planes
+	if (o->ob_type == PLANE && costheta < 0)
+		costheta *= -1;
 
 	if (costheta < 0)
 	{
