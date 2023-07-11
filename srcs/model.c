@@ -115,7 +115,7 @@ t_matrix	*get_model_matrix(t_object *cylinder)
 
 	rotation = construct_model_rotation_2(cylinder->ob_cylinders);
 	translation = construct_model_translation(cylinder);
-	res = m_multiplication(rotation, translation);
+	res = m_multiplication(translation, rotation);
 
 	free_matrix(&translation);
 	free_matrix(&rotation);

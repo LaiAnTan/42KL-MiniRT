@@ -115,7 +115,10 @@ typedef struct s_cylinder
 	double			cy_height;
 	double			cy_diameter;
 
-	t_vec4			*cy_vec_axis;
+	t_vec3			*cy_vec_axis;
+
+	t_matrix		*cy_model_mtrx;
+	t_matrix		*cy_orient_mtrx;
 }			t_cylinder;
 
 // because 10 linked list is painful
@@ -257,5 +260,6 @@ int			get_closest_light(t_ray *r, t_light *l, t_scene *scene);
 // hm
 void	cam_view_matrix(t_camera *cam);
 void	change_to_view_port(t_scene *scn);
+void	apply_matrix(t_vec3 **to, t_matrix *trans_mtrx);
 
 # endif

@@ -15,7 +15,6 @@ void	apply_matrix(t_vec3 **to, t_matrix *trans_mtrx)
 	(*to) = ret;
 }
 
-// i have no idea what am i doing :D
 // known errors -> if the cam is at {0,1,0} or {0,-1,0} (parallel to the UP vector) everything breaks
 // solution -> idk hardcode :D
 void	change_to_view_port(t_scene *scn)

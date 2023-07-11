@@ -1,20 +1,59 @@
 # include "../headers/minirt.h"
 
-// old circle is cringe and gay and slow
-// will (attempt) to make a faster way to count
+// after a bunch of deleting variable and staring at wikipedia pages
+// a slightly faster intercept circle finder
+void solve_quad(double	*coefficients, double *result)
+{
+	double	a;
+	double	b;
+	double	c;
 
-// see we dont really need 2 k values, only one
-// the equation way also used sqrt, which is gay and slow
-// if only there is a way to calculate 1 k value
+	a = coefficients[0];
+	b = coefficients[1];
+	c = coefficients[2];
 
-// return k value btw
+	result[0] = (b * b) - ( c );
+	// determinant is less than zero
+	if (result[0] < 0)
+		return ;
+
+	double	d;
+	d = sqrt(result[0]);
+
+	result[1] = (-1 * b) + d;
+	result[2] = (-1 * b) - d;
+}
+
+// ax^2 + bx + c
 double	intersect_circle(t_ray	*ray, t_object *o)
 {
+	double	values[3];
+	double	coefficients[3];
+	double	mag;
+
+	// me cheese this (not sure if works :skull)
 	t_vec3	*modified_ray_pos;
-	t_vec3	*zeroed_pos;
 
 	modified_ray_pos = vec3_difference(ray->pos_vector, o->ob_coords);
-	zeroed_pos = vec3_difference(o->ob_coords, o->ob_coords);
+	// in theory this would work (theory)
 
-	
+	// le ipad formulas
+	coefficients[0] = vec3_magnitude_sqrd(ray->dir_vector);
+	coefficients[1] = vec3_dotproduct(modified_ray_pos, ray->dir_vector);
+	coefficients[2] = vec3_magnitude_sqrd(modified_ray_pos) -
+			(o->ob_spheres->sp_radius * o->ob_spheres->sp_radius);
+	solve_quad(coefficients, values);
+
+	vec3_free(&modified_ray_pos);
+
+	if (values[0] < 0)
+		return (ERROR);
+	if (values[1] < 0 && values[2] < 0)
+		return (ERROR);
+
+	values[0] = fmin(values[1], values[2]);
+	if (values[0] < 0)
+		values[0] = fmax(values[1], values[2]);
+
+	return (values[0]);
 }

@@ -6,18 +6,6 @@ static t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forw
 
 	rotation = m_init_empty(4, 4);
 
-	// rotation->m[0][0] = right->raw_matrix->m[0][0]; 
-	// rotation->m[1][0] = right->raw_matrix->m[1][0];
-	// rotation->m[2][0] = right->raw_matrix->m[2][0];
-
-	// rotation->m[0][1] = true_up->raw_matrix->m[0][0];
-	// rotation->m[1][1] = true_up->raw_matrix->m[1][0];
-	// rotation->m[2][1] = true_up->raw_matrix->m[2][0];
-
-	// rotation->m[0][2] = -forward->raw_matrix->m[0][0];
-	// rotation->m[1][2] = -forward->raw_matrix->m[1][0];
-	// rotation->m[2][2] = -forward->raw_matrix->m[2][0];
-
 	rotation->m[0][0] = right->raw_matrix->m[0][0]; 
 	rotation->m[0][1] = right->raw_matrix->m[1][0];
 	rotation->m[0][2] = right->raw_matrix->m[2][0];
@@ -79,11 +67,23 @@ static t_matrix *construct_translation(t_vec3 *position)
 // 	return (res);
 // }
 
+t_vec3	*get_right(t_vec3 *forward, t_vec3 *up)
+{
+	matrix_type	y_val;
+
+	y_val = forward->raw_matrix->m[1][0];
+	if (y_val == 1)
+		return (vec3_init(1,0,0));
+	else if (y_val == -1)
+		return (vec3_init(-1,0,0));
+	else
+		return (vec3_crossproduct(forward, up));
+}
+
 // heres to not break anything
 void	cam_view_matrix(t_camera *cam)
 {
 	t_vec3	*position;
-	matrix_type	up_val[3] = {0,1,0};
 	t_vec3	*up;
 	t_vec3	*forward;
 	t_vec3	*right;
@@ -91,13 +91,13 @@ void	cam_view_matrix(t_camera *cam)
 
 	position = cam->cam_coords;
 	forward = cam->cam_vec_orient;
-	up = vec3_init_from_array(up_val);
+	up = vec3_init(0,1,0);
 
 	printf("forward = \n");
 	vec3_print(forward);
 
-	right = vec3_crossproduct(forward, up);
-	printf("right = \n");
+	right = get_right(forward, up);
+	printf("right = \n"); 
 	vec3_print(right);
 
 	true_up = vec3_crossproduct(right, forward);

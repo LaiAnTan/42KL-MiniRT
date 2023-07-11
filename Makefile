@@ -19,7 +19,6 @@ SRCS_C =	srcs/utils/utils_2.c				\
 			srcs/mlx.c							\
 			srcs/view.c							\
 			srcs/model.c						\
-			srcs/circle.c						\
 			srcs/collision.c					\
 			srcs/lighting.c						\
 			srcs/plane.c						\
@@ -28,6 +27,7 @@ SRCS_C =	srcs/utils/utils_2.c				\
 			srcs/events.c						\
 			srcs/timer.c						\
 			srcs/viewport.c						\
+			srcs/new_circle.c						\
 
 # CFLAGS := -Wall -Wextra -Werror
 

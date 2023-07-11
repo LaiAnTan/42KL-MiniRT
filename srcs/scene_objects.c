@@ -123,7 +123,7 @@ t_cylinder	*object_new_cylinder(double cy_height, double cy_diameter, double cy_
 	new_cylinder = (t_cylinder *) malloc(sizeof(t_cylinder));
 	new_cylinder->cy_height = cy_height;
 	new_cylinder->cy_diameter = cy_diameter;
-	new_cylinder->cy_vec_axis = vec_4_init_from_coordinates(cy_vec_axis);
+	new_cylinder->cy_vec_axis = vec3_init_from_array(cy_vec_axis);
 	return (new_cylinder);
 }
 
@@ -225,7 +225,7 @@ void	object_free_cylinder(t_cylinder *cylinder)
 {
 	if (!cylinder)
 		return ;
-	vec4_free(&cylinder->cy_vec_axis);
+	vec3_free(&cylinder->cy_vec_axis);
 	free(cylinder);
 }
 
@@ -323,7 +323,7 @@ void	scene_print_plane_stats(t_plane *plane)
 void	scene_print_cylinder_stats(t_cylinder *cylinder)
 {
 	printf("cy_vec_axis = ");
-	vec4_print(cylinder->cy_vec_axis);
+	vec3_print(cylinder->cy_vec_axis);
 	printf("cy_diameter = %f\n", cylinder->cy_diameter);
 	printf("cy_height = %f\n", cylinder->cy_height);
 }

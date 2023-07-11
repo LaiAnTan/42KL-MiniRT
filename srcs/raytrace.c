@@ -92,17 +92,7 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 		while (light)
 		{
 			p_from_light = get_closest_light(ray, light, scene);
-			if (p_from_light == ERROR)
-			{
-				if (!light->next && ray->type == SHADOW)
-				{
-					ray->type = SHADOW;
-					shadow_diffuse(ray);
-				}
-				light = light->next;
-				continue;
-			}
-			else
+			if (p_from_light != ERROR)
 			{
 				// calculate diffuse & specular lighting
 				ray->type = COLLIDED;
@@ -112,6 +102,8 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 		}
 	}
 
+	if (ray->type == SHADOW)
+		shadow_diffuse(ray);
 //  -----------------------------------------------------------------------------
 
 	// ambient
