@@ -1,6 +1,8 @@
- #include "../headers/minirt.h"
+#include "../headers/minirt.h"
 
-static t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forward)
+
+// rotation matrix
+t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forward)
 {
 	t_matrix *rotation;
 
@@ -79,6 +81,19 @@ static t_matrix *construct_translation(t_vec3 *position)
 // 	return (res);
 // }
 
+t_vec3	*get_right(t_vec3 *forward, t_vec3 *up)
+{
+    matrix_type	y_val;
+
+    y_val = forward->raw_matrix->m[1][0];
+    if (y_val == 1)
+        return (vec3_init(1,0,0));
+    else if (y_val == -1)
+        return (vec3_init(-1,0,0));
+    else
+        return (vec3_crossproduct(forward, up));
+}
+
 // heres to not break anything
 void	cam_view_matrix(t_camera *cam)
 {
@@ -97,7 +112,7 @@ void	cam_view_matrix(t_camera *cam)
 	printf("forward = \n");
 	vec3_print(forward);
 
-	right = vec3_crossproduct(forward, up);
+	right = get_right(forward, up);
 	printf("right = \n");
 	vec3_print(right);
 

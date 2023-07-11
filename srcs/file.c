@@ -232,7 +232,7 @@ int	handle_object_cylinder(t_scene *scene, char **tokens)
 	cy_vec_axis = unpack_3_double_values(tokens[2]);
 	if (!cy_rgb || !cy_coords || !cy_vec_axis)
 		return (-1);
-	new_object = scene_new_object(CIRCLE, cy_coords, cy_rgb, ft_atof(tokens[6]));
+	new_object = scene_new_object(CYLINDER, cy_coords, cy_rgb, ft_atof(tokens[6]));
 	new_object->ob_cylinders = object_new_cylinder((double) ft_atof(tokens[4]), (double) ft_atof(tokens[3]), cy_vec_axis);
 	scene_object_add_back(&scene->sc_objs, new_object);
 	free(cy_rgb);

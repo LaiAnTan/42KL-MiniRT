@@ -115,13 +115,13 @@ typedef struct s_cylinder
 	double			cy_height;
 	double			cy_diameter;
 
-	t_vec4			*cy_vec_axis;
+	t_vec3			*cy_vec_axis;
 }			t_cylinder;
 
 // because 10 linked list is painful
 # define CIRCLE 0
 # define PLANE 1
-# define CYLIDNER 2
+# define CYLINDER 2
 typedef struct s_object
 {
 	int				ob_type;
@@ -244,6 +244,7 @@ void		raytrace(t_scene *scene, t_mlx_info *mlx);
 
 double		intersect_plane(t_ray *ray, t_object *o);
 double		intersect_circle(t_ray	*ray, t_object *o);
+double		intersect_cylinder(t_ray *ray, t_object *o);
 
 void		ambient_color(t_ray	*ray, t_ambient *a, t_object *o);
 t_vec3		*inverse_color(t_vec3	*c);
@@ -257,5 +258,9 @@ int			get_closest_light(t_ray *r, t_light *l, t_scene *scene);
 // hm
 void	cam_view_matrix(t_camera *cam);
 void	change_to_view_port(t_scene *scn);
+
+void	solve_quad(double *coefficients, double *result);
+
+t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forward);
 
 # endif

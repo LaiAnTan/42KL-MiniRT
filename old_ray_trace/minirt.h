@@ -13,10 +13,10 @@
 # define R_DEPTH 2
 
 // settings
-# define WIDTH 600.0f
-# define RAYS_IN_X 600.0f
-# define HEIGHT 450.0f
-# define RAYS_IN_Y 450.0f
+# define WIDTH 1280.0f
+# define RAYS_IN_X 1280.0f
+# define HEIGHT 720.0f
+# define RAYS_IN_Y 720.0f
 
 # define HORI_FOV 60.0f
 

@@ -33,8 +33,10 @@ t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right);
 t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value);
 t_vec3	*vec3_normalize(t_vec3 *vctr);
 t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b);
+
 double	*vec3_direction_cosines(t_vec3 *vctr);
 double	*vec3_u_direction_cosines(t_vec3 *vec3_norm);
+
 t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right);
 
 #endif

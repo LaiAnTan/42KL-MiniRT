@@ -17,6 +17,8 @@ t_object	*get_closest_object(t_ray *ray, t_scene *scene, int closest,
 			r_to_o = intersect_circle(ray, cur);
 		else if (cur->ob_type == PLANE)
 			r_to_o = intersect_plane(ray, cur);
+		else if (cur->ob_type == CYLINDER)
+			r_to_o = intersect_cylinder(ray, cur);
 
 		// means collided d
 		if (r_to_o != ERROR)
