@@ -62,12 +62,13 @@ double    intersect_cylinder(t_ray *ray, t_object *o)
                         vec3_dotproduct(ray->dir_vector, o->ob_cylinders->cy_vec_axis) *
                             vec3_dotproduct(w, o->ob_cylinders->cy_vec_axis));
 
-    coefficients[2] = vec3_dotproduct(w, w) - (vec3_dotproduct(w, o->ob_cylinders->cy_vec_axis) * vec3_dotproduct(w, o->ob_cylinders->cy_vec_axis)) -
+    coefficients[2] = vec3_dotproduct(w, w) - 
+						(vec3_dotproduct(w, o->ob_cylinders->cy_vec_axis) * vec3_dotproduct(w, o->ob_cylinders->cy_vec_axis)) -
                         ((o->ob_cylinders->cy_diameter / 2) * (o->ob_cylinders->cy_diameter / 2));
 
     solve_quad_cy(coefficients, values);
 
-    vec3_free(&modified_ray_pos);
+    
 
     if (values[0] < 0)
         return (ERROR);
@@ -78,5 +79,28 @@ double    intersect_cylinder(t_ray *ray, t_object *o)
     if (values[0] < 0)
         values[0] = fmax(values[1], values[2]);
 
-    return (values[0]);
+	// calculate intersection point
+	t_vec3	*intersection_point;
+	
+	intersection_point = vec3_addition(modified_ray_pos, vec3_scalar_multi(ray->dir_vector, values[0]));
+
+	vec3_free(&modified_ray_pos);
+
+	double z;
+
+	z = vec3_dotproduct(vec3_difference(intersection_point, center_bottom), 
+					o->ob_cylinders->cy_vec_axis);
+
+	if (z < 0)
+	{
+		// test with base cap
+		return (ERROR);
+	}
+	else if (z > vec3_magnitude(o->ob_cylinders->cy_vec_axis))
+	{
+		//test with top cap
+		return (ERROR);
+	}
+	else
+		return (values[0]);
 }
