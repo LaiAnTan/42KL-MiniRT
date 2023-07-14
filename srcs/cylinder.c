@@ -41,6 +41,19 @@ void	solve_quad_cy(double *coefficients, double *result)
 	result[2] = ((-1 * b) - d) / (2 * a);
 }
 
+// need a specific center bottom getter (since the cylinder axis isnt constantly 0,0,1)
+t_vec3	*get_centre_bottom(t_object *o)
+{
+	double	diff;
+	t_vec3	*ret;
+	t_vec3	*to_min;
+
+	diff = o->ob_cylinders->cy_height / 2;
+	to_min = vec3_scalar_multi(o->ob_cylinders->cy_vec_axis, diff);
+	ret = vec3_difference(o->ob_coords, to_min);
+	return (ret);
+}
+
 double    intersect_cylinder(t_ray *ray, t_object *o)
 {
     double	values[3];
@@ -51,8 +64,9 @@ double    intersect_cylinder(t_ray *ray, t_object *o)
     t_vec3	*w;
 
     modified_ray_pos = vec3_difference(ray->pos_vector, o->ob_coords);
-    center_bottom = vec3_dup(o->ob_coords);
-    center_bottom->raw_matrix->m[2][0] -= o->ob_cylinders->cy_height / 2;
+	center_bottom = get_centre_bottom(o);
+    // center_bottom = vec3_dup(o->ob_coords);
+    // center_bottom->raw_matrix->m[2][0] -= o->ob_cylinders->cy_height / 2;
     w = vec3_difference(modified_ray_pos, center_bottom);
 
     coefficients[0] = vec3_dotproduct(ray->dir_vector, ray->dir_vector) - 
@@ -75,6 +89,7 @@ double    intersect_cylinder(t_ray *ray, t_object *o)
     if (values[1] < 0 && values[2] < 0)
         return (ERROR);
 
+	// fun fact, we gotta test both values :P
     values[0] = fmin(values[1], values[2]);
     if (values[0] < 0)
         values[0] = fmax(values[1], values[2]);
@@ -87,16 +102,26 @@ double    intersect_cylinder(t_ray *ray, t_object *o)
 	vec3_free(&modified_ray_pos);
 
 	double z;
+	t_vec3	*temp;
+	t_vec3	*h;
 
-	z = vec3_dotproduct(vec3_difference(intersection_point, center_bottom), 
-					o->ob_cylinders->cy_vec_axis);
+	h = vec3_dup(o->ob_cylinders->cy_vec_axis);
+	// mhm, weird shit
+	// this should be the correct one (based on website), but it doesnt work...
+	// oH well
+	// h = vec3_scalar_multi(o->ob_cylinders->cy_vec_axis, o->ob_cylinders->cy_height);
+	temp = vec3_difference(intersection_point, center_bottom);
+	z = vec3_dotproduct(temp, h);
 
-	if (z < 0)
+	vec3_free(&temp);
+	vec3_free(&h);
+
+	if (z <=0)
 	{
 		// test with base cap
 		return (ERROR);
 	}
-	else if (z > vec3_magnitude(o->ob_cylinders->cy_vec_axis))
+	else if (z > o->ob_cylinders->cy_height) // this should be the height of the cylinder
 	{
 		//test with top cap
 		return (ERROR);

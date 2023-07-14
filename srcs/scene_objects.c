@@ -123,7 +123,10 @@ t_cylinder	*object_new_cylinder(double cy_height, double cy_diameter, double cy_
 	new_cylinder = (t_cylinder *) malloc(sizeof(t_cylinder));
 	new_cylinder->cy_height = cy_height;
 	new_cylinder->cy_diameter = cy_diameter;
-	new_cylinder->cy_vec_axis = vec3_init_from_array(cy_vec_axis);
+	t_vec3	*temp;
+	temp = vec3_init_from_array(cy_vec_axis);
+	new_cylinder->cy_vec_axis = vec3_normalize(temp);
+	vec3_free(&temp);
 	return (new_cylinder);
 }
 

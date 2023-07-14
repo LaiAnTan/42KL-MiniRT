@@ -118,6 +118,14 @@ typedef struct s_cylinder
 	t_vec3			*cy_vec_axis;
 }			t_cylinder;
 
+typedef struct s_cone
+{
+	double			cn_height;
+	double			cn_diameter;
+
+	t_vec3			*cn_vec_axis;
+}			t_cone;
+
 // because 10 linked list is painful
 # define CIRCLE 0
 # define PLANE 1
@@ -128,6 +136,7 @@ typedef struct s_object
 	t_sphere		*ob_spheres;
 	t_plane			*ob_planes;
 	t_cylinder		*ob_cylinders;
+	t_cone			*ob_cones;
 
 	double			ob_spec;
 	t_vec3			*ob_coords;
