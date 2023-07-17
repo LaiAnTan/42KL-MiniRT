@@ -44,7 +44,9 @@ double intersect_circle(t_ray *ray, t_object *o)
 	// in theory this would work (theory)
 
 	// le ipad formulas
-	coefficients[0] = vec3_magnitude_sqrd(ray->dir_vector);
+	coefficients[0] = 1;
+	// always 1
+	// coefficients[0] = vec3_magnitude_sqrd(ray->dir_vector);
 	coefficients[1] = vec3_dotproduct(modified_ray_pos, ray->dir_vector);
 	coefficients[2] = vec3_magnitude_sqrd(modified_ray_pos) -
 					  (o->ob_spheres->sp_radius * o->ob_spheres->sp_radius);

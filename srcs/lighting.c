@@ -143,7 +143,7 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 		b_norm = vec3_dup(o->ob_planes->pl_vec_normal);
 	else if (o->ob_type == CYLINDER)
 	{
-		return ;
+		b_norm = calc_cylinder_norm(r, o);
 	}
 	vec3_free(&a);
 	vec3_free(&b);
@@ -153,6 +153,8 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 	// wow im sure am lazy to recalculate the costheta angle for the opposite normal for planes
 	if (o->ob_type == PLANE && costheta < 0)
 		costheta *= -1;
+	// else if (o->ob_type == CYLINDER && costheta < 0)
+	// 	costheta *= -1;
 
 	if (costheta < 0)
 	{

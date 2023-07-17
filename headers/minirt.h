@@ -271,5 +271,6 @@ void	change_to_view_port(t_scene *scn);
 void	solve_quad(double *coefficients, double *result);
 
 t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forward);
+t_vec3	*calc_cylinder_norm(t_ray *r, t_object *o);
 
 # endif

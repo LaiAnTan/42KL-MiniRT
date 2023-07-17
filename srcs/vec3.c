@@ -224,10 +224,10 @@ t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right)
 	return (vec3_init_from_array(stuff));
 }
 
-void	vec3_negate(t_vec3 *vector)
+t_vec3	*vec3_negate(t_vec3 *vector)
 {
 	vector->raw_matrix->m[0][0] = -vector->raw_matrix->m[0][0];
 	vector->raw_matrix->m[1][0] = -vector->raw_matrix->m[1][0];
 	vector->raw_matrix->m[2][0] = -vector->raw_matrix->m[2][0];
-	return ;
+	return (vector);
 }

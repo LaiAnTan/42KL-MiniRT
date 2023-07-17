@@ -13,6 +13,7 @@ typedef struct s_ray
 {
 	// ray type
 	int			type;
+	int			inside;
 	// position vector
 	t_vec3	*pos_vector;
 
@@ -24,7 +25,6 @@ typedef struct s_ray
 	t_vec3	*a_color; // ambient
 	t_vec3	*d_color; // diffuse
 	t_vec3	*s_color; // specular
-
 } t_ray;
 
 t_ray	*init_ray(t_vec3 *pos_vector, t_vec3 *dir_vector);

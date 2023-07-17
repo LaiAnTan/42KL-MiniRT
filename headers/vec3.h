@@ -22,7 +22,7 @@ void		vec3_store_val(t_vec3 *vector, matrix_type array[3]);
 
 void		vec3_print(t_vec3 *stuff);
 void		vec3_free(t_vec3 **stuff);
-void 		vec3_negate(t_vec3 *vector);
+t_vec3		*vec3_negate(t_vec3 *vector);
 
 t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right);
 double	vec3_dotproduct(t_vec3 *left, t_vec3 *right);

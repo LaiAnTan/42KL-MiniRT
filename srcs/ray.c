@@ -15,6 +15,7 @@ t_ray	*init_ray(t_vec3 *pos_vector, t_vec3 *dir_vector)
 	ret->d_color = vec3_init_from_array(color);
 	ret->s_color = vec3_init_from_array(color);
 	ret->type = LIGHT;
+	ret->inside = 0;
 
 	return (ret);
 }
