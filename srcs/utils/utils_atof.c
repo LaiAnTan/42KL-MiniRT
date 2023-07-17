@@ -28,6 +28,7 @@ float	ft_atof(char *str)
 	{
 		if (*str >= '0' && *str <= '9')
 			val += (pow(10, dec) * (*str - '0'));
+		dec--;
 		++str;
 	}
 	return (val * sign);
