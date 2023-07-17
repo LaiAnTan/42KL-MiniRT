@@ -18,7 +18,6 @@ SRCS_C =	srcs/utils/utils_2.c				\
 			srcs/ray.c							\
 			srcs/mlx.c							\
 			srcs/view.c							\
-			srcs/model.c						\
 			srcs/circle.c						\
 			srcs/collision.c					\
 			srcs/lighting.c						\
