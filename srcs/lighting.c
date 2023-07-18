@@ -7,10 +7,7 @@ void	ambient_color(t_ray	*ray, t_ambient *a, t_object *o)
 {
 	vec3_free(&ray->a_color);
 	if (o)
-	{
 		ray->a_color = vec3_multi_each_elem(o->ob_rgb, a->a_strength, O_CREATE);
-		// vec3_print(ray->a_color);
-	}
 	else
 		ray->a_color = vec3_dup(a->bg_color);
 }
@@ -113,40 +110,28 @@ void	calculate_specular_color(t_ray *r, t_light *l, t_object *o, t_vec3 *light, 
 
 void	shadow_diffuse(t_ray *ray)
 {
-	matrix_type	shadow[3] = {0,0,0};
-	// hard shadow
-
 	if (ray->type != SHADOW)
 		return ;
 	vec3_free(&ray->d_color);
-	ray->d_color = vec3_init_from_array(shadow);
+	ray->d_color = vec3_init(0,0,0);
 }
 
 void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 {
-	t_vec3	*a;
 	t_vec3	*a_norm;
-	t_vec3	*b;
 	t_vec3	*b_norm;
 
-	a = vec3_difference(l->l_coords, r->pos_vector, O_CREATE);
-	a_norm = vec3_normalize(a, O_CREATE);
+	a_norm = vec3_normalize(vec3_difference(l->l_coords, r->pos_vector, O_CREATE), O_REPLACE);
 
-	b = NULL;
 	// get normal to intersection
 	if (o->ob_type == CIRCLE)
-	{
-		b = vec3_difference(r->pos_vector, o->ob_coords, O_CREATE);
-		b_norm = vec3_normalize(b, O_CREATE);
-	}
+		b_norm = vec3_normalize(vec3_difference(r->pos_vector, o->ob_coords, O_CREATE), O_REPLACE);
 	else if (o->ob_type == PLANE)
 		b_norm = vec3_dup(o->ob_planes->pl_vec_normal);
 	else if (o->ob_type == CYLINDER)
 		b_norm = calc_cylinder_norm(r, o);
 	else if (o->ob_type == CONE)
 		b_norm = calc_cone_norm(r, o); 
-	vec3_free(&a);
-	vec3_free(&b);
 
 	double	costheta;
 	costheta = vec3_dotproduct(a_norm, b_norm);

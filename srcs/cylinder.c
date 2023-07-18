@@ -9,7 +9,6 @@ t_vec3	*calc_cylinder_norm(t_ray *r, t_object *o)
 	modified_ray = vec3_difference(r->pos_vector, o->ob_cylinders->cy_bottom, O_CREATE);
 	proj_ray = vec3_projection(modified_ray, o->ob_cylinders->cy_vec_axis, O_CREATE);
 
-
 	// shitshow of a calculation (answer is inside modified_ray)
 	vec3_normalize(vec3_difference(modified_ray, proj_ray, O_REPLACE), O_REPLACE);
 

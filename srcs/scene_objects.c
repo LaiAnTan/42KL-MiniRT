@@ -2,7 +2,6 @@
 
 t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio)
 {
-	matrix_type	black[3] = {255,255,255};
 	t_ambient	*new_ambient;
 
 	new_ambient = (t_ambient *) malloc(sizeof(t_ambient));
@@ -10,8 +9,7 @@ t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio)
 	new_ambient->a_rgb = vec3_init_from_array(a_rgb);
 	new_ambient->a_strength = vec3_scalar_multi(new_ambient->a_rgb, (double) 1/255, O_CREATE);
 	vec3_scalar_multi(new_ambient->a_strength, a_ratio, O_REPLACE);
-	new_ambient->bg_color = vec3_init_from_array(black);
-	vec3_multi_each_elem(new_ambient->bg_color, new_ambient->a_strength, O_REPLACE);
+	new_ambient->bg_color = vec3_multi_each_elem(vec3_init(255,255,255), new_ambient->a_strength, O_CREATE);
 	return (new_ambient);
 }
 
@@ -22,8 +20,7 @@ t_camera	*scene_new_camera(double cam_fov, double cam_coords[3], double cam_vec_
 	new_camera = (t_camera *) malloc(sizeof(t_camera));
 	new_camera->cam_fov = cam_fov;
 	new_camera->cam_coords = vec3_init_from_array(cam_coords);
-	new_camera->cam_vec_orient = vec3_init_from_array(cam_vec_orient);
-	vec3_normalize(new_camera->cam_vec_orient, O_REPLACE);
+	new_camera->cam_vec_orient = vec3_normalize(vec3_init_from_array(cam_vec_orient), O_REPLACE);
 	new_camera->cam_coords_v4 = NULL;
 	new_camera->cam_vec_orient_v4 = NULL;
 	new_camera->view_matrix = NULL;
@@ -104,8 +101,7 @@ t_plane		*object_new_plane(double pl_vec_normal[3])
 	t_plane		*new_plane;
 
 	new_plane = (t_plane *) malloc(sizeof(t_plane));
-	new_plane->pl_vec_normal = vec3_init_from_array(pl_vec_normal);
-	vec3_normalize(new_plane->pl_vec_normal, O_REPLACE);
+	new_plane->pl_vec_normal = vec3_normalize(vec3_init_from_array(pl_vec_normal), O_REPLACE);
 	new_plane->pl_vec_normal_v4 = NULL;
 	return (new_plane);
 }
@@ -117,8 +113,7 @@ t_cylinder	*object_new_cylinder(t_vec3 *center, double cy_height, double cy_diam
 	new_cylinder = (t_cylinder *) malloc(sizeof(t_cylinder));
 	new_cylinder->cy_height = cy_height;
 	new_cylinder->cy_diameter = cy_diameter;
-	new_cylinder->cy_vec_axis = vec3_init_from_array(cy_vec_axis);
-	vec3_normalize(new_cylinder->cy_vec_axis, O_REPLACE);
+	new_cylinder->cy_vec_axis = vec3_normalize(vec3_init_from_array(cy_vec_axis), O_REPLACE);
 	return (new_cylinder);
 }
 
@@ -129,8 +124,7 @@ t_cone	*object_new_cone(t_vec3 *center, double cn_height, double cn_diameter, do
 	new_cone = (t_cone *) malloc(sizeof(t_cone));
 	new_cone->cn_height = cn_height;
 	new_cone->cn_diameter = cn_diameter;
-	new_cone->cn_vec_axis = vec3_init_from_array(cn_vec_axis);
-	vec3_normalize(new_cone->cn_vec_axis, O_REPLACE);
+	new_cone->cn_vec_axis = vec3_normalize(vec3_init_from_array(cn_vec_axis), O_REPLACE);
 	return (new_cone);
 }
 
