@@ -7,12 +7,13 @@ A simple raytracing engine.
 - Objects (Plane, Sphere, Cylinder, Cone)
 - Colored & multiple spot lighting
 - Full Phong Reflection Model (Diffuse, Specular, Ambient)
+- Textures && Bump Maps (soon maybe)
 
 ## Dependencies
 
-gcc w/ Math Library
-MinilibX Library
-GNU Make
+- gcc w/ Math Library
+- MinilibX Library
+- GNU Make
 
 ## Installation
 
@@ -23,6 +24,6 @@ yeet
 - cshi-xia (@SphagettiCodes)
 - tlai-an (Myself)
 
-## Documentation
+## Documentation && Resources
 
 soon
