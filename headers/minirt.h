@@ -116,6 +116,7 @@ typedef struct s_cylinder
 	double			cy_diameter;
 
 	t_vec3			*cy_vec_axis;
+	t_vec3			*cy_bottom;
 }			t_cylinder;
 
 typedef struct s_cone
@@ -124,12 +125,14 @@ typedef struct s_cone
 	double			cn_diameter;
 
 	t_vec3			*cn_vec_axis;
+	t_vec3			*cn_bottom;
 }			t_cone;
 
 // because 10 linked list is painful
 # define CIRCLE 0
 # define PLANE 1
 # define CYLINDER 2
+# define CONE 3
 typedef struct s_object
 {
 	int				ob_type;
@@ -171,7 +174,8 @@ t_light		*scene_new_light(double l_rgb[3], double l_coords[3], double l_brightne
 t_object	*object_init();
 t_sphere	*object_new_sphere(double sp_diameter);
 t_plane		*object_new_plane(double pl_vec_normal[3]);
-t_cylinder	*object_new_cylinder(double cy_height, double cy_diameter, double cy_vec_axis[3]);
+t_cylinder	*object_new_cylinder(t_vec3 *center, double cy_height, double cy_diameter, double cy_vec_axis[3]);
+t_cone		*object_new_cone(t_vec3 *center, double cn_height, double cn_diameter, double cn_vec_axis[3]);
 
 void	scene_camera_add_back(t_camera **list_camera, t_camera *new_camera);
 void	scene_light_add_back(t_light **list_light, t_light *new_light);
@@ -244,6 +248,7 @@ void		raytrace(t_scene *scene, t_mlx_info *mlx);
 double		intersect_plane(t_ray *ray, t_object *o);
 double		intersect_circle(t_ray	*ray, t_object *o);
 double		intersect_cylinder(t_ray *ray, t_object *o);
+double		intersect_cone(t_ray *ray, t_object *o);
 
 void		ambient_color(t_ray	*ray, t_ambient *a, t_object *o);
 t_vec3		*inverse_color(t_vec3	*c);
@@ -258,7 +263,12 @@ int			get_closest_light(t_ray *r, t_light *l, t_scene *scene);
 void	cam_view_matrix(t_camera *cam);
 void	change_to_view_port(t_scene *scn);
 
-t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forward);
-t_vec3	*calc_cylinder_norm(t_ray *r, t_object *o);
+void	solve_quad(double *coefficients, double *result);
+
+t_matrix	*construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forward);
+t_vec3		*calc_cylinder_norm(t_ray *r, t_object *o);
+t_vec3		*calc_cone_norm(t_ray *r, t_object *o);
+
+void	swap(double *a, double *b);
 
 # endif

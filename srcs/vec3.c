@@ -304,3 +304,11 @@ t_vec3	*vec3_negate(t_vec3 *vctr)
 	vctr->raw_matrix->m[2][0] = -vctr->raw_matrix->m[2][0];
 	return (vctr);
 }
+
+int	vec3_isequal(t_vec3 *a, t_vec3 *b)
+{
+	return 
+	(a->raw_matrix->m[0][0] == b->raw_matrix->m[0][0] &&
+	a->raw_matrix->m[1][0] == b->raw_matrix->m[1][0] &&
+	a->raw_matrix->m[2][0] == b->raw_matrix->m[2][0]);
+}

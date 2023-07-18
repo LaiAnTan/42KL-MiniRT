@@ -46,4 +46,5 @@ t_vec3	*vec3_normalize(t_vec3 *vctr, options op);
 t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b, options op);
 t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *righ, options op);
 
+int		vec3_isequal(t_vec3 *a, t_vec3 *b);
 #endif

@@ -60,6 +60,7 @@ t_object	*object_init()
 	object->ob_cylinders = NULL;
 	object->ob_planes = NULL;
 	object->ob_spheres = NULL;
+	object->ob_cones = NULL;
 	object->next = NULL;
 	return (object);
 }
@@ -106,28 +107,42 @@ t_sphere	*object_new_sphere(double sp_diameter)
 t_plane		*object_new_plane(double pl_vec_normal[3])
 {
 	t_plane		*new_plane;
-	t_vec3		*stuff;
+	t_vec3		*temp;
 
 	new_plane = (t_plane *) malloc(sizeof(t_plane));
-	stuff = vec3_init_from_array(pl_vec_normal);
-	new_plane->pl_vec_normal = vec3_normalize(stuff);
-	vec3_free(&stuff);
+	temp = vec3_init_from_array(pl_vec_normal);
+	new_plane->pl_vec_normal = vec3_normalize(temp);
+	vec3_free(&temp);
 	new_plane->pl_vec_normal_v4 = NULL;
 	return (new_plane);
 }
 
-t_cylinder	*object_new_cylinder(double cy_height, double cy_diameter, double cy_vec_axis[3])
+t_cylinder	*object_new_cylinder(t_vec3 *center, double cy_height, double cy_diameter, double cy_vec_axis[3])
 {
 	t_cylinder	*new_cylinder;
+	t_vec3	*temp;
 
 	new_cylinder = (t_cylinder *) malloc(sizeof(t_cylinder));
 	new_cylinder->cy_height = cy_height;
 	new_cylinder->cy_diameter = cy_diameter;
-	t_vec3	*temp;
 	temp = vec3_init_from_array(cy_vec_axis);
 	new_cylinder->cy_vec_axis = vec3_normalize(temp);
 	vec3_free(&temp);
 	return (new_cylinder);
+}
+
+t_cone	*object_new_cone(t_vec3 *center, double cn_height, double cn_diameter, double cn_vec_axis[3])
+{
+	t_cone	*new_cone; 
+	t_vec3	*temp;
+	
+	new_cone = (t_cone *) malloc(sizeof(t_cone));
+	new_cone->cn_height = cn_height;
+	new_cone->cn_diameter = cn_diameter;
+	temp = vec3_init_from_array(cn_vec_axis);
+	new_cone->cn_vec_axis = vec3_normalize(temp);
+	vec3_free(&temp);
+	return (new_cone);
 }
 
 void	scene_camera_add_back(t_camera **list_camera, t_camera *new_camera)
@@ -233,7 +248,17 @@ void	object_free_cylinder(t_cylinder *cylinder)
 	if (!cylinder)
 		return ;
 	vec3_free(&cylinder->cy_vec_axis);
+	vec3_free(&cylinder->cy_bottom);
 	free(cylinder);
+}
+
+void	object_free_cone(t_cone *cone)
+{
+	if (!cone)
+		return ;
+	vec3_free(&cone->cn_vec_axis);
+	vec3_free(&cone->cn_bottom);
+	free(cone);
 }
 
 // damn lazy check type lah
@@ -244,6 +269,7 @@ void	object_free_node(t_object *obj)
 	object_free_cylinder(obj->ob_cylinders);
 	object_free_plane(obj->ob_planes);
 	object_free_sphere(obj->ob_spheres);
+	object_free_cone(obj->ob_cones);
 	free(obj);
 }
 
@@ -333,6 +359,18 @@ void	scene_print_cylinder_stats(t_cylinder *cylinder)
 	vec3_print(cylinder->cy_vec_axis);
 	printf("cy_diameter = %f\n", cylinder->cy_diameter);
 	printf("cy_height = %f\n", cylinder->cy_height);
+	printf("cy_bottom_center_point = ");
+	vec3_print(cylinder->cy_bottom);
+}
+
+void	scene_print_cone_stats(t_cone *cone)
+{
+	printf("cn_vec_axis = ");
+	vec3_print(cone->cn_vec_axis);
+	printf("cn_diameter = %f\n", cone->cn_diameter);
+	printf("cn_height = %f\n", cone->cn_height);
+	printf("cn_bottom_center_point = ");
+	vec3_print(cone->cn_bottom);
 }
 
 void	scene_print_object_stats(t_object *obj)
@@ -349,6 +387,8 @@ void	scene_print_object_stats(t_object *obj)
 		scene_print_plane_stats(obj->ob_planes);
 	if (obj->ob_spheres)
 		scene_print_sphere_stats(obj->ob_spheres);
+	if (obj->ob_cones)
+		scene_print_cone_stats(obj->ob_cones);
 }
 
 void	scene_print_stats(t_scene *scene)

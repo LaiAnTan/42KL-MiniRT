@@ -15,6 +15,32 @@ void	apply_matrix(t_vec3 **to, t_matrix *trans_mtrx)
 	(*to) = ret;
 }
 
+// need a specific center bottom getter (since the cylinder axis isnt constantly 0,0,1)
+t_vec3	*cyn_get_centre_bottom(t_vec3 *center, t_vec3 *vec_axis, double diff)
+{
+	t_vec3	*ret;
+	t_vec3	*to_min;
+
+	to_min = vec3_scalar_multi(vec_axis, diff);
+	ret = vec3_difference(center, to_min);
+	vec3_free(&to_min);
+	return (ret);
+}
+
+void	transform_cylinder(t_vec3 *center, t_cylinder *cy, t_camera *mtrx)
+{
+	apply_matrix(&(cy->cy_vec_axis), mtrx->orr_matrix);
+
+	cy->cy_bottom = cyn_get_centre_bottom(center, cy->cy_vec_axis, cy->cy_height / 2);
+}
+
+void	transform_cone(t_vec3 *center, t_cone *cn, t_camera *mtrx)
+{
+	apply_matrix(&(cn->cn_vec_axis), mtrx->orr_matrix);
+
+	cn->cn_bottom = cyn_get_centre_bottom(center, cn->cn_vec_axis, cn->cn_height);
+}
+
 // i have no idea what am i doing :D
 // known errors -> if the cam is at {0,1,0} or {0,-1,0} (parallel to the UP vector) everything breaks
 // solution -> idk hardcode :D
@@ -58,6 +84,14 @@ void	change_to_view_port(t_scene *scn)
 			store = vec3_normalize(o->ob_planes->pl_vec_normal);
 			vec3_free(&o->ob_planes->pl_vec_normal);
 			o->ob_planes->pl_vec_normal = store;
+		}
+		else if (o->ob_type == CYLINDER)
+		{
+			transform_cylinder(o->ob_coords, o->ob_cylinders, cam);
+		}
+		else if (o->ob_type == CONE)
+		{
+			transform_cone(o->ob_coords, o->ob_cones, cam);
 		}
 		o = o->next;
 	}
