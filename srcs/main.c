@@ -78,12 +78,11 @@ int main(int argc, char **argv)
 	printf("Done!\n");
 	if (!data->scene)
 		return (1);
-	// scene_print_stats(data->scene);
-	// start praying to jesus christ
+
+	scene_print_stats(data->scene);
 	change_to_view_port(data->scene);
 
 	printf("changed to view\n");
-	scene_print_stats(data->scene);
 
 	data->mlx->mlx = mlx_init();
 	data->mlx->mlx_win = mlx_new_window(data->mlx->mlx, WIDTH, HEIGHT, argv[1]);
@@ -103,7 +102,7 @@ int main(int argc, char **argv)
 
 // 	if (argc != 2)
 // 		return (ERROR);
-
+	
 // 	data.mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
 // 	printf("Getting RT file..\n");
 // 	data.scene = file_create_scene(argv[1]);

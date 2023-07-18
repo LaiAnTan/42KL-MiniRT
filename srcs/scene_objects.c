@@ -342,8 +342,12 @@ void	scene_print_cylinder_stats(t_cylinder *cylinder)
 	vec3_print(cylinder->cy_vec_axis);
 	printf("cy_diameter = %f\n", cylinder->cy_diameter);
 	printf("cy_height = %f\n", cylinder->cy_height);
-	printf("cy_bottom_center_point = ");
-	vec3_print(cylinder->cy_bottom);
+	if (cylinder->cy_bottom)
+	{
+		printf("cy_bottom_center_point = ");
+		vec3_print(cylinder->cy_bottom);
+	}
+
 }
 
 void	scene_print_cone_stats(t_cone *cone)
@@ -352,8 +356,11 @@ void	scene_print_cone_stats(t_cone *cone)
 	vec3_print(cone->cn_vec_axis);
 	printf("cn_diameter = %f\n", cone->cn_diameter);
 	printf("cn_height = %f\n", cone->cn_height);
-	printf("cn_bottom_center_point = ");
-	vec3_print(cone->cn_bottom);
+	if (cone->cn_bottom)
+	{
+		printf("cn_bottom_center_point = ");
+		vec3_print(cone->cn_bottom);
+	}
 }
 
 void	scene_print_object_stats(t_object *obj)
