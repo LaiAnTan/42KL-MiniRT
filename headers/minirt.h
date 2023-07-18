@@ -158,15 +158,6 @@ typedef struct s_data
 	t_scene			*scene;
 }			t_data;
 
-/* coordinate systems transformation matrices */
-t_matrix	*get_view_matrix(t_vec3 *position, t_vec3 *reference, t_vec3 *up); // world-to-view matrix
-
-t_matrix	*get_model_matrix(t_object *cylinder); // model-to-world for cylinder
-
-t_matrix	*get_inverse_transform(t_matrix *transform); // inverse for transformation matrices
-
-t_vec3	*convert_pixels(int pixel_x, int pixel_y, t_camera *camera);
-
 /* Scene Objects Boilerplate */
 
 t_scene	*scene_init(void);
@@ -242,7 +233,6 @@ void	free_2d_array(char **arr);
 
 // --------------------------- uhhh have fun seperating ------------------------- //
 
-void		kewl_quirky_raytrace(t_scene *scene, t_mlx_info *mlx);
 void		calculate_ray_positions(double store[3], double x, double y, double fov);
 t_ray		*project_ray(double x, double y, t_camera *camera);
 void		do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx);
@@ -267,8 +257,6 @@ int			get_closest_light(t_ray *r, t_light *l, t_scene *scene);
 // hm
 void	cam_view_matrix(t_camera *cam);
 void	change_to_view_port(t_scene *scn);
-
-void	solve_quad(double *coefficients, double *result);
 
 t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forward);
 t_vec3	*calc_cylinder_norm(t_ray *r, t_object *o);

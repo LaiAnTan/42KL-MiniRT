@@ -12,20 +12,6 @@ t_vec3	*vec3_init(double x, double y, double z)
 	return (ret);
 }
 
-t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right)
-{
-	matrix_type	store[3];
-	int			i;
-
-	i = 0;
-	while (i < 3)
-	{
-		store[i] = left->raw_matrix->m[i][0] * right->raw_matrix->m[i][0];
-		++i;
-	}
-	return(vec3_init_from_array(store));
-}
-
 t_vec3	*vec3_init_from_matrix(t_matrix *stuff)
 {
 	t_vec3	*ret;
@@ -73,6 +59,15 @@ void	vec3_store_val(t_vec3 *vector, matrix_type array[3])
 	array[2] = vector->raw_matrix->m[2][0];
 }
 
+void	vec3_print(t_vec3 *stuff)
+{
+	t_matrix	*mtrx;
+
+	mtrx = stuff->raw_matrix;
+	printf("[ %.2f, %.2f, %.2f ]\n", 
+		mtrx->m[0][0], mtrx->m[1][0], mtrx->m[2][0]);
+}
+
 void	vec3_free(t_vec3 **stuff)
 {
 	if (!(*stuff))
@@ -82,15 +77,6 @@ void	vec3_free(t_vec3 **stuff)
 	free((*stuff));
 
 	*stuff = NULL;
-}
-
-void	vec3_print(t_vec3 *stuff)
-{
-	t_matrix	*mtrx;
-
-	mtrx = stuff->raw_matrix;
-	printf("[ %.2f, %.2f, %.2f ]\n", 
-		mtrx->m[0][0], mtrx->m[1][0], mtrx->m[2][0]);
 }
 
 // we gonna happily assume its i, j, k (so perpendicular, so cancel each other out)
@@ -108,20 +94,6 @@ double	vec3_dotproduct(t_vec3 *left, t_vec3 *right)
 		(left_m->m[1][0] * right_m->m[1][0]) +
 		(left_m->m[2][0] * right_m->m[2][0]) 
 	);
-}
-
-// projecting vector a on vector b
-t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b)
-{
-	double		project_mag;
-	t_vec3	*norm_b;
-	t_vec3	*ret;
-
-	project_mag = vec3_dotproduct(a, b) / vec3_magnitude(b);
-	norm_b = vec3_normalize(b);
-	ret = vec3_scalar_multi(norm_b, project_mag);
-	vec3_free(&norm_b);
-	return (ret);
 }
 
 // oh WE ARE DEFINATELY OPTIMIZING THIS LATER
@@ -148,30 +120,6 @@ double	vec3_magnitude_sqrd(t_vec3 *vctr)
 	y = vctr->raw_matrix->m[1][0];
 	z = vctr->raw_matrix->m[2][0];
 	return ((x * x) + (y * y) + (z * z));
-}
-
-t_vec3	*vec3_difference(t_vec3 *left, t_vec3 *right)
-{
-	return (vec3_init_from_matrix(m_subtraction(left->raw_matrix, right->raw_matrix)));
-}
-
-t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right)
-{
-	return (vec3_init_from_matrix(m_addition(left->raw_matrix, right->raw_matrix)));
-}
-
-t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value)
-{
-	return (vec3_init_from_matrix(m_scalar_multi(vctr->raw_matrix, value)));
-}
-
-// my bad, normalize isnt unit vector :P
-t_vec3	*vec3_normalize(t_vec3 *vctr)
-{
-	double	mag;
-
-	mag = vec3_magnitude(vctr);
-	return (vec3_scalar_multi(vctr, 1/mag));
 }
 
 // 0 - angle between ray and x axis
@@ -204,12 +152,125 @@ double	*vec3_u_direction_cosines(t_vec3 *vec3_norm)
 	return (ret);
 }
 
+
+// projecting vector a on vector b
+t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b, options op)
+{
+	double		project_mag;
+	t_vec3	*norm_b;
+	t_vec3	*ret;
+
+	project_mag = vec3_dotproduct(a, b) / vec3_magnitude(b);
+	norm_b = vec3_normalize(b, O_CREATE);
+
+	if (op == O_CREATE)
+		ret = vec3_scalar_multi(norm_b, project_mag, O_CREATE);
+	else if (op == O_REPLACE)
+		ret = vec3_scalar_multi(norm_b, project_mag, O_REPLACE);
+	vec3_free(&norm_b);
+	return (ret);
+}
+
+t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right, options op)
+{
+	matrix_type	store[3];
+	int			i;
+
+	i = 0;
+	while (i < 3)
+	{
+		store[i] = left->raw_matrix->m[i][0] * right->raw_matrix->m[i][0];
+		++i;
+	}
+
+	// O_CREATE
+	if (op == O_CREATE)
+		return (vec3_init_from_array(store));
+
+	// O_REPLACE
+	i = 0;
+	while (i < 3)
+	{
+		left->raw_matrix->m[i][0] = store[i];
+		++i;
+	}
+	return (left);
+}
+
+t_vec3	*vec3_difference(t_vec3 *left, t_vec3 *right, options op)
+{
+	int	i;
+
+	i = 0;
+	if (op == O_CREATE)
+		return (vec3_init_from_matrix(m_subtraction(left->raw_matrix, right->raw_matrix)));
+	else if (op == O_REPLACE)
+	{
+		while (i < 3)
+		{
+			left->raw_matrix->m[i][0] -= right->raw_matrix->m[i][0];
+			++i;
+		}
+		return (left);
+	}
+}
+
+t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right, options op)
+{
+	int	i;
+
+	i = 0;
+	if (op == O_CREATE)
+		return (vec3_init_from_matrix(m_addition(left->raw_matrix, right->raw_matrix)));
+	else if (op == O_REPLACE)
+	{
+		while (i < 3)
+		{
+			left->raw_matrix->m[i][0] += right->raw_matrix->m[i][0];
+			++i;
+		}
+		return (left);
+	}
+	
+}
+
+t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value, options op)
+{
+	int	i;
+
+	i = 0;
+	if (op == O_CREATE)
+		return (vec3_init_from_matrix(m_scalar_multi(vctr->raw_matrix, value)));
+	else if (op == O_REPLACE)
+	{
+		while (i < 3)
+		{
+			vctr->raw_matrix->m[i][0] *= value;
+			++i;
+		}
+		return (vctr);
+	}
+}
+
+// my bad, normalize isnt unit vector :P
+t_vec3	*vec3_normalize(t_vec3 *vctr, options op)
+{
+	double	mag;
+
+	mag = vec3_magnitude(vctr);
+	if (op == O_CREATE)
+		return (vec3_scalar_multi(vctr, 1/mag, O_CREATE));
+	else if (op == O_REPLACE)
+		return (vec3_scalar_multi(vctr, 1/mag, O_REPLACE));
+}
+
 // A x B = |A| |B| sin theta ^n
 // ^n is the unit vector perpendicular to the both vectors
 // ONLY WORKS FOR VEC3
 // THERE IS NO CROSSPRODUCT FOR A 4-D VECTOR
-t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right)
+t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right, options op)
 {
+	int			i;
 	matrix_type	stuff[3];
 	matrix_type	*left_val;
 	matrix_type	*right_val;
@@ -221,13 +282,25 @@ t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right)
 	stuff[2] = (left_val[0] * right_val[1]) - (left_val[1] * right_val[0]);
 	free(left_val);
 	free(right_val);
-	return (vec3_init_from_array(stuff));
+
+	if (op == O_CREATE)
+		return (vec3_init_from_array(stuff));
+	else if (op == O_REPLACE)
+	{
+		i = 0;
+		while (i < 3)
+		{
+			left->raw_matrix->m[i][0] = stuff[i];
+			++i;
+		}
+		return (left);
+	}
 }
 
-t_vec3	*vec3_negate(t_vec3 *vector)
+t_vec3	*vec3_negate(t_vec3 *vctr)
 {
-	vector->raw_matrix->m[0][0] = -vector->raw_matrix->m[0][0];
-	vector->raw_matrix->m[1][0] = -vector->raw_matrix->m[1][0];
-	vector->raw_matrix->m[2][0] = -vector->raw_matrix->m[2][0];
-	return (vector);
+	vctr->raw_matrix->m[0][0] = -vctr->raw_matrix->m[0][0];
+	vctr->raw_matrix->m[1][0] = -vctr->raw_matrix->m[1][0];
+	vctr->raw_matrix->m[2][0] = -vctr->raw_matrix->m[2][0];
+	return (vctr);
 }
