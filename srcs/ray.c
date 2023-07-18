@@ -33,13 +33,10 @@ t_ray	*dup_ray(t_ray *source)
 void	move_ray(t_ray *ray, double k)
 {
 	t_vec3	*store;
-	t_vec3	*new;
 
-	store = vec3_scalar_multi(ray->dir_vector, k);
-	new = vec3_addition(ray->pos_vector, store);
+	store = vec3_scalar_multi(ray->dir_vector, k, O_CREATE);
+	ray->pos_vector = vec3_addition(ray->pos_vector, store, O_REPLACE);
 	vec3_free(&store);
-	vec3_free(&ray->pos_vector);
-	ray->pos_vector = new;
 }
 
 void	move_ray(t_ray *ray, double k)
