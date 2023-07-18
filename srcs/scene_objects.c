@@ -269,6 +269,7 @@ void	object_free_node(t_object *obj)
 	object_free_cylinder(obj->ob_cylinders);
 	object_free_plane(obj->ob_planes);
 	object_free_sphere(obj->ob_spheres);
+	object_free_cone(obj->ob_cones);
 	free(obj);
 }
 

@@ -118,13 +118,12 @@ double    intersect_cylinder(t_ray *ray, t_object *o)
     coefficients[2] = vec3_dotproduct(w, w) - 
 						(vec3_dotproduct(w, o->ob_cylinders->cy_vec_axis) * vec3_dotproduct(w, o->ob_cylinders->cy_vec_axis)) -
                         (r * r);
-
+	vec3_free(&w);
     solve_quad_cy(coefficients, values);
 
     if (values[0] < 0)
         return (ERROR);
     if (values[1] < 0 && values[2] < 0)
         return (ERROR);
-
 	return (cy_test_intersect(ray, o, &values[1]));	
 }
