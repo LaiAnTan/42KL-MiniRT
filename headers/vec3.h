@@ -39,4 +39,5 @@ double	*vec3_u_direction_cosines(t_vec3 *vec3_norm);
 
 t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right);
 
+int		vec3_isequal(t_vec3 *a, t_vec3 *b);
 #endif

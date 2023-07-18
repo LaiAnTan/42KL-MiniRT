@@ -1,5 +1,38 @@
 #include "../headers/minirt.h"
 
+// when used, r is already at intersection point
+t_vec3	*calc_cone_norm(t_ray *r, t_object *o)
+{
+	// no idea if it will work
+	if (vec3_isequal(r->pos_vector, o->ob_coords))
+		return (vec3_dup(o->ob_cones->cn_vec_axis));
+
+	t_vec3	*point_to_top;
+	point_to_top = vec3_difference(o->ob_coords, r->pos_vector);
+
+	t_vec3	*point_to_center;
+	point_to_center = vec3_difference(o->ob_cones->cn_bottom, r->pos_vector);
+
+	t_vec3	*criss_cross;
+	criss_cross = vec3_crossproduct(point_to_top, point_to_center);
+	vec3_free(&point_to_center);
+
+	t_vec3	*norm;
+	norm = vec3_crossproduct(point_to_top, criss_cross);
+	vec3_free(&criss_cross);
+
+	t_vec3	*ret;
+	ret = vec3_normalize(norm);
+	vec3_free(&norm);
+	vec3_free(&point_to_top);
+	if (r->inside == 0)
+		return (ret);
+	else
+		return (vec3_negate(ret));
+
+	// return (vec3_init(0,0,1));
+}
+
 void	solve_quad_cn(double *coefficients, double *result)
 {
 	double	a;
@@ -10,7 +43,7 @@ void	solve_quad_cn(double *coefficients, double *result)
 	b = coefficients[1];
 	c = coefficients[2];
 
-	result[0] = (b * b) - (4 * a * c);
+	result[0] = (b * b) - (a * c);
 	// determinant is less than zero
 	if (result[0] < 0)
 		return;
@@ -18,8 +51,46 @@ void	solve_quad_cn(double *coefficients, double *result)
 	double d;
 	d = sqrt(result[0]);
 
-	result[1] = ((-1 * b) + d) / (2 * a);
-	result[2] = ((-1 * b) - d) / (2 * a);
+	result[1] = ((-1 * b) + d) / (a);
+	result[2] = ((-1 * b) - d) / (a);
+}
+
+double	cn_test_intersect(t_ray *ray, t_object *o, double value[2])
+{
+	t_vec3	*intersect;
+	t_vec3	*mover;
+	t_vec3	*diff;
+	t_vec3	*h;
+	int	i;
+	double	k;
+
+	if (value[0] > value[1])
+		swap(&value[0], &value[1]);
+	i = 0;
+	while (i < 2)
+	{
+		if (value[i] >= 0)
+		{
+			mover = vec3_scalar_multi(ray->dir_vector, value[i]);
+			intersect = vec3_addition(ray->pos_vector, mover);
+			vec3_free(&mover);
+
+			diff = vec3_difference(intersect, o->ob_cones->cn_bottom);
+			vec3_free(&intersect);
+
+			k = vec3_dotproduct(diff, o->ob_cones->cn_vec_axis);
+			vec3_free(&diff);
+
+			if (k >= 0 && k <= o->ob_cones->cn_height)
+			{
+				if (i == 1)
+					ray->inside = 1;
+				return (value[i]);
+			}
+		}
+		++i;
+	}
+	return (ERROR);
 }
 
 // thanks for the website HEHEHHE
@@ -29,37 +100,24 @@ double	intersect_cone(t_ray *ray, t_object *o)
 	double	coefficients[3];
 	double	r;
 	double	constant;
+	t_vec3	*w;
 
-	t_vec3	*modified_pos;
-
-	modified_pos = vec3_difference(ray->pos_vector, o->ob_coords);
-
+	w = vec3_difference(ray->pos_vector, o->ob_coords);
 	r = o->ob_cones->cn_diameter / 2;
 	constant = (r * r) / (o->ob_cones->cn_height * o->ob_cones->cn_height);
 
 	double	dp1 = vec3_dotproduct(o->ob_cones->cn_vec_axis, ray->dir_vector);
-	double	dp2 = vec3_dotproduct(o->ob_cones->cn_vec_axis, modified_pos);
+	double	dp2 = vec3_dotproduct(o->ob_cones->cn_vec_axis, w);
 
-	coefficients[0] = 1 - ((constant + 1) * dp1);
-	coefficients[1] = 2 * (
-							vec3_dotproduct(modified_pos, ray->dir_vector) - 
-							((constant + 1) * dp1 * dp2)
-						);
-	coefficients[2] = vec3_dotproduct(modified_pos, modified_pos) - 
-						((constant + 1) * dp2);
+	coefficients[0] = 1 - ((constant + 1) * (dp1 * dp1));
+	coefficients[1] = vec3_dotproduct(w, ray->dir_vector) - ((constant + 1) * (dp1 * dp2));
+	coefficients[2] = vec3_dotproduct(w, w) - ((constant + 1) * (dp2 * dp2));
 
 	solve_quad_cn(coefficients, values);
-
-    vec3_free(&modified_pos);
-
-    if (values[0] < 0)
-        return (ERROR);
-    if (values[1] < 0 && values[2] < 0)
-        return (ERROR);
-
-    values[0] = fmin(values[1], values[2]);
-    if (values[0] < 0)
-        values[0] = fmax(values[1], values[2]);
-
-    return (values[0]);
+	vec3_free(&w);
+	if (values[0] < 0)
+		return (ERROR);
+	if (values[1] < 0 && values[2] < 0)
+		return (ERROR);
+	return (cn_test_intersect(ray, o, &values[1]));
 }

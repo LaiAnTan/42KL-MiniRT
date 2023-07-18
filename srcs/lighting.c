@@ -142,9 +142,9 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 	else if (o->ob_type == PLANE)
 		b_norm = vec3_dup(o->ob_planes->pl_vec_normal);
 	else if (o->ob_type == CYLINDER)
-	{
 		b_norm = calc_cylinder_norm(r, o);
-	}
+	else if (o->ob_type == CONE)
+		b_norm = calc_cone_norm(r, o); 
 	vec3_free(&a);
 	vec3_free(&b);
 
