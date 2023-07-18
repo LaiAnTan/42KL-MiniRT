@@ -107,6 +107,8 @@ int main(int argc, char **argv)
 	data.mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
 	printf("Getting RT file..\n");
 	data.scene = file_create_scene(argv[1]);
+	if (!data.scene)
+		return (ERROR);
 	printf("Done!\n");
 	data.mlx->mlx = mlx_init();
 	data.mlx->mlx_win = mlx_new_window(data.mlx->mlx, WIDTH, HEIGHT, argv[1]);
