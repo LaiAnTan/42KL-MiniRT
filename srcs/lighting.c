@@ -8,7 +8,7 @@ void	ambient_color(t_ray	*ray, t_ambient *a, t_object *o)
 	vec3_free(&ray->a_color);
 	if (o)
 	{
-		ray->a_color = vec3_multi_each_elem(o->ob_rgb, a->a_strength);
+		ray->a_color = vec3_multi_each_elem(o->ob_rgb, a->a_strength, O_CREATE);
 		// vec3_print(ray->a_color);
 	}
 	else
@@ -43,10 +43,10 @@ void	calculate_diffuse_color(t_ray *r, t_light *l, t_object *o, double costheta)
 	t_vec3	*store[2];
 
 	a_o_c = inverse_color(o->ob_rgb);
-	store[0] = vec3_difference(l->l_rgb, a_o_c);
+	store[0] = vec3_difference(l->l_rgb, a_o_c, O_CREATE);
 
-	d_c = vec3_scalar_multi(store[0], (costheta * diff_strength));
-	store[1] = vec3_addition(r->d_color, d_c);
+	d_c = vec3_scalar_multi(store[0], (costheta * diff_strength), O_CREATE);
+	store[1] = vec3_addition(r->d_color, d_c, O_CREATE);
 
 	vec3_free(&d_c);
 	vec3_free(&a_o_c);
@@ -62,11 +62,11 @@ t_vec3	*reflect_light(t_vec3 *light, t_vec3 *normal)
 {
 	t_vec3	*projected;
 
-	projected = vec3_scalar_multi(normal, (2 * vec3_dotproduct(light, normal)));
+	projected = vec3_scalar_multi(normal, (2 * vec3_dotproduct(light, normal)), O_CREATE);
 
 	t_vec3	*reflected;
 
-	reflected = vec3_difference(projected, light);
+	reflected = vec3_difference(projected, light, O_CREATE);
 	vec3_free(&projected);
 
 	return (reflected);
@@ -96,12 +96,12 @@ void	calculate_specular_color(t_ray *r, t_light *l, t_object *o, t_vec3 *light, 
 		return ;
 	}
 	t_vec3	*spec_col;
-	spec_col = vec3_scalar_multi(l->l_rgb, pow(dot_vr, specular_exponent));
+	spec_col = vec3_scalar_multi(l->l_rgb, pow(dot_vr, specular_exponent), O_CREATE);
 
-	s_c = vec3_scalar_multi(spec_col, ks);
+	s_c = vec3_scalar_multi(spec_col, ks, O_CREATE);
 
 	t_vec3	*store;
-	store = vec3_addition(r->s_color, s_c);
+	store = vec3_addition(r->s_color, s_c, O_CREATE);
 	vec3_free(&r->s_color);
 	r->s_color = store;
 
@@ -129,15 +129,15 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 	t_vec3	*b;
 	t_vec3	*b_norm;
 
-	a = vec3_difference(l->l_coords, r->pos_vector);
-	a_norm = vec3_normalize(a);
+	a = vec3_difference(l->l_coords, r->pos_vector, O_CREATE);
+	a_norm = vec3_normalize(a, O_CREATE);
 
 	b = NULL;
 	// get normal to intersection
 	if (o->ob_type == CIRCLE)
 	{
-		b = vec3_difference(r->pos_vector, o->ob_coords);
-		b_norm = vec3_normalize(b);
+		b = vec3_difference(r->pos_vector, o->ob_coords, O_CREATE);
+		b_norm = vec3_normalize(b, O_CREATE);
 	}
 	else if (o->ob_type == PLANE)
 		b_norm = vec3_dup(o->ob_planes->pl_vec_normal);
@@ -175,8 +175,8 @@ void	calculate_result_color(t_ray *r)
 	t_vec3	*a_d;
 	t_vec3	*store[2];
 
-	a_d = vec3_addition(r->a_color, r->d_color);
-	store[0] = vec3_addition(a_d, r->s_color);
+	a_d = vec3_addition(r->a_color, r->d_color, O_CREATE);
+	store[0] = vec3_addition(a_d, r->s_color, O_CREATE);
 	vec3_free(&r->color);
 	vec3_free(&a_d);
 	r->color = store[0];

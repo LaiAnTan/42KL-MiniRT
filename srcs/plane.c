@@ -4,7 +4,7 @@ double	intersect_plane(t_ray *ray, t_object *o)
 {
 	t_vec3	*modified_ray_pos;
 
-	modified_ray_pos = vec3_difference(ray->pos_vector, o->ob_coords);
+	modified_ray_pos = vec3_difference(ray->pos_vector, o->ob_coords, O_CREATE);
 
 	// ipad notes... again
 	// a = -k(b)
