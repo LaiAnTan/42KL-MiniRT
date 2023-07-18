@@ -8,29 +8,24 @@ t_vec3	*calc_cone_norm(t_ray *r, t_object *o)
 		return (vec3_dup(o->ob_cones->cn_vec_axis));
 
 	t_vec3	*point_to_top;
-	point_to_top = vec3_difference(o->ob_coords, r->pos_vector);
-
 	t_vec3	*point_to_center;
-	point_to_center = vec3_difference(o->ob_cones->cn_bottom, r->pos_vector);
-
 	t_vec3	*criss_cross;
-	criss_cross = vec3_crossproduct(point_to_top, point_to_center);
+	t_vec3	*ret;
+
+	point_to_top = vec3_difference(o->ob_coords, r->pos_vector, O_CREATE);
+	point_to_center = vec3_difference(o->ob_cones->cn_bottom, r->pos_vector, O_CREATE);
+	criss_cross = vec3_crossproduct(point_to_top, point_to_center, O_CREATE);
+
 	vec3_free(&point_to_center);
 
-	t_vec3	*norm;
-	norm = vec3_crossproduct(point_to_top, criss_cross);
+	ret = vec3_normalize(vec3_crossproduct(point_to_top, criss_cross, O_REPLACE), O_REPLACE);
+	
 	vec3_free(&criss_cross);
 
-	t_vec3	*ret;
-	ret = vec3_normalize(norm);
-	vec3_free(&norm);
-	vec3_free(&point_to_top);
 	if (r->inside == 0)
 		return (ret);
 	else
 		return (vec3_negate(ret));
-
-	// return (vec3_init(0,0,1));
 }
 
 void	solve_quad_cn(double *coefficients, double *result)
@@ -71,15 +66,11 @@ double	cn_test_intersect(t_ray *ray, t_object *o, double value[2])
 	{
 		if (value[i] >= 0)
 		{
-			mover = vec3_scalar_multi(ray->dir_vector, value[i]);
-			intersect = vec3_addition(ray->pos_vector, mover);
+			mover = vec3_scalar_multi(ray->dir_vector, value[i], O_CREATE);
+			intersect = vec3_addition(ray->pos_vector, mover, O_CREATE);
 			vec3_free(&mover);
 
-			diff = vec3_difference(intersect, o->ob_cones->cn_bottom);
-			vec3_free(&intersect);
-
-			k = vec3_dotproduct(diff, o->ob_cones->cn_vec_axis);
-			vec3_free(&diff);
+			k = vec3_dotproduct(vec3_difference(intersect, o->ob_cones->cn_bottom, O_REPLACE), o->ob_cones->cn_vec_axis);
 
 			if (k >= 0 && k <= o->ob_cones->cn_height)
 			{
@@ -102,7 +93,7 @@ double	intersect_cone(t_ray *ray, t_object *o)
 	double	constant;
 	t_vec3	*w;
 
-	w = vec3_difference(ray->pos_vector, o->ob_coords);
+	w = vec3_difference(ray->pos_vector, o->ob_coords, O_CREATE);
 	r = o->ob_cones->cn_diameter / 2;
 	constant = (r * r) / (o->ob_cones->cn_height * o->ob_cones->cn_height);
 

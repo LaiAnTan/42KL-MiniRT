@@ -4,29 +4,20 @@
 t_vec3	*calc_cylinder_norm(t_ray *r, t_object *o)
 {
 	t_vec3	*modified_ray;
-
-	modified_ray = vec3_difference(r->pos_vector, o->ob_cylinders->cy_bottom);
-
 	t_vec3	*proj_ray;
 
-	proj_ray = vec3_projection(modified_ray, o->ob_cylinders->cy_vec_axis);
+	modified_ray = vec3_difference(r->pos_vector, o->ob_cylinders->cy_bottom, O_CREATE);
+	proj_ray = vec3_projection(modified_ray, o->ob_cylinders->cy_vec_axis, O_CREATE);
 
-	t_vec3	*norm;
 
-	norm = vec3_difference(modified_ray, proj_ray);
-	
-	t_vec3	*ret;
+	// shitshow of a calculation (answer is inside modified_ray)
+	vec3_normalize(vec3_difference(modified_ray, proj_ray, O_REPLACE), O_REPLACE);
 
-	ret = vec3_normalize(norm);
-
-	vec3_free(&norm);
 	vec3_free(&proj_ray);
-	vec3_free(&modified_ray);
-	// return (ret);
 	if (r->inside == 0)
-		return (ret);
+		return (modified_ray);
 	else
-		return (vec3_negate(ret));
+		return (vec3_negate(modified_ray));
 }
 
 void	solve_quad_cy(double *coefficients, double *result)
@@ -76,16 +67,15 @@ double	cy_test_intersect(t_ray *ray, t_object *o, double value[2])
 	{
 		if (value[i] >= 0)
 		{
-			mover = vec3_scalar_multi(ray->dir_vector, value[i]);
-		
-			intersect = vec3_addition(ray->pos_vector, mover);
+			mover = vec3_scalar_multi(ray->dir_vector, value[i], O_CREATE);
+			intersect = vec3_addition(ray->pos_vector, mover, O_CREATE);
+
 			vec3_free(&mover);
 
-			diff = vec3_difference(intersect, o->ob_cylinders->cy_bottom);
-			vec3_free(&intersect);
+			// problematic one liner 2
+			k = vec3_dotproduct(vec3_difference(intersect, o->ob_cylinders->cy_bottom, O_REPLACE), o->ob_cylinders->cy_vec_axis);
 
-			k = vec3_dotproduct(diff, o->ob_cylinders->cy_vec_axis);
-			vec3_free(&diff);
+			vec3_free(&intersect);
 
 			if (k >= 0 && k <= o->ob_cylinders->cy_height)
 			{

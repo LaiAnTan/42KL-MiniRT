@@ -32,15 +32,6 @@ t_ray	*dup_ray(t_ray *source)
 // moves the ray to the direction of ray->dir_vector based on the k value given
 void	move_ray(t_ray *ray, double k)
 {
-	t_vec3	*store;
-
-	store = vec3_scalar_multi(ray->dir_vector, k, O_CREATE);
-	ray->pos_vector = vec3_addition(ray->pos_vector, store, O_REPLACE);
-	vec3_free(&store);
-}
-
-void	move_ray(t_ray *ray, double k)
-{
 	vec3_scalar_multi(ray->dir_vector, k, O_REPLACE);
 	vec3_addition(ray->pos_vector, ray->dir_vector, O_REPLACE);
 }
