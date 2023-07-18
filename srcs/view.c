@@ -91,7 +91,7 @@ t_vec3	*get_right(t_vec3 *forward, t_vec3 *up)
     else if (y_val == -1)
         return (vec3_init(-1,0,0));
     else
-        return (vec3_crossproduct(forward, up));
+        return (vec3_crossproduct(forward, up, O_CREATE));
 }
 
 // heres to not break anything
@@ -116,7 +116,7 @@ void	cam_view_matrix(t_camera *cam)
 	printf("right = \n");
 	vec3_print(right);
 
-	true_up = vec3_crossproduct(right, forward);
+	true_up = vec3_crossproduct(right, forward, O_CREATE);
 	printf("true up = \n");
 	vec3_print(true_up);
 

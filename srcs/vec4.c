@@ -165,20 +165,6 @@ t_vec4	*vec4_normalize(t_vec4 *vector)
 	return (vec4_scalar_mult(vector, 1/mag));
 }
 
-// i dont think, this exists in the 4th dimention
-t_vec4	*vec4_projection(t_vec4 *vector1, t_vec4 *vector2)
-{
-	double	project_mag;
-	t_vec4	*vector2_norm;
-	t_vec4	*ret;
-
-	project_mag = vec4_dotproduct(vector1, vector2) / vec4_magnitude(vector2);
-	vector2_norm = vec4_normalize(vector2);
-	ret = vec4_scalar_mult(vector2_norm, project_mag);
-	vec4_free(&vector2_norm);
-	return (ret);
-}
-
 t_vec4	*vec3_to_vec4(t_vec3 *vector)
 {
 	return (vec4_init(vector->raw_matrix->m[0][0], vector->raw_matrix->m[1][0], vector->raw_matrix->m[2][0], 1));

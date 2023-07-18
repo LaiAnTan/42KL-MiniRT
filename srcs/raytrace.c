@@ -47,13 +47,10 @@ void	calculate_ray_positions(double store[3], double x, double y, double fov)
 t_ray	*project_ray(double x, double y, t_camera *camera)
 {
 	double		store[3];
-	t_vec3	*store_vec;
 	t_vec3	*dir_vector;
 
 	calculate_ray_positions(store, x, y, camera->cam_fov);
-	store_vec = vec3_init_from_array(store);
-	dir_vector = vec3_normalize(store_vec);
-	vec3_free(&store_vec);
+	dir_vector = vec3_normalize(vec3_init_from_array(store), O_REPLACE);
 
 	return (init_ray(vec3_dup(camera->cam_coords), dir_vector));
 }

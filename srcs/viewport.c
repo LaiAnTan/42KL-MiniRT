@@ -21,8 +21,8 @@ t_vec3	*cyn_get_centre_bottom(t_vec3 *center, t_vec3 *vec_axis, double diff)
 	t_vec3	*ret;
 	t_vec3	*to_min;
 
-	to_min = vec3_scalar_multi(vec_axis, diff);
-	ret = vec3_difference(center, to_min);
+	to_min = vec3_scalar_multi(vec_axis, diff, O_CREATE);
+	ret = vec3_difference(center, to_min, O_CREATE);
 	vec3_free(&to_min);
 	return (ret);
 }
@@ -81,7 +81,7 @@ void	change_to_view_port(t_scene *scn)
 		if (o->ob_type == PLANE)
 		{
 			apply_matrix(&(o->ob_planes->pl_vec_normal), cam->orr_matrix);
-			store = vec3_normalize(o->ob_planes->pl_vec_normal);
+			store = vec3_normalize(o->ob_planes->pl_vec_normal, O_CREATE);
 			vec3_free(&o->ob_planes->pl_vec_normal);
 			o->ob_planes->pl_vec_normal = store;
 		}
