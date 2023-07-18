@@ -15,7 +15,7 @@ void	ambient_color(t_ray	*ray, t_ambient *a, t_object *o)
  // diffuse coloring
  // ---------------------------------------------------------------------
 
-t_vec3	*inverse_color(t_vec3	*c)
+t_vec3	*inverse_color(t_vec3 *c)
 {
 	int		i;
 	matrix_type	i_rgb[3];
@@ -52,21 +52,15 @@ void	calculate_diffuse_color(t_ray *r, t_light *l, t_object *o, double costheta)
 	r->d_color = store[1];
 }
 
-// takes in a light-to-object vector and its normal
-
-// man
+// takes in a light-to-object vector and its normal and reflects it
 t_vec3	*reflect_light(t_vec3 *light, t_vec3 *normal)
 {
-	t_vec3	*projected;
+	t_vec3	*v;
 
-	projected = vec3_scalar_multi(normal, (2 * vec3_dotproduct(light, normal)), O_CREATE);
+	v = vec3_scalar_multi(normal, (2 * vec3_dotproduct(light, normal)), O_CREATE);
+	vec3_difference(v, light, O_REPLACE);
 
-	t_vec3	*reflected;
-
-	reflected = vec3_difference(projected, light, O_CREATE);
-	vec3_free(&projected);
-
-	return (reflected);
+	return (v);
 }
 
 void	calculate_specular_color(t_ray *r, t_light *l, t_object *o, t_vec3 *light, t_vec3 *normal)
@@ -97,10 +91,7 @@ void	calculate_specular_color(t_ray *r, t_light *l, t_object *o, t_vec3 *light, 
 
 	s_c = vec3_scalar_multi(spec_col, ks, O_CREATE);
 
-	t_vec3	*store;
-	store = vec3_addition(r->s_color, s_c, O_CREATE);
-	vec3_free(&r->s_color);
-	r->s_color = store;
+	vec3_addition(r->s_color, s_c, O_REPLACE);
 
 	vec3_free(&s_c);
 	vec3_free(&dir);
@@ -157,12 +148,6 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 
 void	calculate_result_color(t_ray *r)
 {
-	t_vec3	*a_d;
-	t_vec3	*store[2];
-
-	a_d = vec3_addition(r->a_color, r->d_color, O_CREATE);
-	store[0] = vec3_addition(a_d, r->s_color, O_CREATE);
-	vec3_free(&r->color);
-	vec3_free(&a_d);
-	r->color = store[0];
+	r->color = vec3_addition(r->a_color, r->d_color, O_CREATE);
+	vec3_addition(r->color, r->s_color, O_REPLACE);
 }
