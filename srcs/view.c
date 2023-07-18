@@ -122,7 +122,8 @@ void	cam_view_matrix(t_camera *cam)
 
 	cam->orr_matrix = construct_rotation(right, true_up, forward);
 	trans = construct_translation(position);
-	cam->view_matrix = m_multiplication(trans, cam->orr_matrix);
+	cam->view_matrix = m_multiplication(cam->orr_matrix, trans);
+	// cam->view_matrix = m_multiplication(trans, cam->orr_matrix);
 
 	vec3_free(&up);
 	vec3_free(&right);

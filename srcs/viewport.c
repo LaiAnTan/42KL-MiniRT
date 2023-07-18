@@ -30,6 +30,7 @@ t_vec3	*cyn_get_centre_bottom(t_vec3 *center, t_vec3 *vec_axis, double diff)
 void	transform_cylinder(t_vec3 *center, t_cylinder *cy, t_camera *mtrx)
 {
 	apply_matrix(&(cy->cy_vec_axis), mtrx->orr_matrix);
+	vec3_normalize(cy->cy_vec_axis, O_REPLACE);
 
 	cy->cy_bottom = cyn_get_centre_bottom(center, cy->cy_vec_axis, cy->cy_height / 2);
 }
@@ -37,6 +38,7 @@ void	transform_cylinder(t_vec3 *center, t_cylinder *cy, t_camera *mtrx)
 void	transform_cone(t_vec3 *center, t_cone *cn, t_camera *mtrx)
 {
 	apply_matrix(&(cn->cn_vec_axis), mtrx->orr_matrix);
+	vec3_normalize(cn->cn_vec_axis, O_REPLACE);
 
 	cn->cn_bottom = cyn_get_centre_bottom(center, cn->cn_vec_axis, cn->cn_height);
 }
