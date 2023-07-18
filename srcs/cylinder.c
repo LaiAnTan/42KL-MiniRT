@@ -96,7 +96,7 @@ double    intersect_cylinder(t_ray *ray, t_object *o)
 	double	coefficients[3];
 	t_vec3	*w;
 	r = o->ob_cylinders->cy_diameter / 2;
-    w = vec3_difference(ray->pos_vector, o->ob_cylinders->cy_bottom);
+    w = vec3_difference(ray->pos_vector, o->ob_cylinders->cy_bottom, O_CREATE);
 
 	coefficients[0] = 1 - 
 					(vec3_dotproduct(ray->dir_vector, o->ob_cylinders->cy_vec_axis) * vec3_dotproduct(ray->dir_vector, o->ob_cylinders->cy_vec_axis));
