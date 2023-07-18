@@ -42,6 +42,12 @@ void	move_ray(t_ray *ray, double k)
 	ray->pos_vector = new;
 }
 
+void	move_ray(t_ray *ray, double k)
+{
+	vec3_scalar_multi(ray->dir_vector, k, O_REPLACE);
+	vec3_addition(ray->pos_vector, ray->dir_vector, O_REPLACE);
+}
+
 void	free_ray(t_ray **ray)
 {
 	vec3_free(&(*ray)->pos_vector);

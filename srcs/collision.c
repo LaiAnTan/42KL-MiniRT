@@ -50,9 +50,9 @@ int	get_closest_light(t_ray *r, t_light *l, t_scene *scene)
 
 	to_light = dup_ray(r);
 	vec3_free(&to_light->dir_vector);
-	to_light->dir_vector = vec3_normalize(r_to_l);
+	to_light->dir_vector = vec3_normalize(r_to_l, O_CREATE);
 	vec3_free(&to_light->pos_vector);
-	to_light->pos_vector = vec3_addition(r->pos_vector, to_light->dir_vector);
+	to_light->pos_vector = vec3_addition(r->pos_vector, to_light->dir_vector, O_CREATE);
 
 	collided_obj = get_closest_object(to_light, scene, 0, NULL);
 	vec3_free(&r_to_l);

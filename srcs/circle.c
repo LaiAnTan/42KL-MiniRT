@@ -40,18 +40,18 @@ double intersect_circle(t_ray *ray, t_object *o)
 	// me cheese this (not sure if works :skull)
 	t_vec3 *modified_ray_pos;
 
-	modified_ray_pos = vec3_difference(ray->pos_vector, o->ob_coords);
+	modified_ray_pos = vec3_difference(ray->pos_vector, o->ob_coords, O_CREATE);
 	// in theory this would work (theory)
 
 	// le ipad formulas
-	coefficients[0] = 1;
 	// always 1
 	// coefficients[0] = vec3_magnitude_sqrd(ray->dir_vector);
+	coefficients[0] = 1;
 	coefficients[1] = vec3_dotproduct(modified_ray_pos, ray->dir_vector);
 	coefficients[2] = vec3_magnitude_sqrd(modified_ray_pos) -
 					  (o->ob_spheres->sp_radius * o->ob_spheres->sp_radius);
-	solve_quad(coefficients, values);
 
+	solve_quad(coefficients, values);
 	vec3_free(&modified_ray_pos);
 
 	if (values[0] < 0)

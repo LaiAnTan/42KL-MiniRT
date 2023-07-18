@@ -3,32 +3,27 @@
 t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio)
 {
 	matrix_type	black[3] = {255,255,255};
-	t_vec3		*store;
 	t_ambient	*new_ambient;
 
 	new_ambient = (t_ambient *) malloc(sizeof(t_ambient));
 	new_ambient->a_ratio = a_ratio;
 	new_ambient->a_rgb = vec3_init_from_array(a_rgb);
-	store = vec3_scalar_multi(new_ambient->a_rgb, (double) 1/255);
-	new_ambient->a_strength = vec3_scalar_multi(store, a_ratio);
-	vec3_free(&store);
-	store = vec3_init_from_array(black);
-	new_ambient->bg_color = vec3_multi_each_elem(store, new_ambient->a_strength);
-	vec3_free(&store);
+	new_ambient->a_strength = vec3_scalar_multi(new_ambient->a_rgb, (double) 1/255, O_CREATE);
+	vec3_scalar_multi(new_ambient->a_strength, a_ratio, O_REPLACE);
+	new_ambient->bg_color = vec3_init_from_array(black);
+	vec3_multi_each_elem(new_ambient->bg_color, new_ambient->a_strength, O_REPLACE);
 	return (new_ambient);
 }
 
 t_camera	*scene_new_camera(double cam_fov, double cam_coords[3], double cam_vec_orient[3])
 {
 	t_camera	*new_camera;
-	t_vec3		*stuff;
 
 	new_camera = (t_camera *) malloc(sizeof(t_camera));
 	new_camera->cam_fov = cam_fov;
 	new_camera->cam_coords = vec3_init_from_array(cam_coords);
-	stuff = vec3_init_from_array(cam_vec_orient);
-	new_camera->cam_vec_orient = vec3_normalize(stuff);
-	vec3_free(&stuff);
+	new_camera->cam_vec_orient = vec3_init_from_array(cam_vec_orient);
+	vec3_normalize(new_camera->cam_vec_orient, O_REPLACE);
 	new_camera->cam_coords_v4 = NULL;
 	new_camera->cam_vec_orient_v4 = NULL;
 	new_camera->view_matrix = NULL;
@@ -107,12 +102,10 @@ t_sphere	*object_new_sphere(double sp_diameter)
 t_plane		*object_new_plane(double pl_vec_normal[3])
 {
 	t_plane		*new_plane;
-	t_vec3		*temp;
 
 	new_plane = (t_plane *) malloc(sizeof(t_plane));
-	temp = vec3_init_from_array(pl_vec_normal);
-	new_plane->pl_vec_normal = vec3_normalize(temp);
-	vec3_free(&temp);
+	new_plane->pl_vec_normal = vec3_init_from_array(pl_vec_normal);
+	vec3_normalize(new_plane->pl_vec_normal, O_REPLACE);
 	new_plane->pl_vec_normal_v4 = NULL;
 	return (new_plane);
 }
@@ -120,28 +113,24 @@ t_plane		*object_new_plane(double pl_vec_normal[3])
 t_cylinder	*object_new_cylinder(t_vec3 *center, double cy_height, double cy_diameter, double cy_vec_axis[3])
 {
 	t_cylinder	*new_cylinder;
-	t_vec3	*temp;
 
 	new_cylinder = (t_cylinder *) malloc(sizeof(t_cylinder));
 	new_cylinder->cy_height = cy_height;
 	new_cylinder->cy_diameter = cy_diameter;
-	temp = vec3_init_from_array(cy_vec_axis);
-	new_cylinder->cy_vec_axis = vec3_normalize(temp);
-	vec3_free(&temp);
+	new_cylinder->cy_vec_axis = vec3_init_from_array(cy_vec_axis);
+	vec3_normalize(new_cylinder->cy_vec_axis, O_REPLACE);
 	return (new_cylinder);
 }
 
 t_cone	*object_new_cone(t_vec3 *center, double cn_height, double cn_diameter, double cn_vec_axis[3])
 {
 	t_cone	*new_cone; 
-	t_vec3	*temp;
 	
 	new_cone = (t_cone *) malloc(sizeof(t_cone));
 	new_cone->cn_height = cn_height;
 	new_cone->cn_diameter = cn_diameter;
-	temp = vec3_init_from_array(cn_vec_axis);
-	new_cone->cn_vec_axis = vec3_normalize(temp);
-	vec3_free(&temp);
+	new_cone->cn_vec_axis = vec3_init_from_array(cn_vec_axis);
+	vec3_normalize(new_cone->cn_vec_axis, O_REPLACE);
 	return (new_cone);
 }
 
