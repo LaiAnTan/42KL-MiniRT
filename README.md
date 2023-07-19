@@ -7,7 +7,7 @@ A simple raytracing engine.
 - Objects (Plane, Sphere, Cylinder, Cone)
 - Colored & multiple spot lighting
 - Full Phong Reflection Model (Diffuse, Specular, Ambient)
-- Textures && Bump Maps (soon maybe)
+- Textures && Bump Maps (soon)
 
 ## Dependencies
 
@@ -21,8 +21,8 @@ yeet
 
 ## Contributors
 
-- cshi-xia (@SphagettiCodes)
-- tlai-an (Myself)
+- cshi-xia ([@SphagettiCodes](https://github.com/SpaghettiCodes))
+- tlai-an ([Myself](https://github.com/LaiAnTan))
 
 ## Documentation && Resources
 
