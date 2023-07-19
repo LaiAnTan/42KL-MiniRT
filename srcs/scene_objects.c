@@ -126,6 +126,7 @@ t_cylinder	*object_new_cylinder(t_vec3 *center, double cy_height, double cy_diam
 	new_cylinder->cy_height = cy_height;
 	new_cylinder->cy_diameter = cy_diameter;
 	new_cylinder->cy_vec_axis = vec3_normalize(vec3_init_from_array(cy_vec_axis), O_REPLACE);
+	new_cylinder->cy_bottom = NULL;
 	return (new_cylinder);
 }
 
@@ -137,6 +138,7 @@ t_cone	*object_new_cone(t_vec3 *center, double cn_height, double cn_diameter, do
 	new_cone->cn_height = cn_height;
 	new_cone->cn_diameter = cn_diameter;
 	new_cone->cn_vec_axis = vec3_normalize(vec3_init_from_array(cn_vec_axis), O_REPLACE);
+	new_cone->cn_bottom = NULL;
 	return (new_cone);
 }
 
