@@ -50,9 +50,9 @@ double intersect_circle(t_ray *ray, t_object *o)
 	coefficients[1] = vec3_dotproduct(modified_ray_pos, ray->dir_vector);
 	coefficients[2] = vec3_magnitude_sqrd(modified_ray_pos) -
 					  (o->ob_spheres->sp_radius * o->ob_spheres->sp_radius);
+	vec3_free(&modified_ray_pos);
 
 	solve_quad(coefficients, values);
-	vec3_free(&modified_ray_pos);
 
 	if (values[0] < 0)
 		return (ERROR);
@@ -62,6 +62,5 @@ double intersect_circle(t_ray *ray, t_object *o)
 	values[0] = fmin(values[1], values[2]);
 	if (values[0] < 0)
 		values[0] = fmax(values[1], values[2]);
-
 	return (values[0]);
 }

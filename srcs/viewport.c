@@ -27,6 +27,13 @@ t_vec3	*cyn_get_centre_bottom(t_vec3 *center, t_vec3 *vec_axis, double diff)
 	return (ret);
 }
 
+void	transform_plane(t_plane *pl, t_camera *mrtx)
+{
+	apply_matrix(&(pl->pl_vec_normal), mrtx->orr_matrix);
+
+	pl->pl_vec_normal = vec3_normalize(pl->pl_vec_normal, O_REPLACE);
+}
+
 void	transform_cylinder(t_vec3 *center, t_cylinder *cy, t_camera *mtrx)
 {
 	apply_matrix(&(cy->cy_vec_axis), mtrx->orr_matrix);
@@ -50,7 +57,6 @@ void	change_to_view_port(t_scene *scn)
 {
 	// get view matrix and orientation matrix
 	t_camera	*cam;
-	t_vec3		*store;
 
 	cam = scn->sc_cameras;
 	cam_view_matrix(cam);
@@ -60,12 +66,12 @@ void	change_to_view_port(t_scene *scn)
 
 	// apply on camera
 	apply_matrix(&cam->cam_coords, cam->view_matrix);
-
+	apply_matrix(&cam->cam_vec_orient, cam->orr_matrix);
+	vec3_normalize(cam->cam_vec_orient, O_REPLACE);
 	// apply on all lights
 	t_light		*l;
 
 	l = scn->sc_lights;
-
 	while (l)
 	{
 		apply_matrix(&(l->l_coords), cam->view_matrix);
@@ -81,20 +87,11 @@ void	change_to_view_port(t_scene *scn)
 		apply_matrix(&(o->ob_coords), cam->view_matrix);
 		vec3_print(o->ob_coords);
 		if (o->ob_type == PLANE)
-		{
-			apply_matrix(&(o->ob_planes->pl_vec_normal), cam->orr_matrix);
-			store = vec3_normalize(o->ob_planes->pl_vec_normal, O_CREATE);
-			vec3_free(&o->ob_planes->pl_vec_normal);
-			o->ob_planes->pl_vec_normal = store;
-		}
+			transform_plane(o->ob_planes, cam);
 		else if (o->ob_type == CYLINDER)
-		{
 			transform_cylinder(o->ob_coords, o->ob_cylinders, cam);
-		}
 		else if (o->ob_type == CONE)
-		{
 			transform_cone(o->ob_coords, o->ob_cones, cam);
-		}
 		o = o->next;
 	}
 }

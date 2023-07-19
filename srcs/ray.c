@@ -3,17 +3,16 @@
 // malloc both vectors thanks
 t_ray	*init_ray(t_vec3 *pos_vector, t_vec3 *dir_vector)
 {
-	// black light baby
-	matrix_type	color[3] = {0,0,0};
 	t_ray	*ret;
 
 	ret = malloc(sizeof(t_ray));
 	ret->pos_vector = pos_vector;
 	ret->dir_vector = dir_vector;
-	ret->color = vec3_init_from_array(color);
-	ret->a_color = vec3_init_from_array(color);
-	ret->d_color = vec3_init_from_array(color);
-	ret->s_color = vec3_init_from_array(color);
+	// black light baby
+	ret->color = vec3_init(0,0,0);
+	ret->a_color = vec3_init(0,0,0);
+	ret->d_color = vec3_init(0,0,0);
+	ret->s_color = vec3_init(0,0,0);
 	ret->type = LIGHT;
 	ret->inside = 0;
 
