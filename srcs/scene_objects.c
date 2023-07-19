@@ -74,12 +74,24 @@ void	scene_object_add_back(t_object **list_object, t_object *new_object)
 	curr_node->next = new_object;
 }
 
+void	assign_function(t_object *new_object, int ob_type)
+{
+	object_runner	store[4];
+
+	store[0] = intersect_circle;
+	store[1] = intersect_plane;
+	store[2] = intersect_cylinder;
+	store[3] = intersect_cone;
+	new_object->intersect_checker = store[ob_type];
+}
+
 t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_rgb, double specular)
 {
 	t_object	*new_object;
 
 	new_object = object_init();
 	new_object->ob_type = ob_type;
+	assign_function(new_object, ob_type);
 	new_object->ob_coords = vec3_init_from_array(ob_coord);
 	new_object->ob_rgb = vec3_init_from_array(ob_rgb);
 	new_object->ob_spec = specular;

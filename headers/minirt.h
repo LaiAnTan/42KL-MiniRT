@@ -136,6 +136,8 @@ typedef struct s_cone
 typedef struct s_object
 {
 	int				ob_type;
+	// MAN
+	double			(*intersect_checker) (t_ray *, struct s_object *);
 	t_sphere		*ob_spheres;
 	t_plane			*ob_planes;
 	t_cylinder		*ob_cylinders;
@@ -146,6 +148,8 @@ typedef struct s_object
 	t_vec3			*ob_rgb;
 	struct s_object	*next;
 }		t_object;
+
+typedef	double (*object_runner) (t_ray *, t_object *);
 
 typedef struct s_scene
 {
@@ -256,8 +260,8 @@ void		shadow_diffuse(t_ray *ray);
 void		diffuse_the_bomb(t_ray *r, t_light *l, t_object *o);
 void		calculate_result_color(t_ray *r);
 
-t_object	*get_closest_object(t_ray *ray, t_scene *scene, int closest, double	*k_val);
-int			get_closest_light(t_ray *r, t_light *l, t_scene *scene);
+t_object	*get_closest_object(t_ray *ray, t_object *o, int closest, double	*k_val);
+int			get_closest_light_runner(t_ray *r, t_light *l, t_object *o);
 
 // hm
 void	cam_view_matrix(t_camera *cam);

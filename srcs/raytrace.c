@@ -70,7 +70,7 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
  //  detect collision
  //  ----------------------------------------------------------------------------
 
-	closest_object_src = get_closest_object(ray, scene, 1, &k_val);
+	closest_object_src = get_closest_object(ray, scene->sc_objs, 1, &k_val);
 	if (closest_object_src)
 	{
 		move_ray(ray, k_val);
@@ -88,7 +88,7 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 		light = scene->sc_lights;
 		while (light)
 		{
-			p_from_light = get_closest_light(ray, light, scene);
+			p_from_light = get_closest_light_runner(ray, light, scene->sc_objs);
 			if (p_from_light == ERROR)
 			{
 				if (!light->next && ray->type == SHADOW)
