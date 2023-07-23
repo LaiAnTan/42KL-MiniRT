@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lighting_specular.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/23 13:40:02 by tlai-an           #+#    #+#             */
+/*   Updated: 2023/07/23 13:40:08 by tlai-an          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/lighting.h"
 
 // takes in a light-to-object vector and its normal and reflects it
