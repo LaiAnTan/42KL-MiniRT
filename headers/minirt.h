@@ -128,11 +128,11 @@ typedef struct s_cone
 	t_vec3			*cn_bottom;
 }			t_cone;
 
-// because 10 linked list is painful
 # define CIRCLE 0
 # define PLANE 1
 # define CYLINDER 2
 # define CONE 3
+
 typedef struct s_object
 {
 	int				ob_type;
@@ -165,6 +165,7 @@ typedef struct s_data
 	t_scene			*scene;
 }			t_data;
 
+# include "lighting.h"
 /* Scene Objects Boilerplate */
 
 t_scene	*scene_init(void);
@@ -214,8 +215,6 @@ int	keypress_event(int key_symbol, t_data *data);
 
 /* Utils */
 
-void	copy_double_arr(double *copy_from, double *copy_to, int size);
-
 int		ft_atoi(char *str);
 int		count_2d_array(char **e);
 int		is_digit(char *str);
@@ -254,16 +253,9 @@ double		intersect_circle(t_ray	*ray, t_object *o);
 double		intersect_cylinder(t_ray *ray, t_object *o);
 double		intersect_cone(t_ray *ray, t_object *o);
 
-void		ambient_color(t_ray	*ray, t_ambient *a, t_object *o);
-t_vec3		*inverse_color(t_vec3	*c);
-void		shadow_diffuse(t_ray *ray);
-void		diffuse_the_bomb(t_ray *r, t_light *l, t_object *o);
-void		calculate_result_color(t_ray *r);
-
 t_object	*get_closest_object(t_ray *ray, t_object *o, int closest, double	*k_val);
 int			get_closest_light_runner(t_ray *r, t_light *l, t_object *o);
 
-// hm
 void	cam_view_matrix(t_camera *cam);
 void	change_to_view_port(t_scene *scn);
 

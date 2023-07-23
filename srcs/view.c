@@ -1,5 +1,16 @@
-#include "../headers/minirt.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   view.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/23 11:42:11 by tlai-an           #+#    #+#             */
+/*   Updated: 2023/07/23 11:46:30 by tlai-an          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../headers/minirt.h"
 
 // rotation matrix
 t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forward)
@@ -7,18 +18,6 @@ t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forward)
 	t_matrix *rotation;
 
 	rotation = m_init_empty(4, 4);
-
-	// rotation->m[0][0] = right->raw_matrix->m[0][0]; 
-	// rotation->m[1][0] = right->raw_matrix->m[1][0];
-	// rotation->m[2][0] = right->raw_matrix->m[2][0];
-
-	// rotation->m[0][1] = true_up->raw_matrix->m[0][0];
-	// rotation->m[1][1] = true_up->raw_matrix->m[1][0];
-	// rotation->m[2][1] = true_up->raw_matrix->m[2][0];
-
-	// rotation->m[0][2] = -forward->raw_matrix->m[0][0];
-	// rotation->m[1][2] = -forward->raw_matrix->m[1][0];
-	// rotation->m[2][2] = -forward->raw_matrix->m[2][0];
 
 	rotation->m[0][0] = right->raw_matrix->m[0][0]; 
 	rotation->m[0][1] = right->raw_matrix->m[1][0];
@@ -51,35 +50,6 @@ static t_matrix *construct_translation(t_vec3 *position)
 	m_print_matrix(translation);
 	return (translation);
 }
-
-// function that creates a 4x4 view matrix 
-// t_matrix *get_view_matrix(t_vec3 *position, t_vec3 *forward, t_vec3 *up)
-// {
-// 	// t_vec3	*forward;
-// 	t_vec3	*right;
-// 	t_vec3	*true_up;
-
-// 	t_matrix	*res;
-
-// 	// find the forward vector, from cam to reference
-// 	// forward = vec3_difference(reference, position);
-// 	// forward = vec3_normalize(forward);
-// 	printf("forward = \n");
-// 	vec3_print(forward);
-// 	right = vec3_crossproduct(forward, up);
-// 	printf("right = \n");
-// 	vec3_print(right);
-// 	true_up = vec3_crossproduct(right, forward);
-// 	printf("true up = \n");
-// 	vec3_print(true_up);
-// 	res = m_multiplication(construct_translation(position), construct_rotation(right, true_up, forward));
-// 	// res = m_multiplication(construct_rotation(right, true_up, forward), construct_translation(position));
-
-// 	// vec3_free(&forward);
-// 	vec3_free(&right);
-// 	vec3_free(&true_up);
-// 	return (res);
-// }
 
 t_vec3	*get_right(t_vec3 *forward, t_vec3 *up)
 {

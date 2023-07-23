@@ -1,6 +1,16 @@
-# include "../headers/minirt.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raytrace.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/23 11:42:37 by tlai-an           #+#    #+#             */
+/*   Updated: 2023/07/23 12:28:36 by tlai-an          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// wOw actually ray-tracing!1!!11!11!!
+# include "../headers/minirt.h"
 
 void	calculate_ray_positions(double store[3], double x, double y, double fov)
 {

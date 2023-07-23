@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   collision.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/23 11:43:42 by tlai-an           #+#    #+#             */
+/*   Updated: 2023/07/23 13:14:46 by tlai-an          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "../headers/minirt.h"
 
 t_object	*get_closest_object(t_ray *ray, t_object *o, int closest,
@@ -57,7 +69,7 @@ int	get_closest_light(t_ray *to_light, double exceed_k, t_object *o)
 	}
 }
 
-// runs the gcl
+// runs get_closest_light
 int	get_closest_light_runner(t_ray *r, t_light *l, t_object *o)
 {
 	double		ret;

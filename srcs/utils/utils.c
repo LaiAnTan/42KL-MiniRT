@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 18:19:47 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/06/21 10:59:44 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/07/23 11:51:34 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,33 +68,6 @@ char	*ft_strdup(char *str)
 	return (dest);
 }
 
-// we wont use this arrays cringe use vector
-void	copy_int_arr(int *copy_from, int *copy_to, int size) // both arrays must have the same size
-{
-	int		i;
-
-	i = 0;
-	while (i < size)
-	{
-		copy_to[i] = copy_from[i];
-		++i;
-	}
-	return ;
-}
-
-void	copy_double_arr(double *copy_from, double *copy_to, int size) // both arrays must have the same size
-{
-	int		i;
-
-	i = 0;
-	while (i < size)
-	{
-		copy_to[i] = copy_from[i];
-		++i;
-	}
-	return ;
-}
-
 int	ft_strcmp(char *s1, char *s2)
 {
 	int		i;
@@ -134,78 +107,4 @@ char	*ft_substr(char *s, unsigned int start, unsigned int end)
 	}
 	str[i] = '\0';
 	return (str);
-}
-
-int	count_2d_array(char **e)
-{
-	int	i;
-
-	i = 0;
-	while (e[i])
-		++i;
-	return (i);
-}
-
-int	ft_atoi(char *str)
-{
-	int		sign;
-	long	rtval;
-
-	sign = 1;
-	rtval = 0;
-	while (*str == ' ' || (*str >= 9 && *str <= 13))
-		++str;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			sign *= -1;
-		++str;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
-		if (rtval >= 214748364 && *str > '7' && sign == 1)
-			return (-1);
-		if (rtval >= 214748364 && *str > '8' && sign == -1)
-			return (0);
-		rtval = (rtval * 10) + (*str - '0');
-		str++;
-	}
-	return ((int)(rtval * sign));
-}
-
-int		is_digit(char *str)
-{
-	if (*str == '-' || *str == '+')
-		++str;
-	while (*str != '\0')
-	{
-		if (*str < '0' || *str > '9')
-			return (0);
-		++str;
-	}
-	return (1);
-}
-
-int	is_valid(char *str)
-{
-	int	point_num;
-	int	digits;
-
-	point_num = 0;
-	digits = 0;
-	if (*str == '+' || *str == '-')
-		++str;
-	while (*str != '\0')
-	{
-		if (*str == '.')
-			++point_num;
-		else if (*str >= '0' && *str <= '9')
-			++digits;
-		else
-			return (0);
-		++str;
-	}
-	if (point_num > 1 || !digits)
-		return (0);
-	return (1);
 }

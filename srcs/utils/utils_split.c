@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_split.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/23 11:44:08 by tlai-an           #+#    #+#             */
+/*   Updated: 2023/07/23 11:47:38 by tlai-an          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../headers/minirt.h"
 
 int	countwords(char *s, char c)
@@ -60,7 +72,6 @@ char	**insertwords(char **strs, char *s, char c, int wordcount)
 	}
 	return (strs);
 }
-
 
 static char	**ft_singlevalues(void)
 {

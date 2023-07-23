@@ -4,30 +4,35 @@ CDIR = srcs
 
 ODIR = obj
 
-SRCS_C =	srcs/utils/utils_2.c				\
-			srcs/utils/utils_atof.c				\
-			srcs/utils/utils_get_next_line.c	\
-			srcs/utils/utils_split.c			\
-			srcs/utils/utils.c					\
-			srcs/file.c							\
-			srcs/main.c							\
-			srcs/scene_objects.c				\
-			srcs/vec3.c							\
-			srcs/vec4.c							\
-			srcs/matrix.c						\
-			srcs/ray.c							\
-			srcs/mlx.c							\
-			srcs/view.c							\
-			srcs/circle.c						\
-			srcs/collision.c					\
-			srcs/lighting.c						\
-			srcs/plane.c						\
-			srcs/raytrace.c						\
-			srcs/cylinder.c						\
-			srcs/events.c						\
-			srcs/timer.c						\
-			srcs/viewport.c						\
-			srcs/cone.c
+SRCS_C =							\
+			main.c					\
+			file.c					\
+			scene_objects.c			\
+			mlx.c					\
+			events.c				\
+			raytrace.c				\
+			view.c					\
+			viewport.c				\
+			ray.c					\
+			vec3.c					\
+			vec4.c					\
+			timer.c					\
+			matrix.c				\
+			collision.c				\
+			sphere.c				\
+			plane.c					\
+			cone.c					\
+			cylinder.c				\
+			lighting_main.c			\
+			lighting_ambient.c		\
+			lighting_diffuse.c		\
+			lighting_specular.c		\
+			utils.c					\
+			utils_2.c				\
+			utils_3.c				\
+			utils_atof.c			\
+			utils_split.c			\
+			utils_get_next_line.c	\
 
 # CFLAGS := -Wall -Wextra -Werror
 
@@ -61,7 +66,7 @@ LIBS_O :=
 
 SRCS_O := $(addprefix $(ODIR)/,$(notdir $(SRCS_C:.c=.o)))
 
-vpath %.c srcs/builtins:srcs/cmd:srcs/redirection:srcs/utils:srcs/vars:srcs
+vpath %.c srcs/utils:srcs/lighting:srcs/object_intersection:srcs
 
 # Colors
 L_RESET = \e[1K\r
