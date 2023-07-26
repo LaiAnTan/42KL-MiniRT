@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raytrace.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:37 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 12:28:36 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/07/27 00:24:39 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	calculate_ray_positions(double store[3], double x, double y, double fov)
 	// double	y_relative_to_mid = (HEIGHT / 2) - y;
 
 	// use this if orientation is (0,0,-1)
-	double	x_relative_to_mid  = (WIDTH / 2) - x;
+	double	x_relative_to_mid = (WIDTH / 2) - x;
 	double	y_relative_to_mid = y - (HEIGHT / 2);
 
 	double	hori_angle = absolute(x_relative_to_mid) * hori_fov_per_x;
@@ -65,7 +65,7 @@ t_ray	*project_ray(double x, double y, t_camera *camera)
 	return (init_ray(vec3_dup(camera->cam_coords), dir_vector));
 }
 
-void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
+void	do_ray_stuff(double x, double y, t_data *data)
 {
 	t_light		*light;
 	t_object	*closest_object_src;
@@ -75,12 +75,12 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
  //  ray projection
  //  ----------------------------------------------------------------------------
 
-	ray = project_ray(x, y, scene->sc_cameras);
+	ray = project_ray(x, y, data->scene->sc_cameras);
 
  //  detect collision
  //  ----------------------------------------------------------------------------
 
-	closest_object_src = get_closest_object(ray, scene->sc_objs, 1, &k_val);
+	closest_object_src = get_closest_object(ray, data->scene->sc_objs, 1, &k_val);
 	if (closest_object_src)
 	{
 		move_ray(ray, k_val);
@@ -95,24 +95,13 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 	if (ray->type == COLLIDED)
 	{
 		ray->type = SHADOW;
-		light = scene->sc_lights;
+		light = data->scene->sc_lights;
 		while (light)
 		{
-			p_from_light = get_closest_light_runner(ray, light, scene->sc_objs);
-			if (p_from_light == ERROR)
-			{
-				if (!light->next && ray->type == SHADOW)
-				{
-					ray->type = SHADOW;
-					shadow_diffuse(ray);
-				}
-				light = light->next;
-				continue;
-			}
-			else
+			p_from_light = get_closest_light_runner(ray, light, data->scene->sc_objs);
+			if (p_from_light != ERROR)
 			{
 				// calculate diffuse & specular lighting
-				ray->type = COLLIDED;
 				diffuse_the_bomb(ray, light, closest_object_src);
 			}
 			light = light->next;
@@ -122,19 +111,26 @@ void	do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx)
 //  -----------------------------------------------------------------------------
 
 	// ambient
-	if (scene->sc_ambients)
-		ambient_color(ray, scene->sc_ambients, closest_object_src);
+	if (data->scene->sc_ambients)
+		ambient_color(ray, data->scene->sc_ambients, closest_object_src);
 
 //  -----------------------------------------------------------------------------
 	
 	calculate_result_color(ray);
-	write_pixel(&mlx->img, x, y, create_trgb(ray->color));
+	write_pixel(data->mlx->render_img, x, y, create_trgb(ray->color));
 	free_ray(&ray);
-
-	// printf("\n");
 }
 
-void	raytrace(t_scene *scene, t_mlx_info *mlx)
+void	switch_image(t_data *image)
+{
+	t_img_info	*temp;
+
+	temp = image->mlx->cur_img;
+	image->mlx->cur_img = image->mlx->render_img;
+	image->mlx->render_img = temp;
+}
+
+void	raytrace(t_data *data)
 {
 	double	x;
 	double	y;
@@ -147,9 +143,11 @@ void	raytrace(t_scene *scene, t_mlx_info *mlx)
 		x = 0;
 		while (x < WIDTH)
 		{
-			do_ray_stuff(x, y, scene, mlx);
+			do_ray_stuff(x, y, data);
 			x += rays_per_x;
 		}
 		y += rays_per_y;
 	}
+
+	switch_image(data);
 }

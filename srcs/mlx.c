@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:56 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:42:57 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/07/26 23:53:44 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ void	get_image(t_img_info *img_info, void *mlx)
 
 void	clean_loop(t_mlx_info *mlx)
 {
-	if (mlx->img.img != NULL)
-	{
-		mlx_destroy_image(mlx->mlx, mlx->img.img);
-		mlx->img.img = NULL;
-	}
+	// if (mlx->img.img != NULL)
+	// {
+	// 	mlx_destroy_image(mlx->mlx, mlx->img.img);
+	// 	mlx->img.img = NULL;
+	// }
+
+	// disabled temporary
 }
 
 void	write_pixel(t_img_info *img, int x, int y, int color)

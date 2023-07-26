@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:43:12 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/07/27 00:23:31 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,24 @@
 // prod
 int	render(void *rt)
 {
-	t_data		*data;
-	t_timer		*timer;
+	// render, more like, slapping an image LMAO
+	t_data	*data;
 
-	data = (t_data *)rt;
-	data->mlx->img.img = NULL;
-	get_image(&data->mlx->img, data->mlx->mlx);
+	data = (t_data *) rt;
+	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->cur_img->img, 0, 0);
+	// clean_loop(data->mlx);
+}
+
+void	do_render_once(t_data *data)
+{
+	t_timer		*timer;
 
 	timer = timer_init();
 	timer_start(timer);
-	raytrace(data->scene, data->mlx);
+	raytrace(data);
 	timer_end(timer);
 	timer_print_diff(timer);
 	timer_destroy(&timer);
-
-	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->img.img, 0, 0);
-	clean_loop(data->mlx);
 }
 
 int main(int argc, char **argv)
@@ -83,8 +85,17 @@ int main(int argc, char **argv)
 
 	if (argc != 2)
 		return (ERROR);
+
+	// data initialization
 	data = (t_data *) malloc(sizeof(t_data));
 	data->mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
+	data->mlx->mlx = mlx_init();
+	data->mlx->mlx_win = mlx_new_window(data->mlx->mlx, WIDTH, HEIGHT, argv[1]);
+	get_image(&data->mlx->img[0], data->mlx->mlx);
+	get_image(&data->mlx->img[1], data->mlx->mlx);
+	data->mlx->render_img = &data->mlx->img[0];
+	data->mlx->cur_img = &data->mlx->img[1];
+
 	printf("Getting RT file..\n");
 	data->scene = file_create_scene(argv[1]);
 	printf("Done!\n");
@@ -93,11 +104,10 @@ int main(int argc, char **argv)
 
 	scene_print_stats(data->scene);
 	change_to_view_port(data->scene);
-
 	printf("changed to view\n");
 
-	data->mlx->mlx = mlx_init();
-	data->mlx->mlx_win = mlx_new_window(data->mlx->mlx, WIDTH, HEIGHT, argv[1]);
+	do_render_once(data);
+
 	mlx_key_hook(data->mlx->mlx_win, keypress_event, data);
 	mlx_loop_hook(data->mlx->mlx, render, (void *)data);
 	mlx_loop(data->mlx->mlx);

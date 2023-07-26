@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting_main.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:16 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 12:20:54 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/07/26 22:41:22 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 void	shadow_diffuse(t_ray *ray)
 {
-	if (ray->type != SHADOW)
-		return ;
-	vec3_free(&ray->d_color);
-	ray->d_color = vec3_init(0, 0, 0);
+	// uhhh, the diffuse color is 0 0 0 by default... why is this even doing here???
 }
 
 // main lighting calc function
@@ -42,9 +39,7 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 	costheta = vec3_dotproduct(a_norm, b_norm);
 	if (o->ob_type == PLANE && costheta < 0)
 		costheta *= -1;
-	if (costheta < 0)
-		shadow_diffuse(r);
-	else
+	if (costheta >= 0)
 	{
 		r->type = COLLIDED;
 		calculate_diffuse_color(r, l, o, costheta);

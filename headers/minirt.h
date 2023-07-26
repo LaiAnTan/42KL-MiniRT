@@ -59,7 +59,9 @@ typedef struct	s_mlx_info
 	void	*mlx;
 	void	*mlx_win;
 
-	t_img_info	img;
+	t_img_info		img[2];
+	t_img_info		*cur_img;
+	t_img_info		*render_img;
 }			t_mlx_info;
 
 typedef struct s_ambient
@@ -163,6 +165,7 @@ typedef struct s_data
 {
 	t_mlx_info		*mlx;
 	t_scene			*scene;
+
 }			t_data;
 
 # include "lighting.h"
@@ -242,11 +245,11 @@ void	free_2d_array(char **arr);
 
 void		calculate_ray_positions(double store[3], double x, double y, double fov);
 t_ray		*project_ray(double x, double y, t_camera *camera);
-void		do_ray_stuff(double x, double y, t_scene *scene, t_mlx_info *mlx);
+void		do_ray_stuff(double x, double y, t_data *data);
 
 int			create_trgb(t_vec3 *color);
 
-void		raytrace(t_scene *scene, t_mlx_info *mlx);
+void		raytrace(t_data *data);
 
 double		intersect_plane(t_ray *ray, t_object *o);
 double		intersect_circle(t_ray	*ray, t_object *o);
