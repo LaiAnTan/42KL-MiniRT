@@ -270,4 +270,6 @@ t_vec3		*calc_cone_norm(t_ray *r, t_object *o);
 
 void	swap(double *a, double *b);
 
+void	do_render_once(t_data *data);
+
 # endif

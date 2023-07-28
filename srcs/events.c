@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:27 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/27 00:21:59 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/07/28 15:09:46 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,7 @@ int	keypress_event(int key_symbol, t_data *data)
 		scene_free(data->scene);
 		exit(0);
 	}
+	if (key_symbol == 0x72)
+		do_render_once(data);
 	return (0);
 }
