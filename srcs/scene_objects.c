@@ -6,7 +6,7 @@
 /*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:32 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/04 21:22:22 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/04 21:24:42 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,8 +232,10 @@ void	scene_free_camera_list(t_camera *camera_list_head)
 		vec4_free(&curr->cam_coords_v4);
 		vec4_free(&curr->cam_vec_orient_v4);
 
-		free_matrix(&curr->orr_matrix);
-		free_matrix(&curr->view_matrix);
+		if (curr->orr_matrix)
+			free_matrix(&curr->orr_matrix);
+		if (curr->view_matrix)
+			free_matrix(&curr->view_matrix);
 
 		free(curr);
 		curr = temp;
@@ -302,6 +304,7 @@ void	object_free_node(t_object *obj)
 	object_free_plane(obj->ob_planes);
 	object_free_sphere(obj->ob_spheres);
 	object_free_cone(obj->ob_cones);
+	free(obj->ob_texture.filename);
 	free(obj);
 }
 
