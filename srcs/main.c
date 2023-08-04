@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/27 00:23:31 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:08:12 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 // 	if (argc != 2)
 // 		return (ERROR);
-	
+
 // 	data.mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
 // 	printf("Getting RT file..\n");
 // 	data.scene = file_create_scene(argv[1]);
@@ -124,7 +124,7 @@ int main(int argc, char **argv)
 
 // 	if (argc != 2)
 // 		return (ERROR);
-	
+
 // 	data.mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
 // 	printf("Getting RT file..\n");
 // 	data.scene = file_create_scene(argv[1]);

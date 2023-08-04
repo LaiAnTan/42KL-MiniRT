@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:32 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:42:33 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/04 21:00:09 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	assign_function(t_object *new_object, int ob_type)
 	new_object->intersect_checker = store[ob_type];
 }
 
-t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_rgb, double specular)
+t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_rgb, double specular, char *ob_tex_filename)
 {
 	t_object	*new_object;
 
@@ -123,6 +123,10 @@ t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_r
 	new_object->ob_coords = vec3_init_from_array(ob_coord);
 	new_object->ob_rgb = vec3_init_from_array(ob_rgb);
 	new_object->ob_spec = specular;
+	if (ft_strcmp(ob_tex_filename, "none") != 0)
+		new_object->ob_texture.filename = ft_strdup(ob_tex_filename);
+	else
+		new_object->ob_texture.filename = NULL;
 	return (new_object);
 }
 
@@ -412,6 +416,7 @@ void	scene_print_object_stats(t_object *obj)
 	printf("obj_rgb =");
 	vec3_print(obj->ob_rgb);
 	printf("obj_specular = %f\n", obj->ob_spec);
+	printf("obj_texture_filename = %s\n", obj->ob_texture.filename);
 	printf("obj_type = %d\n", obj->ob_type);
 	if (obj->ob_cylinders)
 		scene_print_cylinder_stats(obj->ob_cylinders);

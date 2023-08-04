@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:22 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:43:23 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/04 20:59:53 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 	t_object	*new_object;
 
 	printf("found sphere object\n");
-	if (count_2d_array(tokens) != 5)
+	if (count_2d_array(tokens) != 6)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[3]) == 0)
 		return (-1);
@@ -193,7 +193,7 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 	sp_coords = unpack_3_double_values(tokens[1]);
 	if (!sp_rgb || !sp_coords)
 		return (-1);
-	new_object = scene_new_object(CIRCLE, sp_coords, sp_rgb, ft_atof(tokens[4]));
+	new_object = scene_new_object(CIRCLE, sp_coords, sp_rgb, ft_atof(tokens[4]), tokens[5]);
 	new_object->ob_spheres = object_new_sphere((double) ft_atof(tokens[2]));
 	scene_object_add_back(&scene->sc_objs, new_object);
 	free(sp_rgb);
@@ -209,7 +209,7 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 	t_object	*new_object;
 
 	printf("found plane object\n");
-	if (count_2d_array(tokens) != 5)
+	if (count_2d_array(tokens) != 6)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[3]) == 0)
 		return (-1);
@@ -218,7 +218,7 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 	pl_vec_normal = unpack_3_double_values(tokens[2]);
 	if (!pl_rgb || !pl_coords || !pl_vec_normal)
 		return (-1);
-	new_object = scene_new_object(PLANE, pl_coords, pl_rgb,  ft_atof(tokens[4]));
+	new_object = scene_new_object(PLANE, pl_coords, pl_rgb,  ft_atof(tokens[4]), tokens[5]);
 	new_object->ob_planes = object_new_plane(pl_vec_normal);
 	scene_object_add_back(&scene->sc_objs, new_object);
 	free(pl_rgb);
@@ -235,7 +235,7 @@ int	handle_object_cylinder(t_scene *scene, char **tokens)
 	t_object	*new_object;
 
 	printf("found cylinder object\n");
-	if (count_2d_array(tokens) != 7)
+	if (count_2d_array(tokens) != 8)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[5]) == 0)
 		return (-1);
@@ -244,7 +244,7 @@ int	handle_object_cylinder(t_scene *scene, char **tokens)
 	cy_vec_axis = unpack_3_double_values(tokens[2]);
 	if (!cy_rgb || !cy_coords || !cy_vec_axis)
 		return (-1);
-	new_object = scene_new_object(CYLINDER, cy_coords, cy_rgb, ft_atof(tokens[6]));
+	new_object = scene_new_object(CYLINDER, cy_coords, cy_rgb, ft_atof(tokens[6]), ft_strdup(tokens[7]));
 	new_object->ob_cylinders = object_new_cylinder(new_object->ob_coords, (double) ft_atof(tokens[4]), (double) ft_atof(tokens[3]), cy_vec_axis);
 	scene_object_add_back(&scene->sc_objs, new_object);
 	free(cy_rgb);
@@ -261,7 +261,7 @@ int	handle_object_cone(t_scene *scene, char **tokens)
 	t_object	*new_object;
 
 	printf("found cone object\n");
-	if (count_2d_array(tokens) != 7)
+	if (count_2d_array(tokens) != 8)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[5]) == 0)
 		return (-1);
@@ -270,7 +270,7 @@ int	handle_object_cone(t_scene *scene, char **tokens)
 	cn_vec_axis = unpack_3_double_values(tokens[2]);
 	if (!cn_rgb || !cn_coords || !cn_vec_axis)
 		return (-1);
-	new_object = scene_new_object(CONE, cn_coords, cn_rgb, ft_atof(tokens[6]));
+	new_object = scene_new_object(CONE, cn_coords, cn_rgb, ft_atof(tokens[6]), tokens[7]);
 	new_object->ob_cones = object_new_cone(new_object->ob_coords, (double) ft_atof(tokens[4]), (double) ft_atof(tokens[3]), cn_vec_axis);
 	scene_object_add_back(&scene->sc_objs, new_object);
 	free(cn_rgb);
