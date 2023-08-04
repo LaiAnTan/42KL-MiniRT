@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:03 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:43:04 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/04 21:19:05 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,8 @@ void	free_matrix(t_matrix **t_free)
 	int	y;
 
 	y = 0;
+	if ((*t_free) == NULL)
+		return ;
 	while (y < (*t_free)->y)
 	{
 		free((*t_free)->m[y]);

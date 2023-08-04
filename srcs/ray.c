@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:42 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:42:43 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/04 21:19:20 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	move_ray(t_ray *ray, double k)
 
 void	free_ray(t_ray **ray)
 {
+	if (*ray == NULL)
+		return ;
 	vec3_free(&(*ray)->pos_vector);
 	vec3_free(&(*ray)->dir_vector);
 	vec3_free(&(*ray)->color);

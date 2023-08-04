@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:32 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/04 21:00:09 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/04 21:22:22 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,8 @@ void	scene_light_add_back(t_light **list_light, t_light *new_light)
 
 void	scene_free_ambient(t_ambient *ambient)
 {
+	if (ambient == NULL)
+		return ;
 	vec3_free(&ambient->a_rgb);
 	vec3_free(&ambient->a_strength);
 	vec3_free(&ambient->bg_color);
@@ -249,7 +251,6 @@ void	scene_free_light_list(t_light *light_list_head)
 		temp = curr->next;
 		vec3_free(&curr->l_rgb);
 		vec3_free(&curr->l_coords);
-		free(curr->l_rgb);
 		free(curr);
 		curr = temp;
 	}
@@ -293,6 +294,8 @@ void	object_free_cone(t_cone *cone)
 // damn lazy check type lah
 void	object_free_node(t_object *obj)
 {
+	if (!obj)
+		return
 	vec3_free(&obj->ob_coords);
 	vec3_free(&obj->ob_rgb);
 	object_free_cylinder(obj->ob_cylinders);
