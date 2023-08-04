@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:32 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/04 21:44:44 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/04 21:46:27 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,7 +325,7 @@ void	scene_free_object_list(t_object	*object_list_head)
 void	scene_free(t_scene *scene)
 {
 	if (!scene)
-		return NULL;
+		return;
 
 	if (scene->sc_ambients)
 		scene_free_ambient(scene->sc_ambients);
