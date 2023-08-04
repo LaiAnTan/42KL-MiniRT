@@ -6,7 +6,7 @@
 /*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:32 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/04 21:54:35 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/04 21:55:16 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,7 +325,7 @@ void	scene_free_object_list(t_object	*object_list_head)
 void	scene_free(t_scene *scene)
 {
 	if (!scene)
-		return ;
+		return NULL;
 
 	if (scene->sc_ambients)
 		scene_free_ambient(scene->sc_ambients);
