@@ -6,7 +6,7 @@
 /*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:32 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/04 21:44:44 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/04 21:54:35 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio)
 	new_ambient->a_rgb = vec3_init_from_array(a_rgb);
 	new_ambient->a_strength = vec3_scalar_multi(new_ambient->a_rgb, (double) 1/255, O_CREATE);
 	vec3_scalar_multi(new_ambient->a_strength, a_ratio, O_REPLACE);
-	new_ambient->bg_color = vec3_multi_each_elem(vec3_init(255,255,255), new_ambient->a_strength, O_CREATE);
+	new_ambient->bg_color = vec3_multi_each_elem(vec3_init(255,255,255), new_ambient->a_strength, O_REPLACE);
 	return (new_ambient);
 }
 
@@ -35,6 +35,7 @@ t_camera	*scene_new_camera(double cam_fov, double cam_coords[3], double cam_vec_
 	new_camera->cam_vec_orient = vec3_normalize(vec3_init_from_array(cam_vec_orient), O_REPLACE);
 	new_camera->cam_coords_v4 = NULL;
 	new_camera->cam_vec_orient_v4 = NULL;
+	new_camera->orr_matrix = NULL;
 	new_camera->view_matrix = NULL;
 	new_camera->next = NULL;
 	return (new_camera);
@@ -212,6 +213,7 @@ void	scene_free_ambient(t_ambient *ambient)
 {
 	if (ambient == NULL)
 		return ;
+
 	vec3_free(&ambient->a_rgb);
 	vec3_free(&ambient->a_strength);
 	vec3_free(&ambient->bg_color);
@@ -232,10 +234,8 @@ void	scene_free_camera_list(t_camera *camera_list_head)
 		vec4_free(&curr->cam_coords_v4);
 		vec4_free(&curr->cam_vec_orient_v4);
 
-		if (curr->orr_matrix)
-			free_matrix(&curr->orr_matrix);
-		if (curr->view_matrix)
-			free_matrix(&curr->view_matrix);
+		free_matrix(&curr->orr_matrix);
+		free_matrix(&curr->view_matrix);
 
 		free(curr);
 		curr = temp;
@@ -325,7 +325,7 @@ void	scene_free_object_list(t_object	*object_list_head)
 void	scene_free(t_scene *scene)
 {
 	if (!scene)
-		return NULL;
+		return ;
 
 	if (scene->sc_ambients)
 		scene_free_ambient(scene->sc_ambients);
