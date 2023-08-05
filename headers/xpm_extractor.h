@@ -1,0 +1,25 @@
+# ifndef XPM_EXTRACTOR_H
+# define XPM_EXTRACTOR_H
+
+#include <stdlib.h>
+
+#include "vec3.h"
+#include "mlx_info.h"
+
+typedef struct s_texture
+{
+	char	*filename;
+
+	t_img_info	data;
+
+	int		width;
+	int		height;
+} t_texture;
+
+t_texture		*texture_init(char *filename, void *mlx);
+unsigned int	get_xy_rgb(t_texture *txtr, int x, int y);
+t_vec3			*get_rgb(t_texture *txtr, double u, double v);
+void			free_texture(t_texture *a, void *mlx);
+// debug
+unsigned int get_rgb_ui(t_texture *txtr, double u, double v);
+# endif
