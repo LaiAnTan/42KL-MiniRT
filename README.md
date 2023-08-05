@@ -7,7 +7,7 @@ A simple raytracing engine.
 - Objects (Plane, Sphere, Cylinder, Cone)
 - Colored & multiple spot lighting
 - Full Phong Reflection Model (Diffuse, Specular, Ambient)
-- Textures && Bump Maps (soon)
+- Textures && Bump Maps
 
 ## Dependencies
 
