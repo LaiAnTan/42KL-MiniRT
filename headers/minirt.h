@@ -135,11 +135,11 @@ typedef struct s_cone
 # define CYLINDER 2
 # define CONE 3
 
-typedef struct s_texture
-{	
-	char	*filename;
+// typedef struct s_texture
+// {	
+// 	char	*filename;
 
-}				t_texture;
+// }				;t_texture
 
 typedef struct s_object
 {
@@ -154,7 +154,7 @@ typedef struct s_object
 	double			ob_spec;
 	t_vec3			*ob_coords;
 	t_vec3			*ob_rgb;
-	t_texture		ob_texture;
+	// t_texture		ob_texture;
 	struct s_object	*next;
 }		t_object;
 
