@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting_ambient.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 13:39:52 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 13:40:13 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/05 18:48:14 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 void	ambient_color(t_ray	*ray, t_ambient *a, t_object *o)
 {
+	t_vec3	*store;
+
 	vec3_free(&ray->a_color);
 	if (o)
-		ray->a_color = vec3_multi_each_elem(o->ob_rgb, a->a_strength, O_CREATE);
+	{
+		store = get_object_color(ray, o);
+		ray->a_color = vec3_multi_each_elem(store, a->a_strength, O_REPLACE);
+	}
 	else
 		ray->a_color = vec3_dup(a->bg_color);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 12:18:06 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 12:30:01 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/05 18:46:47 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,8 @@ void	calculate_specular_color(t_ray *r, t_light *l, t_object *o,
 // main
 void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o);
 void	calculate_result_color(t_ray *r);
+
+// get object color based on uv or something idk :(
+t_vec3	*get_object_color(t_ray *ray, t_object *o);
 
 # endif

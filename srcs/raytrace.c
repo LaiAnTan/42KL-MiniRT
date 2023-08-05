@@ -6,7 +6,7 @@
 /*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:37 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/27 00:24:39 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/05 19:11:11 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	do_ray_stuff(double x, double y, t_data *data)
  //  detect light source
  //  ----------------------------------------------------------------------------
 
+ // ray over here should be the intersection place
 	double		p_from_light;
 
 	if (ray->type == COLLIDED)

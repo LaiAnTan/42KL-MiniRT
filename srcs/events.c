@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:27 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/28 15:09:46 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/05 18:31:36 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	keypress_event(int key_symbol, t_data *data)
 		printf("ESC pressed, exiting...");
 		mlx_destroy_window(data->mlx->mlx, data->mlx->mlx_win);
 		// mlx_destroy_display(data->mlx->mlx);
-		scene_free(data->scene);
+		scene_free(data->scene, data->mlx->mlx);
 		exit(0);
 	}
 	if (key_symbol == 0x72)

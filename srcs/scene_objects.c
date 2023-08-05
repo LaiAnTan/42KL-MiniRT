@@ -6,7 +6,7 @@
 /*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:32 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/04 21:56:44 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/05 18:38:22 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ t_object	*object_init()
 	object->ob_spheres = NULL;
 	object->ob_cones = NULL;
 	object->next = NULL;
+	object->has_texture = NULL;
+	object->ob_texture = NULL;
 	return (object);
 }
 
@@ -125,9 +127,9 @@ t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_r
 	new_object->ob_rgb = vec3_init_from_array(ob_rgb);
 	new_object->ob_spec = specular;
 	if (ft_strcmp(ob_tex_filename, "none") != 0)
-		new_object->ob_texture.filename = ft_strdup(ob_tex_filename);
+		new_object->has_texture = ft_strdup(ob_tex_filename);
 	else
-		new_object->ob_texture.filename = NULL;
+		new_object->has_texture = NULL;
 	return (new_object);
 }
 
@@ -294,7 +296,7 @@ void	object_free_cone(t_cone *cone)
 }
 
 // damn lazy check type lah
-void	object_free_node(t_object *obj)
+void	object_free_node(t_object *obj, void *mlx)
 {
 	if (!obj)
 		return
@@ -304,11 +306,16 @@ void	object_free_node(t_object *obj)
 	object_free_plane(obj->ob_planes);
 	object_free_sphere(obj->ob_spheres);
 	object_free_cone(obj->ob_cones);
-	free(obj->ob_texture.filename);
+	if (obj->has_texture)
+	{
+		free(obj->has_texture);
+		if (mlx)
+			free_texture(obj->ob_texture, mlx);
+	}
 	free(obj);
 }
 
-void	scene_free_object_list(t_object	*object_list_head)
+void	scene_free_object_list(t_object	*object_list_head, void *mlx_ptr)
 {
 	t_object	*temp;
 	t_object	*curr;
@@ -317,12 +324,12 @@ void	scene_free_object_list(t_object	*object_list_head)
 	while (curr)
 	{
 		temp = curr->next;
-		object_free_node(curr);
+		object_free_node(curr, mlx_ptr);
 		curr = temp;
 	}
 }
 
-void	scene_free(t_scene *scene)
+void	scene_free(t_scene *scene, void *mlx_ptr)
 {
 	if (!scene)
 		return ;
@@ -334,7 +341,7 @@ void	scene_free(t_scene *scene)
 	if (scene->sc_lights)
 		scene_free_light_list(scene->sc_lights);
 	if (scene->sc_objs)
-		scene_free_object_list(scene->sc_objs);
+		scene_free_object_list(scene->sc_objs, mlx_ptr);
 	free(scene);
 }
 
@@ -425,7 +432,7 @@ void	scene_print_object_stats(t_object *obj)
 	printf("obj_rgb =");
 	vec3_print(obj->ob_rgb);
 	printf("obj_specular = %f\n", obj->ob_spec);
-	printf("obj_texture_filename = %s\n", obj->ob_texture.filename);
+	printf("obj_texture_filename = %s\n", obj->has_texture);
 	printf("obj_type = %d\n", obj->ob_type);
 	if (obj->ob_cylinders)
 		scene_print_cylinder_stats(obj->ob_cylinders);
@@ -475,3 +482,18 @@ void	scene_print_stats(t_scene *scene)
 	printf("done\n");
 }
 
+void	get_texture_files(t_object *objs, void *mlx_ptr)
+{
+	t_mlx_info	*mlx;
+
+	while (objs)
+	{
+		if (objs->has_texture)
+		{
+			objs->ob_texture = texture_init(objs->has_texture, mlx_ptr);
+			if (!objs->ob_texture)
+				objs->has_texture = NULL;
+		}
+		objs = objs->next;
+	}
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:22 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/04 20:59:53 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/05 18:28:44 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,7 +353,7 @@ t_scene	*file_create_scene(char *filename)
 		if (parse_line(new_scene, line))
 		{
 			printf("error in file configuration at line = %s\n", line);
-			scene_free(new_scene);
+			scene_free(new_scene, NULL);
 			exit(0);
 		}
 		free(line);

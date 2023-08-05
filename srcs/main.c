@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
+/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/04 15:08:12 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/05 18:31:06 by cshi-xia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,9 @@ int main(int argc, char **argv)
 	if (!data->scene)
 		return (1);
 
+	printf("Initializing Texture files...\n");
+	get_texture_files(data->scene->sc_objs, data->mlx->mlx);
+
 	scene_print_stats(data->scene);
 	change_to_view_port(data->scene);
 	printf("changed to view\n");
@@ -111,7 +114,7 @@ int main(int argc, char **argv)
 	mlx_key_hook(data->mlx->mlx_win, keypress_event, data);
 	mlx_loop_hook(data->mlx->mlx, render, (void *)data);
 	mlx_loop(data->mlx->mlx);
-	scene_free(data->scene);
+	scene_free(data->scene, data->mlx->mlx);
 	return (0);
 }
 

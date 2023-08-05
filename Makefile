@@ -33,6 +33,8 @@ SRCS_C =							\
 			utils_atof.c			\
 			utils_split.c			\
 			utils_get_next_line.c	\
+			xpm_extractor.c			\
+			obj_color.c				\
 
 # CFLAGS := -Wall -Wextra -Werror
 

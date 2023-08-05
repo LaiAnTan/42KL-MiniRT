@@ -10,18 +10,13 @@
 # include <fcntl.h>
 # include <math.h>
 
-#if __linux__
-	# include <X11/X.h>
-	# include "../mlx_linux/mlx.h"
-#elif __APPLE__
-	# include <mlx.h>
-#endif
-
+# include "mlx_info.h"
 # include "ray.h"
 # include "matrix.h"
 # include "vec3.h"
 # include "vec4.h"
 # include "timer.h"
+# include "xpm_extractor.h"
 
 /* Constants */
 # define PI 3.14159265358979323846
@@ -42,27 +37,6 @@
 # define SUCCESS 0
 # define FAILURE 1
 # define ERROR -1
-
-typedef struct	s_img_info
-{
-	void	*img;
-
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-
-	char	*addr;
-}			t_img_info;
-
-typedef struct	s_mlx_info
-{
-	void	*mlx;
-	void	*mlx_win;
-
-	t_img_info		img[2];
-	t_img_info		*cur_img;
-	t_img_info		*render_img;
-}			t_mlx_info;
 
 typedef struct s_ambient
 {
@@ -135,6 +109,7 @@ typedef struct s_cone
 # define CYLINDER 2
 # define CONE 3
 
+// sorry :(
 // typedef struct s_texture
 // {	
 // 	char	*filename;
@@ -154,7 +129,8 @@ typedef struct s_object
 	double			ob_spec;
 	t_vec3			*ob_coords;
 	t_vec3			*ob_rgb;
-	// t_texture		ob_texture;
+	char			*has_texture;
+	t_texture		*ob_texture;
 	struct s_object	*next;
 }		t_object;
 
@@ -196,13 +172,13 @@ void	scene_camera_add_back(t_camera **list_camera, t_camera *new_camera);
 void	scene_light_add_back(t_light **list_light, t_light *new_light);
 void	scene_object_add_back(t_object **list_object, t_object *new_object);
 
-void	scene_free(t_scene *scene);
+void	scene_free(t_scene *scene, void *mlx);
 void	scene_free_ambient(t_ambient *ambient_list_head);
 void	scene_free_camera_list(t_camera *camera_list_head);
 void	scene_free_light_list(t_light *light_list_head);
-void	scene_free_object_list(t_object	*object_list_head);
+void	scene_free_object_list(t_object	*object_list_head, void *mlx);
 
-void	object_free_node(t_object *obj);
+void	object_free_node(t_object *obj, void *mlx);
 void	object_free_sphere(t_sphere *sphere);
 void	object_free_plane(t_plane *plane);
 void	object_free_cylinder(t_cylinder *cylinder);
@@ -278,5 +254,7 @@ t_vec3		*calc_cone_norm(t_ray *r, t_object *o);
 void	swap(double *a, double *b);
 
 void	do_render_once(t_data *data);
+
+void	get_texture_files(t_object *objs, void *mlx_ptr);
 
 # endif
