@@ -56,7 +56,7 @@ int main()
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								&img.endian);
 
-	test = texture_init(ft_strdup("test.xpm"), mlx);
+	test = texture_init(ft_strdup("chadface.xpm"), mlx);
 	if (!test)
 		return (0);
 	printf("xlm successfully ported\n");
