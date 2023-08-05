@@ -34,6 +34,8 @@ unsigned int	get_xy_rgb(t_texture *txtr, int x, int y)
 // gets the rgb value on a point, returns in t_vec3 format
 // uv is apparent in the fucking range of [-1, 1] im gonna kill someone
 // so wee going to respect that
+
+// reverted back to [0,1]
 unsigned int get_rgb_ui(t_texture *txtr, double u, double v)
 {
 	t_vec3	*ret;
@@ -42,9 +44,12 @@ unsigned int get_rgb_ui(t_texture *txtr, double u, double v)
 	int y;
 
 	// grab the rbg value of the respective uv coordinate
-	x = round((txtr->width / 2) * (1 + u));
-	y = round((txtr->height / 2) * (1 + v));
+	// x = round((txtr->width / 2) * (1 + u));
+	// y = round((txtr->height / 2) * (1 + v));
 	// printf("(%d, %d)\n", x, y);
+
+	x = round(txtr->width * u);
+	y = round(txtr->height * v);
 
 	rgb = get_xy_rgb(txtr, x, y);
 	// printf("color = %#x\n", rgb);
