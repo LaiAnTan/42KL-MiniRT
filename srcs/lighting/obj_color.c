@@ -24,8 +24,11 @@ void	calculate_uv_circle(t_ray *ray, t_object *o, double store[2])
 
 
 	// wiki
-	// store[0] = 0.5 + (atan2(coord[2], coord[0]) / (2 * PI));
-	// store[1] = 0.5 + (asin(coord[1]) / (PI));
+	store[0] = 0.5 + (atan2(coord[2], coord[0]) / (2 * PI));
+	store[1] = 0.5 + (asin(coord[1]) / (PI));
+
+	store[0] = 0.25 - store[0];
+	store[1] = 1 - store[1];
 
 	// psa, this equation is pulled straight from my ass
 
@@ -33,8 +36,8 @@ void	calculate_uv_circle(t_ray *ray, t_object *o, double store[2])
 	// store[1] = (1 / PI) * atan( coord[1] / coord[2] ) + 0.5;
 
 	// hacks
-	store[0] = 0.5 - store[0];
-	store[1] = 1 - store[1];
+	// store[0] = 0.5 - store[0];
+	// store[1] = 1 - store[1];
 
 	// printf("(%f %f)\n", store[0], store[1]);
 }
