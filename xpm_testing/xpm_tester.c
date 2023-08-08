@@ -66,7 +66,7 @@ int main()
 	{
 		for (int y = 0; y < 940; ++y)
 		{
-			store = get_rgb_ui(test, ((double) x / 1250), ((double) y / 940));
+			store = get_rgb_ui(test, (double) ((x - (1250 / 2)) / 1250), (double) ((y - (940 / 2)) / 940));
 			my_mlx_pixel_put(&img, x, y, store);
 		}
 	}

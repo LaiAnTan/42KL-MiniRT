@@ -38,11 +38,22 @@ unsigned int get_rgb_ui(t_texture *txtr, double u, double v)
 {
 	t_vec3	*ret;
 	unsigned int	rgb;
+	int x;
+	int y;
 
 	// grab the rbg value of the respective uv coordinate
-	rgb = get_xy_rgb(txtr, round(u * txtr->width), round(v * txtr->height));
+	x = round((txtr->width / 2) * (1 + u));
+	y = round((txtr->height / 2) * (1 + v));
+	printf("(%d, %d)\n", x, y);
+
+	// x = round(txtr->width * u);
+	// y = round(txtr->height * v);
+
+	rgb = get_xy_rgb(txtr, x, y);
+	// printf("color = %#x\n", rgb);
 	return (rgb);
 }
+
 
 // gets the rgb value on a point, returns in t_vec3 format
 // uv LOOKS LIKE is in the range of [0,1]
@@ -55,7 +66,7 @@ t_vec3	*get_rgb(t_texture *txtr, double u, double v)
 	matrix_type	store[3];
 
 	// grab the rbg value of the respective uv coordinate
-	rgb = get_xy_rgb(txtr, round(u * txtr->width), round(v * txtr->height));
+	rgb = get_xy_rgb(txtr, u, v);
 
 	// we dont need to care about transparancy (i fucking hope)
 	//r

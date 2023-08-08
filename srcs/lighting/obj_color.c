@@ -7,7 +7,7 @@ void	normalize_yourmother(double uv[2])
 	double	cool_shit;
 
 	cool_shit = sqrt((uv[0] * uv[0]) + (uv[1] * uv[1]));
-	printf("%.2f\n", cool_shit);
+	// printf("%.2f\n", cool_shit);
 	uv[0] = uv[0] / cool_shit; 
 	uv[1] = uv[1] / cool_shit;
 }
@@ -39,6 +39,16 @@ void	calculate_uv_circle(t_ray *ray, t_object *o, double store[2])
 	// printf("(%f %f)\n", store[0], store[1]);
 }
 
+double	clamp(double first, double min, double max)
+{
+	if (first < min)
+		return (min);
+	if (first > max)
+		return (max);
+	return (first);
+}
+
+// some scuff guy
 void	calculate_uv_plane(t_ray *ray, t_object *o, double store[2])
 {
 	t_vec3	*zeroed;
@@ -48,35 +58,41 @@ void	calculate_uv_plane(t_ray *ray, t_object *o, double store[2])
 	t_vec3	*e1;
 	t_vec3	*e2;
 
+	printf("ray pos = ");
+	vec3_print(ray->pos_vector);
 	zeroed = vec3_difference(ray->pos_vector, o->ob_coords, O_CREATE);
 	vec3_normalize(zeroed, O_REPLACE);
 
 	temp = vec3_init(1, 0, 0);
 
 	e1 = vec3_crossproduct(o->ob_planes->pl_vec_normal, temp, O_CREATE);
-	vec3_normalize(e1, O_REPLACE);
-
 	if (e1->raw_matrix->m[0][0] == 0 && e1->raw_matrix->m[1][0] == 0 && e1->raw_matrix->m[2][0] == 0)
 	{
 		vec3_free(&e1);
 		vec3_free(&temp);
 		temp = vec3_init(0, 0, 1);
 		e1 = vec3_crossproduct(o->ob_planes->pl_vec_normal, temp, O_CREATE);
-		vec3_normalize(e1, O_REPLACE);
 	}
-
+	vec3_normalize(e1, O_REPLACE);
 	e2 = vec3_crossproduct(o->ob_planes->pl_vec_normal, e1, O_CREATE);
 	vec3_normalize(e2, O_REPLACE);
 
 	store[0] = vec3_dotproduct(e1, zeroed);
 	store[1] = vec3_dotproduct(e2, zeroed);
 
+	printf("(%f %f)\n", store[0], store[1]);
+
+	store[0] = clamp(store[0], -1, 1);
+	store[1] = clamp(store[1], -1, 1);
+
+	// store[0] = absolute(store[0]) * 0.5;
+	// store[1] = absolute(store[1]) * 0.5;  
+
 	vec3_free(&zeroed);
 	vec3_free(&temp);
 	vec3_free(&e1);
 	vec3_free(&e2);
 
-	// printf("(%f %f)\n", store[0], store[1]);
 }
 
 t_vec3	*get_object_color(t_ray *ray, t_object *o)
@@ -98,10 +114,7 @@ t_vec3	*get_object_color(t_ray *ray, t_object *o)
 		}
 		if (o->ob_type == CIRCLE)
 		{
-			// printf("ray in goc value = ");
-			// vec3_print(ray->pos_vector);
 			calculate_uv_circle(ray, o, uv_coord);
-			// printf("(%f %f)\n\n", uv_coord[0], uv_coord[1]);
 			return (get_rgb(o->ob_texture, uv_coord[0], uv_coord[1]));
 		}
 	}
