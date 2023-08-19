@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:50:53 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:52:33 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/19 19:55:05 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,13 @@ int	ft_atoi(char *str)
 		str++;
 	}
 	return ((int)(rtval * sign));
+}
+
+void	swap(double *a, double *b)
+{
+	double	temp;
+
+	temp = *b;
+	*b = *a;
+	*a = temp;
 }

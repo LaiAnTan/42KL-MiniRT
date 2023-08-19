@@ -8,6 +8,7 @@ SRCS_C =							\
 			main.c					\
 			file.c					\
 			scene_objects.c			\
+			scene_objects_debug.c	\
 			mlx.c					\
 			events.c				\
 			raytrace.c				\

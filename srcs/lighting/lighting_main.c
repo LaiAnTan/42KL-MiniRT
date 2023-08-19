@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:16 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/19 19:00:17 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/19 19:40:29 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 
 	a_norm = vec3_normalize(vec3_difference(l->l_coords, r->pos_vector,
 				O_CREATE), O_REPLACE);
-	// get normal to intersection
 	if (o->ob_type == CIRCLE)
 		b_norm = vec3_normalize(vec3_difference(r->pos_vector, o->ob_coords,
 					O_CREATE), O_REPLACE);

@@ -224,6 +224,8 @@ double	to_degree(double rad);
 
 void	free_2d_array(char **arr);
 
+void	swap(double *a, double *b);
+
 // --------------------------- uhhh have fun seperating ------------------------- //
 
 void		calculate_ray_positions(double store[3], double x, double y, double fov);
@@ -250,8 +252,6 @@ void	solve_quad(double *coefficients, double *result);
 t_matrix	*construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forward);
 t_vec3		*calc_cylinder_norm(t_ray *r, t_object *o);
 t_vec3		*calc_cone_norm(t_ray *r, t_object *o);
-
-void	swap(double *a, double *b);
 
 void	do_render_once(t_data *data);
 

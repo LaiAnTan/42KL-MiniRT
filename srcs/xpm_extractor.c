@@ -34,7 +34,6 @@ unsigned int	get_xy_rgb(t_texture *txtr, int x, int y)
 // gets the rgb value on a point, returns in t_vec3 format
 // uv is apparent in the fucking range of [-1, 1] im gonna kill someone
 // so wee going to respect that
-
 // reverted back to [0,1]
 unsigned int get_rgb_ui(t_texture *txtr, double u, double v)
 {
@@ -51,30 +50,25 @@ unsigned int get_rgb_ui(t_texture *txtr, double u, double v)
 	// for range 0 to 1
 	x = round(txtr->width * u);
 	y = round(txtr->height * v);
-
 	rgb = get_xy_rgb(txtr, x, y);
-	// printf("color = %#x\n", rgb);
 	return (rgb);
 }
 
 // gets the rgb value on a point, returns in t_vec3 format
 // uv LOOKS LIKE is in the range of [0,1]
 // so wee going to respect that
+// store array: 0, 1, 2 = r, g, b
 t_vec3	*get_rgb(t_texture *txtr, double u, double v)
 {
 	unsigned int	rgb;
-	// place to store extracted rgb values
 	matrix_type	store[3];
 
 	// grab the rbg value of the respective uv coordinate
 	rgb = get_rgb_ui(txtr, u, v);
 
 	// we dont need to care about transparancy (i fucking hope)
-	//r
 	store[0] = (matrix_type) (int) ((rgb >> 16) & 0xFF);
-	//g
 	store[1] = (matrix_type) (int) ((rgb >> 8) & 0xFF);
-	//b
 	store[2] = (matrix_type) (int) (rgb & 0xFF);
 	return (vec3_init_from_array(store));
 }
@@ -83,7 +77,6 @@ void	free_texture(t_texture *a, void *mlx)
 {
 	if (!a)
 		return ;
-
 	free(a->filename);
 	mlx_destroy_image(mlx, a->data.img);
 	free(a);
