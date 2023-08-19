@@ -44,10 +44,12 @@ unsigned int get_rgb_ui(t_texture *txtr, double u, double v)
 	int y;
 
 	// grab the rbg value of the respective uv coordinate
+	// for range -1 to 1
 	// x = round((txtr->width / 2) * (1 + u));
 	// y = round((txtr->height / 2) * (1 + v));
 	// printf("(%d, %d)\n", x, y);
 
+	// for range 0 to 1
 	x = round(txtr->width * u);
 	y = round(txtr->height * v);
 

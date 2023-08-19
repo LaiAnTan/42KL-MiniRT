@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:47 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:42:48 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/12 17:36:33 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ double	intersect_plane(t_ray *ray, t_object *o)
 	values[0] = vec3_dotproduct(modified_ray_pos, o->ob_planes->pl_vec_normal);
 	values[1] = vec3_dotproduct(ray->dir_vector, o->ob_planes->pl_vec_normal);
 	vec3_free(&modified_ray_pos);
+
+	// k = -a/b
 
 	k = - (values[0] / values[1]);
 	if (k < 0)
