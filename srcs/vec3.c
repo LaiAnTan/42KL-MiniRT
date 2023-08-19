@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:22 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:42:23 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/19 18:57:01 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,7 @@ t_vec3	*vec3_difference(t_vec3 *left, t_vec3 *right, options op)
 		}
 		return (left);
 	}
+	return (NULL);
 }
 
 t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right, options op)
@@ -243,7 +244,7 @@ t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right, options op)
 		}
 		return (left);
 	}
-	
+	return (NULL);
 }
 
 t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value, options op)
@@ -262,6 +263,7 @@ t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value, options op)
 		}
 		return (vctr);
 	}
+	return (NULL);
 }
 
 // my bad, normalize isnt unit vector :P
@@ -274,6 +276,7 @@ t_vec3	*vec3_normalize(t_vec3 *vctr, options op)
 		return (vec3_scalar_multi(vctr, 1/mag, O_CREATE));
 	else if (op == O_REPLACE)
 		return (vec3_scalar_multi(vctr, 1/mag, O_REPLACE));
+	return (NULL);
 }
 
 // A x B = |A| |B| sin theta ^n
@@ -307,6 +310,7 @@ t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right, options op)
 		}
 		return (left);
 	}
+	return (NULL);
 }
 
 t_vec3	*vec3_negate(t_vec3 *vctr)

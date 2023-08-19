@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:33 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:43:34 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/19 19:00:02 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,10 @@ void	swap(double *a, double *b)
 
 double	cy_test_intersect(t_ray *ray, t_object *o, double value[2])
 {
-	t_vec3	*intersect;
-	t_vec3	*mover;
-	t_vec3	*diff;
-	t_vec3	*h;
 	int		i;
 	double	k;
+	t_vec3	*mover;
+	t_vec3	*intersect;
 
 	if (value[0] > value[1])
 		swap(&value[0], &value[1]);
@@ -124,8 +122,8 @@ double    intersect_cylinder(t_ray *ray, t_object *o)
     solve_quad_cy(coefficients, values);
 
     if (values[0] < 0)
-        return (ERROR);
+		return (ERROR);
     if (values[1] < 0 && values[2] < 0)
-        return (ERROR);
-	return (cy_test_intersect(ray, o, &values[1]));	
+		return (ERROR);
+	return (cy_test_intersect(ray, o, &values[1]));
 }

@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:38 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:43:39 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/19 18:58:54 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,10 @@ void	solve_quad_cn(double *coefficients, double *result)
 
 double	cn_test_intersect(t_ray *ray, t_object *o, double value[2])
 {
-	t_vec3	*intersect;
-	t_vec3	*mover;
-	t_vec3	*diff;
-	t_vec3	*h;
 	int	i;
 	double	k;
+	t_vec3	*mover;
+	t_vec3	*intersect;
 
 	if (value[0] > value[1])
 		swap(&value[0], &value[1]);

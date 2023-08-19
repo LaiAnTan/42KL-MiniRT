@@ -20,6 +20,8 @@ typedef int options;
 #define O_CREATE	0
 #define O_REPLACE	1
 
+// functions with return valeus: returns NULL if operation failed for some reason
+
 t_vec3	*vec3_init(double x, double y, double z);
 t_vec3	*vec3_init_from_matrix(t_matrix *stuff);
 t_vec3	*vec3_init_from_array(matrix_type array[3]);

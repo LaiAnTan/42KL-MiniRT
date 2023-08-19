@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:32 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/05 18:38:22 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/19 18:54:36 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ t_plane		*object_new_plane(double pl_vec_normal[3])
 	return (new_plane);
 }
 
-t_cylinder	*object_new_cylinder(t_vec3 *center, double cy_height, double cy_diameter, double cy_vec_axis[3])
+t_cylinder	*object_new_cylinder(double cy_height, double cy_diameter, double cy_vec_axis[3])
 {
 	t_cylinder	*new_cylinder;
 
@@ -165,7 +165,7 @@ t_cylinder	*object_new_cylinder(t_vec3 *center, double cy_height, double cy_diam
 	return (new_cylinder);
 }
 
-t_cone	*object_new_cone(t_vec3 *center, double cn_height, double cn_diameter, double cn_vec_axis[3])
+t_cone	*object_new_cone(double cn_height, double cn_diameter, double cn_vec_axis[3])
 {
 	t_cone	*new_cone; 
 	
@@ -484,8 +484,6 @@ void	scene_print_stats(t_scene *scene)
 
 void	get_texture_files(t_object *objs, void *mlx_ptr)
 {
-	t_mlx_info	*mlx;
-
 	while (objs)
 	{
 		if (objs->has_texture)

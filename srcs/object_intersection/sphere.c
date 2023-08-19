@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   circle.c                                           :+:      :+:    :+:   */
+/*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:49 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:43:50 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/19 18:57:44 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,9 @@ result[2] = -sqrt ans
 // a slightly faster intercept circle finder
 void solve_quad(double *coefficients, double *result)
 {
-	double	a;
 	double	b;
 	double	c;
 
-	a = coefficients[0];
 	b = coefficients[1];
 	c = coefficients[2];
 
@@ -47,7 +45,6 @@ double intersect_circle(t_ray *ray, t_object *o)
 {
 	double	values[3];
 	double	coefficients[3];
-	double	mag;
 
 	// me cheese this (not sure if works :skull)
 	t_vec3 *modified_ray_pos;

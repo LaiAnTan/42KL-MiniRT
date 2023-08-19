@@ -165,8 +165,8 @@ t_light		*scene_new_light(double l_rgb[3], double l_coords[3], double l_brightne
 t_object	*object_init();
 t_sphere	*object_new_sphere(double sp_diameter);
 t_plane		*object_new_plane(double pl_vec_normal[3]);
-t_cylinder	*object_new_cylinder(t_vec3 *center, double cy_height, double cy_diameter, double cy_vec_axis[3]);
-t_cone		*object_new_cone(t_vec3 *center, double cn_height, double cn_diameter, double cn_vec_axis[3]);
+t_cylinder	*object_new_cylinder(double cy_height, double cy_diameter, double cy_vec_axis[3]);
+t_cone		*object_new_cone(double cn_height, double cn_diameter, double cn_vec_axis[3]);
 
 void	scene_camera_add_back(t_camera **list_camera, t_camera *new_camera);
 void	scene_light_add_back(t_light **list_light, t_light *new_light);

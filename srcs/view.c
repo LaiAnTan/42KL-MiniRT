@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:46:30 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/19 18:51:13 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ t_matrix *construct_rotation(t_vec3 *right, t_vec3 *true_up, t_vec3 *forward)
 	rotation->m[2][2] = -forward->raw_matrix->m[2][0];
 
 	rotation->m[3][3] = 1;
-
-	printf("rotation = \n");
-	m_print_matrix(rotation);
 	return (rotation);
 }
 
@@ -45,9 +42,6 @@ static t_matrix *construct_translation(t_vec3 *position)
 	translation->m[0][3] = -position->raw_matrix->m[0][0];
 	translation->m[1][3] = -position->raw_matrix->m[1][0];
 	translation->m[2][3] = -position->raw_matrix->m[2][0];
-
-	printf("translation = \n");
-	m_print_matrix(translation);
 	return (translation);
 }
 
@@ -67,45 +61,35 @@ t_vec3	*get_right(t_vec3 *forward, t_vec3 *up)
 // heres to not break anything
 void	cam_view_matrix(t_camera *cam)
 {
-	t_vec3	*position;
-	matrix_type	up_val[3] = {0,1,0};
-	t_vec3	*up;
-	t_vec3	*forward;
-	t_vec3	*right;
-	t_vec3	*true_up;
+	t_vec3		*up;
+	t_vec3		*right;
+	t_vec3		*forward;
+	t_vec3		*true_up;
+	t_vec3		*position;
 	t_matrix	*trans;
-
+	matrix_type	up_val[3] = {0,1,0};
+	
 	position = cam->cam_coords;
 	forward = cam->cam_vec_orient;
 	up = vec3_init_from_array(up_val);
-
-	printf("forward = \n");
-	vec3_print(forward);
-
 	right = get_right(forward, up);
-	printf("right = \n");
-	vec3_print(right);
-
 	true_up = vec3_crossproduct(right, forward, O_CREATE);
-	printf("true up = \n");
-	vec3_print(true_up);
-
 	cam->orr_matrix = construct_rotation(right, true_up, forward);
 	trans = construct_translation(position);
 	cam->view_matrix = m_multiplication(cam->orr_matrix, trans);
-
 	vec3_free(&up);
 	vec3_free(&right);
 	vec3_free(&true_up);
 	free_matrix(&trans);
 }
 
+
+// rotation is 3x3 top left of 4x4 view matrix
 t_matrix	*get_rotation_inverse(t_matrix *transform)
 {
 	int			i;
 	int			j;
-
-	t_matrix	*rotation; //3x3 top left of 4x4 view matrix
+	t_matrix	*rotation;
 	t_matrix	*mat3_rotation_inverse;
 	t_matrix	*mat4_rotation_inverse;
 
@@ -144,11 +128,9 @@ t_matrix	*get_translation_inverse(t_matrix *transform)
 	t_matrix	*translation_inverse;
 
 	translation_inverse = m_init_identity(4, 4);
-
 	translation_inverse->m[0][3] = -transform->m[0][3];
 	translation_inverse->m[1][3] = -transform->m[1][3];
 	translation_inverse->m[2][3] = -transform->m[2][3];
-
 	return (translation_inverse);
 }
 
@@ -161,9 +143,7 @@ t_matrix	*get_inverse_transform(t_matrix *transform)
 	rotation_inverse = get_rotation_inverse(transform);
 	translation_inverse = get_translation_inverse(transform);
 	res = m_multiplication(translation_inverse, rotation_inverse);
-
 	free_matrix(&rotation_inverse);
 	free_matrix(&translation_inverse);
-
 	return (res);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 12:18:06 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/05 18:46:47 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/19 19:00:23 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 void	ambient_color(t_ray	*ray, t_ambient *a, t_object *o);
 
 // diffuse
-void	shadow_diffuse(t_ray *ray);
 void	calculate_diffuse_color(t_ray *r, t_light *l, t_object *o,
 								double costheta);
 

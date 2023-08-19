@@ -38,7 +38,6 @@ unsigned int	get_xy_rgb(t_texture *txtr, int x, int y)
 // reverted back to [0,1]
 unsigned int get_rgb_ui(t_texture *txtr, double u, double v)
 {
-	t_vec3	*ret;
 	unsigned int	rgb;
 	int x;
 	int y;
@@ -63,7 +62,6 @@ unsigned int get_rgb_ui(t_texture *txtr, double u, double v)
 // so wee going to respect that
 t_vec3	*get_rgb(t_texture *txtr, double u, double v)
 {
-	t_vec3	*ret;
 	unsigned int	rgb;
 	// place to store extracted rgb values
 	matrix_type	store[3];

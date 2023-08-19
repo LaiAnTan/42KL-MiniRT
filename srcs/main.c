@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/05 18:31:06 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/19 18:51:55 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@
 // prod
 int	render(void *rt)
 {
-	// render, more like, slapping an image LMAO
 	t_data	*data;
 
 	data = (t_data *) rt;
 	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->cur_img->img, 0, 0);
 	// clean_loop(data->mlx);
+	return (0);
 }
 
 void	do_render_once(t_data *data)

@@ -36,7 +36,7 @@ SRCS_C =							\
 			xpm_extractor.c			\
 			obj_color.c				\
 
-# CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror
 
 # FSAN = -fsanitize=address -g
 

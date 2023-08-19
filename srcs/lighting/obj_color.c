@@ -70,4 +70,5 @@ t_vec3	*get_object_color(t_ray *ray, t_object *o)
 			return (get_rgb(o->ob_texture, uv_coord[0], uv_coord[1]));
 		}
 	}
+	return (NULL);
 }

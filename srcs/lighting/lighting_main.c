@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lighting_main.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:16 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/26 22:41:22 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/19 19:00:17 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/lighting.h"
-
-void	shadow_diffuse(t_ray *ray)
-{
-	// uhhh, the diffuse color is 0 0 0 by default... why is this even doing here???
-}
 
 // main lighting calc function
 void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
