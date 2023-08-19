@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting_diffuse.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 13:39:56 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/05 18:48:10 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/19 22:34:25 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_vec3	*inverse_color(t_vec3 *c)
 	i = 0;
 	while (i < 3)
 	{
-		i_rgb[i] = absolute(255 - c_stuff[i]);
+		i_rgb[i] = abs_double(255 - c_stuff[i]);
 		++i;
 	}
 	return (vec3_init_from_array(i_rgb));

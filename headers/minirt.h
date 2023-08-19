@@ -218,7 +218,7 @@ char	*ft_substr(char *s, unsigned int start, unsigned int end);
 
 char	**ft_split(char *s, char c);
 
-double	absolute(double val);
+double	abs_double(double val);
 double	to_radian(double degree);
 double	to_degree(double rad);
 

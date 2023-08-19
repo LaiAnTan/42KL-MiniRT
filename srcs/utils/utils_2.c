@@ -6,14 +6,14 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:54 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 12:02:30 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/19 22:34:25 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minirt.h"
 
 // WHY IS THERE NO ABS FOR DOUBLE WTF
-double	absolute(double val)
+double	abs_double(double val)
 {
 	if (val < 0)
 		return (-1 * val);

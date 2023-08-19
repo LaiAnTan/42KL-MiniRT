@@ -137,7 +137,7 @@ int			get_closest_light(t_ray *r, t_light *l, t_scene *scene);
 
 void		set_the_scene(t_scene *scene, double x);
 
-double		absolute(double val);
+double		abs_double(double val);
 double		to_radian(double degree);
 double		to_degree(double rad);
 

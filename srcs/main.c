@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/19 18:51:55 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/19 22:46:24 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ int main(int argc, char **argv)
 
 	if (argc != 2)
 		return (ERROR);
-
-	// data initialization
+	// init data
 	data = (t_data *) malloc(sizeof(t_data));
 	data->mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
 	data->mlx->mlx = mlx_init();
@@ -96,21 +95,17 @@ int main(int argc, char **argv)
 	data->mlx->render_img = &data->mlx->img[0];
 	data->mlx->cur_img = &data->mlx->img[1];
 
-	printf("Getting RT file..\n");
+	printf("Parsing .rt file..\n");
 	data->scene = file_create_scene(argv[1]);
-	printf("Done!\n");
 	if (!data->scene)
 		return (1);
 
-	printf("Initializing Texture files...\n");
+	printf("Initializing texture files...\n");
 	get_texture_files(data->scene->sc_objs, data->mlx->mlx);
-
+	printf("Done!\n");
 	scene_print_stats(data->scene);
 	change_to_view_port(data->scene);
-	printf("changed to view\n");
-
 	do_render_once(data);
-
 	mlx_key_hook(data->mlx->mlx_win, keypress_event, data);
 	mlx_loop_hook(data->mlx->mlx, render, (void *)data);
 	mlx_loop(data->mlx->mlx);

@@ -3,96 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   raytrace.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:37 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/05 19:11:11 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/19 22:41:41 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../headers/minirt.h"
+#include "../headers/minirt.h"
 
+/*
+heads up, right hand orienation (0,0,-1)
+if left hand orientation (0,0,1),
+double	x_relative_to_mid = (WIDTH / 2) - x;
+double	y_relative_to_mid = (HEIGHT / 2) - y
+double	alpha = (WIDTH / 2) / (tan(hori_fov / 2));
+
+store[0] = acc_x
+store[1] = acc_y
+store[z] = acc_z
+*/
 void	calculate_ray_positions(double store[3], double x, double y, double fov)
 {
 	double	hori_fov = to_radian(fov);
 	double	verti_fov = 2 * atan((HEIGHT / WIDTH) * tan(hori_fov / 2));
-
 	double	hori_fov_per_x = hori_fov / WIDTH;
 	double	verti_fov_per_y = verti_fov / HEIGHT;
-
-	// heads up, right hand orienation
-
-	// use this if orienation is (0,0,1)
-	// double	x_relative_to_mid = (WIDTH / 2) - x;
-	// double	y_relative_to_mid = (HEIGHT / 2) - y;
-
-	// use this if orientation is (0,0,-1)
 	double	x_relative_to_mid = (WIDTH / 2) - x;
 	double	y_relative_to_mid = y - (HEIGHT / 2);
-
-	double	hori_angle = absolute(x_relative_to_mid) * hori_fov_per_x;
-	double	verti_angle = absolute(y_relative_to_mid) * verti_fov_per_y;
-
-	//  orientation is (0,0,1)
-	// double	alpha = (WIDTH / 2) / (tan(hori_fov / 2));
-	// orientation is (0,0,-1)
+	double	hori_angle = abs_double(x_relative_to_mid) * hori_fov_per_x;
+	double	verti_angle = abs_double(y_relative_to_mid) * verti_fov_per_y;
 	double	alpha = - (WIDTH / 2) / (tan(hori_fov / 2));
-
-	double	acc_x = alpha * tan(hori_angle);
+	store[0] = alpha * tan(hori_angle);
+	store[1] = alpha * tan(verti_angle);
+	store[2] = alpha;
 	if (x_relative_to_mid < 0)
-		acc_x *= -1;
-
-	double	acc_y = alpha * tan(verti_angle);
+		store[0] *= -1;
 	if (y_relative_to_mid < 0)
-		acc_y *= -1;
-
-	double	acc_z = alpha;
-
-	store[0] = acc_x;
-	store[1] = acc_y; 
-	store[2] = acc_z;
+		store[1] *= -1;
 }
 
 // projects a ray
 t_ray	*project_ray(double x, double y, t_camera *camera)
 {
-	double		store[3];
+	double	store[3];
 	t_vec3	*dir_vector;
 
 	calculate_ray_positions(store, x, y, camera->cam_fov);
 	dir_vector = vec3_normalize(vec3_init_from_array(store), O_REPLACE);
-
 	return (init_ray(vec3_dup(camera->cam_coords), dir_vector));
 }
 
+/*
+steps:
+1. project ray
+2. detect collision (intersection)
+	if collided, find light source
+		if has light source, calc diffuse and specular color
+4. calculate ambient color
+5. result color = diffuse + specular + ambient
+5. set color of pixel
+*/
 void	do_ray_stuff(double x, double y, t_data *data)
 {
+	double		k_val;
+	double		p_from_light;
+	t_ray		*ray;
 	t_light		*light;
 	t_object	*closest_object_src;
-	t_ray		*ray;
-	double		k_val;
-
- //  ray projection
- //  ----------------------------------------------------------------------------
 
 	ray = project_ray(x, y, data->scene->sc_cameras);
-
- //  detect collision
- //  ----------------------------------------------------------------------------
-
 	closest_object_src = get_closest_object(ray, data->scene->sc_objs, 1, &k_val);
 	if (closest_object_src)
 	{
 		move_ray(ray, k_val);
 		ray->type = COLLIDED;
 	}
-
- //  detect light source
- //  ----------------------------------------------------------------------------
-
- // ray over here should be the intersection place
-	double		p_from_light;
-
 	if (ray->type == COLLIDED)
 	{
 		ray->type = SHADOW;
@@ -101,22 +87,12 @@ void	do_ray_stuff(double x, double y, t_data *data)
 		{
 			p_from_light = get_closest_light_runner(ray, light, data->scene->sc_objs);
 			if (p_from_light != ERROR)
-			{
-				// calculate diffuse & specular lighting
 				diffuse_the_bomb(ray, light, closest_object_src);
-			}
 			light = light->next;
 		}
 	}
-
-//  -----------------------------------------------------------------------------
-
-	// ambient
 	if (data->scene->sc_ambients)
 		ambient_color(ray, data->scene->sc_ambients, closest_object_src);
-
-//  -----------------------------------------------------------------------------
-	
 	calculate_result_color(ray);
 	write_pixel(data->mlx->render_img, x, y, create_trgb(ray->color));
 	free_ray(&ray);
@@ -149,6 +125,5 @@ void	raytrace(t_data *data)
 		}
 		y += rays_per_y;
 	}
-
 	switch_image(data);
 }
