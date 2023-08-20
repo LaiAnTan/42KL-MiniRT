@@ -27,26 +27,27 @@ t_vec3	*vec3_init_from_matrix(t_matrix *stuff);
 t_vec3	*vec3_init_from_array(matrix_type array[3]);
 t_vec3	*vec3_dup(t_vec3 *vctr);
 
-matrix_type	*vec3_get_val(t_vec3 *vector);
 void		vec3_store_val(t_vec3 *vector, matrix_type array[3]);
-
 void	vec3_print(t_vec3 *stuff);
 void	vec3_free(t_vec3 **stuff);
+int		vec3_isequal(t_vec3 *a, t_vec3 *b);
+matrix_type	*vec3_get_val(t_vec3 *vector);
 
-double	vec3_dotproduct(t_vec3 *left, t_vec3 *right);
 double	vec3_magnitude(t_vec3 *vctr);
 double	vec3_magnitude_sqrd(t_vec3 *vctr);
 double	*vec3_direction_cosines(t_vec3 *vctr);
 double	*vec3_u_direction_cosines(t_vec3 *vec3_norm);
+double	vec3_dotproduct(t_vec3 *left, t_vec3 *right);
 
 t_vec3	*vec3_negate(t_vec3 *vctr);
-t_vec3	*vec3_difference(t_vec3 *left, t_vec3 *right, options op);
-t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right, options op);
 t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right, options op);
+t_vec3	*vec3_difference(t_vec3 *left, t_vec3 *right, options op);
 t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value, options op);
+t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right, options op);
+
 t_vec3	*vec3_normalize(t_vec3 *vctr, options op);
 t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b, options op);
 t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *righ, options op);
 
-int		vec3_isequal(t_vec3 *a, t_vec3 *b);
+
 #endif

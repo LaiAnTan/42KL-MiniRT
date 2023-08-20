@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:27 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/05 18:31:36 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/08/20 12:37:27 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minirt.h"
 
+// 0xff1b = ESC
+// 0x72 = r
 int	keypress_event(int key_symbol, t_data *data)
 {
-	if (key_symbol == 0xff1b) // escape
+	if (key_symbol == 0xff1b)
 	{
 		printf("ESC pressed, exiting...");
 		mlx_destroy_window(data->mlx->mlx, data->mlx->mlx_win);

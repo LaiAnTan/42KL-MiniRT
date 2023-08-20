@@ -6,14 +6,14 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:22 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/19 18:53:41 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/20 12:14:10 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../headers/minirt.h"
 
 // unpacks a string of 3 values (255,255,255) into an array of integers of size 3
-// tokens is a 2d array aso.... (leaky)
+// tokens is a 2d array (leak)
 double		*unpack_3_int_values(char *values)
 {
 	int		i;
@@ -46,13 +46,12 @@ double		*unpack_3_int_values(char *values)
 }
 
 // unpacks a string of 3 values (1.0,2.3,3.21) into an array of doubles of size 3
-// tokens a 2d array (leak)
+// tokens is a 2d array (leak)
 double	*unpack_3_double_values(char *values)
 {
 	int		i;
 	double	*unpacked;
 	char	**tokens;
-
 
 	i = 0;
 	tokens = ft_split(values, ',');
@@ -80,7 +79,7 @@ double	*unpack_3_double_values(char *values)
 }
 
 // checks if the string is a valid string of 3 values (255,255,255)
-// values is a 2d array.... (leak)
+// values is a 2d array (leak)
 int	is_valid_3_values(char *str)
 {
 	int		i;
@@ -307,6 +306,7 @@ int	parse_line(t_scene *scene, char *line)
 	return (0);
 }
 
+// the bracket is necessary apparently
 void	strip_nl(char **str)
 {
 	int		i;
@@ -322,7 +322,7 @@ void	strip_nl(char **str)
 	new_str = (char *) malloc (sizeof(char) * ft_strlen(*str));
 	while (i < len - 1)
 	{
-		new_str[i] = (*str)[i]; // i fucking hate this
+		new_str[i] = (*str)[i];
 		++i;
 	}
 	new_str[i] = '\0';
