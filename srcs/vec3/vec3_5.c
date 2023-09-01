@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 13:45:38 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/20 13:46:14 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/08/21 10:11:01 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ t_vec3	*vec3_normalize(t_vec3 *vctr, options op)
 
 	mag = vec3_magnitude(vctr);
 	if (op == O_CREATE)
-		return (vec3_scalar_multi(vctr, 1/mag, O_CREATE));
+		return (vec3_scalar_multi(vctr, 1 / mag, O_CREATE));
 	else if (op == O_REPLACE)
-		return (vec3_scalar_multi(vctr, 1/mag, O_REPLACE));
+		return (vec3_scalar_multi(vctr, 1 / mag, O_REPLACE));
 	return (NULL);
 }
 
@@ -29,12 +29,11 @@ t_vec3	*vec3_normalize(t_vec3 *vctr, options op)
 t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b, options op)
 {
 	double		project_mag;
-	t_vec3	*norm_b;
-	t_vec3	*ret;
+	t_vec3		*norm_b;
+	t_vec3		*ret;
 
 	project_mag = vec3_dotproduct(a, b) / vec3_magnitude(b);
 	norm_b = vec3_normalize(b, O_CREATE);
-
 	if (op == O_CREATE)
 		ret = vec3_scalar_multi(norm_b, project_mag, O_CREATE);
 	else if (op == O_REPLACE)
@@ -53,10 +52,12 @@ t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right, options op)
 	matrix_type	*left_val;
 	matrix_type	*right_val;
 
+	i = -1;
 	left_val = vec3_get_val(left);
 	right_val = vec3_get_val(right);
 	stuff[0] = (left_val[1] * right_val[2]) - (left_val[2] * right_val[1]);
-	stuff[1] = -1 * ((left_val[0] * right_val[2]) - (left_val[2] * right_val[0]));
+	stuff[1] = -1 * ((left_val[0] * right_val[2])
+			- (left_val[2] * right_val[0]));
 	stuff[2] = (left_val[0] * right_val[1]) - (left_val[1] * right_val[0]);
 	free(left_val);
 	free(right_val);
@@ -64,12 +65,8 @@ t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right, options op)
 		return (vec3_init_from_array(stuff));
 	else if (op == O_REPLACE)
 	{
-		i = 0;
-		while (i < 3)
-		{
+		while (++i < 3)
 			left->raw_matrix->m[i][0] = stuff[i];
-			++i;
-		}
 		return (left);
 	}
 	return (NULL);

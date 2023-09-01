@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 13:41:18 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/20 13:44:57 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/01 23:45:10 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right, options op)
 
 	i = 0;
 	if (op == O_CREATE)
-		return (vec3_init_from_matrix(m_addition(left->raw_matrix, right->raw_matrix)));
+		return (vec3_init_from_matrix(
+				m_addition(left->raw_matrix, right->raw_matrix)));
 	else if (op == O_REPLACE)
 	{
 		while (i < 3)
@@ -45,7 +46,8 @@ t_vec3	*vec3_difference(t_vec3 *left, t_vec3 *right, options op)
 
 	i = 0;
 	if (op == O_CREATE)
-		return (vec3_init_from_matrix(m_subtraction(left->raw_matrix, right->raw_matrix)));
+		return (vec3_init_from_matrix(
+				m_subtraction(left->raw_matrix, right->raw_matrix)));
 	else if (op == O_REPLACE)
 	{
 		while (i < 3)
@@ -88,12 +90,8 @@ t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right, options op)
 		store[i] = left->raw_matrix->m[i][0] * right->raw_matrix->m[i][0];
 		++i;
 	}
-
-	// O_CREATE
 	if (op == O_CREATE)
 		return (vec3_init_from_array(store));
-
-	// O_REPLACE
 	i = 0;
 	while (i < 3)
 	{
