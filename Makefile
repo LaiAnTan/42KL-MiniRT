@@ -7,6 +7,9 @@ ODIR = obj
 SRCS_C =							\
 			main.c					\
 			file.c					\
+			file_object_handlers.c	\
+			file_object_handlers_2.c\
+			file_utils.c			\
 			scene_objects.c			\
 			scene_objects_debug.c	\
 			mlx.c					\

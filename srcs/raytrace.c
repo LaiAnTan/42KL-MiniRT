@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:37 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/19 22:41:41 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/03 00:24:43 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	do_ray_stuff(double x, double y, t_data *data)
 	t_object	*closest_object_src;
 
 	ray = project_ray(x, y, data->scene->sc_cameras);
-	closest_object_src = get_closest_object(ray, data->scene->sc_objs, 1, &k_val);
+	closest_object_src = get_closest_object(ray, data->scene->sc_objs, 1,
+			&k_val);
 	if (closest_object_src)
 	{
 		move_ray(ray, k_val);
@@ -85,7 +86,8 @@ void	do_ray_stuff(double x, double y, t_data *data)
 		light = data->scene->sc_lights;
 		while (light)
 		{
-			p_from_light = get_closest_light_runner(ray, light, data->scene->sc_objs);
+			p_from_light = get_closest_light_runner(ray, light,
+					data->scene->sc_objs);
 			if (p_from_light != ERROR)
 				diffuse_the_bomb(ray, light, closest_object_src);
 			light = light->next;
@@ -111,9 +113,11 @@ void	raytrace(t_data *data)
 {
 	double	x;
 	double	y;
-	double	rays_per_x = WIDTH / RAYS_IN_X;
-	double	rays_per_y = HEIGHT / RAYS_IN_Y;
+	double	rays_per_x;
+	double	rays_per_y;
 
+	rays_per_x = WIDTH / RAYS_IN_X;
+	rays_per_y = HEIGHT / RAYS_IN_Y;
 	y = 0;
 	while (y < HEIGHT)
 	{

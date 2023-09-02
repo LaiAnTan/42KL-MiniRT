@@ -190,6 +190,20 @@ void	scene_print_stats(t_scene *scene);
 
 t_scene	*file_create_scene(char *filename);
 
+// file parsing object handlers
+int	handle_object_ambient(t_scene *scene, char **tokens);
+int	handle_object_camera(t_scene *scene, char **tokens);
+int	handle_object_light(t_scene *scene, char **tokens);
+int	handle_object_sphere(t_scene *scene, char **tokens);
+int	handle_object_plane(t_scene *scene, char **tokens);
+int	handle_object_cylinder(t_scene *scene, char **tokens);
+int	handle_object_cone(t_scene *scene, char **tokens);
+
+// file parsing utils
+double	*unpack_3_int_values(char *values);
+double	*unpack_3_double_values(char *values);
+int		is_valid_3_values(char *str);
+
 /* MLX */
 void	get_image(t_img_info *img_info, void *mlx);
 void	clean_loop(t_mlx_info *mlx);
