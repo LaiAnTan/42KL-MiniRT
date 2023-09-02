@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:33 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/19 19:59:47 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/02 10:28:56 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,35 +50,43 @@ void	solve_quad_cy(double *coefficients, double *result)
 	result[2] = ((-1 * b) - d) / (a);
 }
 
+// calculates ray position relative to cylinder's bottom cap position
+static double	calc_intersect(t_ray *ray, t_object *o, double value)
+{
+	double	k;
+	t_vec3	*ray_mover;
+	t_vec3	*ray_intersection;
+
+	ray_mover = vec3_scalar_multi(ray->dir_vector, value, O_CREATE);
+	ray_intersection = vec3_addition(ray->pos_vector, ray_mover, O_CREATE);
+	k = vec3_dotproduct(vec3_difference(ray_intersection,
+				o->ob_cylinders->cy_bottom, O_REPLACE),
+			o->ob_cylinders->cy_vec_axis);
+	vec3_free(&ray_mover);
+	vec3_free(&ray_intersection);
+	return (k);
+}
+
+// if k lies between 0 and cy_height => intersected
 double	cy_test_intersect(t_ray *ray, t_object *o, double value[2])
 {
 	int		i;
 	double	k;
-	t_vec3	*mover;
-	t_vec3	*intersect;
 
 	if (value[0] > value[1])
 		swap(&value[0], &value[1]);
-	i = 0;
-	while (i < 2)
+	i = -1;
+	while (++i < 2)
 	{
-		if (value[i] >= 0)
+		if (value[i] < 0)
+			continue ;
+		k = calc_intersect(ray, o, value[i]);
+		if (k >= 0 && k <= o->ob_cylinders->cy_height)
 		{
-			mover = vec3_scalar_multi(ray->dir_vector, value[i], O_CREATE);
-			intersect = vec3_addition(ray->pos_vector, mover, O_CREATE);
-			vec3_free(&mover);
-			k = vec3_dotproduct(vec3_difference(intersect,
-						o->ob_cylinders->cy_bottom, O_REPLACE),
-					o->ob_cylinders->cy_vec_axis);
-			vec3_free(&intersect);
-			if (k >= 0 && k <= o->ob_cylinders->cy_height)
-			{
-				if (i == 1)
-					ray->inside = 1;
-				return (value[i]);
-			}
+			if (i == 1)
+				ray->inside = 1;
+			return (value[i]);
 		}
-		++i;
 	}
 	return (ERROR);
 }

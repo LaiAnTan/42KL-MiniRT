@@ -6,11 +6,11 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:22 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/20 12:14:10 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/02 10:39:42 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../headers/minirt.h"
+#include "../headers/minirt.h"
 
 // unpacks a string of 3 values (255,255,255) into an array of integers of size 3
 // tokens is a 2d array (leak)
@@ -192,7 +192,8 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 	sp_coords = unpack_3_double_values(tokens[1]);
 	if (!sp_rgb || !sp_coords)
 		return (-1);
-	new_object = scene_new_object(CIRCLE, sp_coords, sp_rgb, ft_atof(tokens[4]), tokens[5]);
+	new_object = scene_new_object(CIRCLE, sp_coords, sp_rgb,
+			ft_atof(tokens[4]), tokens[5]);
 	new_object->ob_spheres = object_new_sphere((double) ft_atof(tokens[2]));
 	scene_object_add_back(&scene->sc_objs, new_object);
 	free(sp_rgb);
@@ -210,14 +211,16 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 	printf("found plane object\n");
 	if (count_2d_array(tokens) != 5)
 		return (-1);
-	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[3]) == 0)
+	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0
+			|| is_valid_3_values(tokens[3]) == 0)
 		return (-1);
 	pl_rgb = unpack_3_int_values(tokens[3]);
 	pl_coords = unpack_3_double_values(tokens[1]);
 	pl_vec_normal = unpack_3_double_values(tokens[2]);
 	if (!pl_rgb || !pl_coords || !pl_vec_normal)
 		return (-1);
-	new_object = scene_new_object(PLANE, pl_coords, pl_rgb,  ft_atof(tokens[4]), "none");
+	new_object = scene_new_object(PLANE, pl_coords, pl_rgb,
+			ft_atof(tokens[4]), "none");
 	new_object->ob_planes = object_new_plane(pl_vec_normal);
 	scene_object_add_back(&scene->sc_objs, new_object);
 	free(pl_rgb);
@@ -236,7 +239,8 @@ int	handle_object_cylinder(t_scene *scene, char **tokens)
 	printf("found cylinder object\n");
 	if (count_2d_array(tokens) != 7)
 		return (-1);
-	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0 || is_valid_3_values(tokens[5]) == 0)
+	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0
+			|| is_valid_3_values(tokens[5]) == 0)
 		return (-1);
 	cy_rgb = unpack_3_int_values(tokens[5]);
 	cy_coords = unpack_3_double_values(tokens[1]);
@@ -339,7 +343,7 @@ t_scene	*file_create_scene(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("file not found\n");
+		printf("File not found\n");
 		return (NULL);
 	}
 	line = NULL;
@@ -352,12 +356,12 @@ t_scene	*file_create_scene(char *filename)
 			break ;
 		if (parse_line(new_scene, line))
 		{
-			printf("error in file configuration at line = %s\n", line);
+			printf("Error in file configuration at line = %s\n", line);
 			scene_free(new_scene, NULL);
 			exit(0);
 		}
 		free(line);
 	}
-	printf("done parsing file\n");
+	printf("Done parsing %s!\n", filename);
 	return (new_scene);
 }

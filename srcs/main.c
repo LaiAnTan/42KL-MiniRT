@@ -6,63 +6,19 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/19 22:46:24 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/02 10:21:54 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minirt.h"
 
-// int main(int argc, char **argv)
-// {
-// 	t_data	data;
-
-// 	if (argc != 2)
-// 		return (ERROR);
-
-// 	data.mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
-// 	printf("Getting RT file..\n");
-// 	data.scene = file_create_scene(argv[1]);
-// 	printf("Done!\n");
-// 	scene_print_stats(data.scene);
-// }
-
-// int main(int ac, char **av)
-// {
-// 	t_matrix	*view_mtrx;
-// 	matrix_type	position[3] = {0,0,1};
-// 	matrix_type orient[3] = {1,0,0};
-// 	matrix_type	upwards[3] = {0,1,0};
-
-// 	view_mtrx = get_view_matrix(
-// 		vec3_init_from_array(position),
-// 		vec3_normalize(vec3_init_from_array(orient)),
-// 		vec3_init_from_array(upwards)
-// 	);
-
-// 	printf("view matrix ----\n");
-// 	m_print_matrix(view_mtrx);
-
-// 	matrix_type	object[3] = {10,0,0};
-
-// 	t_vec3	*res;
-// 	res = apply_matrix(
-// 		vec3_init_from_array(object),
-// 		view_mtrx
-// 	);
-
-// 	printf("object originally is here \n");
-// 	vec3_print(vec3_init_from_array(object));
-// 	printf("object should be here\n");
-// 	vec3_print(res);
-// }
-
-// prod
 int	render(void *rt)
 {
 	t_data	*data;
 
 	data = (t_data *) rt;
-	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win, data->mlx->cur_img->img, 0, 0);
+	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win,
+		data->mlx->cur_img->img, 0, 0);
 	// clean_loop(data->mlx);
 	return (0);
 }
@@ -79,13 +35,12 @@ void	do_render_once(t_data *data)
 	timer_destroy(&timer);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_data		*data;
+	t_data	*data;
 
 	if (argc != 2)
 		return (ERROR);
-	// init data
 	data = (t_data *) malloc(sizeof(t_data));
 	data->mlx = (t_mlx_info *) malloc(sizeof(t_mlx_info));
 	data->mlx->mlx = mlx_init();
@@ -94,15 +49,10 @@ int main(int argc, char **argv)
 	get_image(&data->mlx->img[1], data->mlx->mlx);
 	data->mlx->render_img = &data->mlx->img[0];
 	data->mlx->cur_img = &data->mlx->img[1];
-
-	printf("Parsing .rt file..\n");
 	data->scene = file_create_scene(argv[1]);
 	if (!data->scene)
 		return (1);
-
-	printf("Initializing texture files...\n");
 	get_texture_files(data->scene->sc_objs, data->mlx->mlx);
-	printf("Done!\n");
 	scene_print_stats(data->scene);
 	change_to_view_port(data->scene);
 	do_render_once(data);
@@ -143,7 +93,8 @@ int main(int argc, char **argv)
 // 	timer_print_diff(timer);
 // 	timer_destroy(&timer);
 
-// 	mlx_put_image_to_window(data.mlx->mlx, data.mlx->mlx_win, data.mlx->img.img, 0, 0);
+// 	mlx_put_image_to_window(data.mlx->mlx, data.mlx->mlx_win, 
+//			data.mlx->img.img, 0, 0);
 // 	clean_loop(data.mlx);
 // 	sleep(5);
 // 	scene_free(data.scene);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cshi-xia <cshi-xia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:42 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/04 21:19:20 by cshi-xia         ###   ########.fr       */
+/*   Updated: 2023/09/02 10:25:03 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../headers/ray.h"
+#include "../headers/ray.h"
 
 // malloc both vectors thanks
 t_ray	*init_ray(t_vec3 *pos_vector, t_vec3 *dir_vector)
@@ -20,14 +20,12 @@ t_ray	*init_ray(t_vec3 *pos_vector, t_vec3 *dir_vector)
 	ret = malloc(sizeof(t_ray));
 	ret->pos_vector = pos_vector;
 	ret->dir_vector = dir_vector;
-	// black light baby
-	ret->color = vec3_init(0,0,0);
-	ret->a_color = vec3_init(0,0,0);
-	ret->d_color = vec3_init(0,0,0);
-	ret->s_color = vec3_init(0,0,0);
+	ret->color = vec3_init(0, 0, 0);
+	ret->a_color = vec3_init(0, 0, 0);
+	ret->d_color = vec3_init(0, 0, 0);
+	ret->s_color = vec3_init(0, 0, 0);
 	ret->type = LIGHT;
 	ret->inside = 0;
-
 	return (ret);
 }
 

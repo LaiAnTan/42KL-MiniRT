@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:38 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/19 19:50:17 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/02 10:49:01 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,25 +63,23 @@ double	cn_test_intersect(t_ray *ray, t_object *o, double value[2])
 
 	if (value[0] > value[1])
 		swap(&value[0], &value[1]);
-	i = 0;
-	while (i < 2)
+	i = -1;
+	while (++i < 2)
 	{
-		if (value[i] >= 0)
+		if (value[i] < 0)
+			continue ;
+		mover = vec3_scalar_multi(ray->dir_vector, value[i], O_CREATE);
+		intersect = vec3_addition(ray->pos_vector, mover, O_CREATE);
+		vec3_free(&mover);
+		k = vec3_dotproduct(vec3_difference(intersect,
+					o->ob_cones->cn_bottom, O_REPLACE),
+				o->ob_cones->cn_vec_axis);
+		if (k >= 0 && k <= o->ob_cones->cn_height)
 		{
-			mover = vec3_scalar_multi(ray->dir_vector, value[i], O_CREATE);
-			intersect = vec3_addition(ray->pos_vector, mover, O_CREATE);
-			vec3_free(&mover);
-			k = vec3_dotproduct(vec3_difference(intersect,
-						o->ob_cones->cn_bottom, O_REPLACE),
-					o->ob_cones->cn_vec_axis);
-			if (k >= 0 && k <= o->ob_cones->cn_height)
-			{
-				if (i == 1)
-					ray->inside = 1;
-				return (value[i]);
-			}
+			if (i == 1)
+				ray->inside = 1;
+			return (value[i]);
 		}
-		++i;
 	}
 	return (ERROR);
 }

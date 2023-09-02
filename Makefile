@@ -25,6 +25,7 @@ SRCS_C =							\
 			vec4_3.c				\
 			vec4_4.c				\
 			timer.c					\
+			timer_2.c				\
 			matrix.c				\
 			matrix_2.c				\
 			matrix_3.c				\
@@ -78,7 +79,7 @@ LIBS_O :=
 
 SRCS_O := $(addprefix $(ODIR)/,$(notdir $(SRCS_C:.c=.o)))
 
-vpath %.c srcs/utils:srcs/lighting:srcs/object_intersection:srcs:srcs/matrix:srcs/vec3:srcs/vec4:srcs/file:srcs/scene
+vpath %.c srcs/utils:srcs/lighting:srcs/object_intersection:srcs:srcs/matrix:srcs/vec3:srcs/vec4:srcs/file:srcs/scene:srcs/timer
 
 # Colors
 L_RESET = \e[1K\r
