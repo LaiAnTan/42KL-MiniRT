@@ -23,6 +23,7 @@ SRCS_C =							\
 			raytrace.c				\
 			view.c					\
 			viewport.c				\
+			viewport_2.c			\
 			ray.c					\
 			vec3.c					\
 			vec3_2.c				\
@@ -88,7 +89,7 @@ LIBS_O :=
 
 SRCS_O := $(addprefix $(ODIR)/,$(notdir $(SRCS_C:.c=.o)))
 
-vpath %.c srcs/utils:srcs/lighting:srcs/object_intersection:srcs:srcs/matrix:srcs/vec3:srcs/vec4:srcs/file:srcs/scene:srcs/timer
+vpath %.c srcs/utils:srcs/lighting:srcs/object_intersection:srcs:srcs/matrix:srcs/vec3:srcs/vec4:srcs/file:srcs/scene:srcs/timer:srcs/view_matrix
 
 # Colors
 L_RESET = \e[1K\r

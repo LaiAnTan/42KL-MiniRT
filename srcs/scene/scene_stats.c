@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 20:08:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/03 20:17:50 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/03 22:03:30 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ static void	scene_print_stats_helper(t_camera *curr_camera, t_light *curr_light,
 		scene_print_object_stats(curr_object);
 		curr_object = curr_object->next;
 	}
-	printf("\nDone\n");
 }
 
 void	scene_print_stats(t_scene *scene)
@@ -90,7 +89,9 @@ void	scene_print_stats(t_scene *scene)
 	curr_camera = scene->sc_cameras;
 	curr_light = scene->sc_lights;
 	curr_object = scene->sc_objs;
+	printf("\n--- Stats ---\n");
 	printf("\nAmbient: %p\n", scene->sc_ambients);
 	scene_print_ambient_stats(scene->sc_ambients);
 	scene_print_stats_helper(curr_camera, curr_light, curr_object);
+	printf("\n--- Stats End ---\n");
 }

@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:54:34 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/03 00:00:13 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/03 21:58:20 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	handle_object_ambient(t_scene *scene, char **tokens)
 {
 	double			*a_rgb;
 
-	printf("found ambient object\n");
+	printf("MiniRT: Found ambient\n");
 	if (count_2d_array(tokens) != 3)
 		return (-1);
 	if (is_valid_3_values(tokens[2]) == 0)
@@ -35,7 +35,7 @@ int	handle_object_camera(t_scene *scene, char **tokens)
 	double		*cam_vec_orient;
 	t_camera	*new_camera;
 
-	printf("found camera object\n");
+	printf("MiniRT: Found camera\n");
 	if (count_2d_array(tokens) != 4)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0)
@@ -58,7 +58,7 @@ int	handle_object_light(t_scene *scene, char **tokens)
 	double		*l_coords;
 	t_light		*new_light;
 
-	printf("found light object\n");
+	printf("MiniRT: Found light\n");
 	if (count_2d_array(tokens) != 4)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[3]) == 0)
@@ -80,7 +80,7 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 	double		*sp_coords;
 	t_object	*new_object;
 
-	printf("found sphere object\n");
+	printf("MiniRT: Found sphere\n");
 	if (count_2d_array(tokens) != 6)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[3]) == 0)
@@ -105,7 +105,7 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 	double		*pl_vec_normal;
 	t_object	*new_object;
 
-	printf("found plane object\n");
+	printf("MiniRT: Found plane\n");
 	if (count_2d_array(tokens) != 5)
 		return (-1);
 	if (is_valid_3_values(tokens[1]) == 0 || is_valid_3_values(tokens[2]) == 0

@@ -272,4 +272,12 @@ t_vec3		*calc_cone_norm(t_ray *r, t_object *o);
 
 void	do_render_once(t_data *data);
 
+// viewport
+
+void	apply_matrix(t_vec3 **to, t_matrix *trans_mtrx);
+
+void	transform_plane(t_plane *pl, t_camera *mrtx);
+void	transform_cylinder(t_vec3 *center, t_cylinder *cy, t_camera *mtrx);
+void	transform_cone(t_vec3 *center, t_cone *cn, t_camera *mtrx);
+
 # endif
