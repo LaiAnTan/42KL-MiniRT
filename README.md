@@ -1,5 +1,5 @@
 # 42KL-MiniRT
-A simple raytracing engine.
+A basic raytracing engine.
 
 ## Features
 
@@ -27,3 +27,14 @@ yeet
 ## Documentation && Resources
 
 soon
+
+## Gallery
+
+Different material colours & specular reflection depicting roughness of spheres
+![3balls.png](gallery/3balls.png)
+
+Multi spot & coloured lighting, hard shadows
+![colours.png](gallery/colours.png)
+
+All objects & sphere texturing
+![all.png](gallery/all.png)
