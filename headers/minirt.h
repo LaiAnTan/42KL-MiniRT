@@ -25,10 +25,10 @@
 # define BUFFER_SIZE 100
 
 /* raytracing attributes */
-# define WIDTH 1280.0f
-# define RAYS_IN_X 1280.0f
-# define HEIGHT 720.0f
-# define RAYS_IN_Y 720.0f
+# define WIDTH 1920.0f
+# define RAYS_IN_X WIDTH
+# define HEIGHT 1080.0f
+# define RAYS_IN_Y HEIGHT
 
 # define AMBIENCE_FACTOR 0.2f
 # define DIFFUSE_FACTOR 0.6f
@@ -109,13 +109,6 @@ typedef struct s_cone
 # define CYLINDER 2
 # define CONE 3
 
-// sorry :(
-// typedef struct s_texture
-// {	
-// 	char	*filename;
-
-// }				;t_texture
-
 typedef struct s_object
 {
 	int				ob_type;
@@ -162,7 +155,7 @@ t_camera	*scene_new_camera(double cam_fov, double cam_coords[3], double cam_vec_
 t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_rgb, double specular, char *ob_tex_filename);
 t_light		*scene_new_light(double l_rgb[3], double l_coords[3], double l_brightness);
 
-t_object	*object_init();
+t_object	*object_init(void);
 t_sphere	*object_new_sphere(double sp_diameter);
 t_plane		*object_new_plane(double pl_vec_normal[3]);
 t_cylinder	*object_new_cylinder(double cy_height, double cy_diameter, double cy_vec_axis[3]);
@@ -183,8 +176,18 @@ void	object_free_sphere(t_sphere *sphere);
 void	object_free_plane(t_plane *plane);
 void	object_free_cylinder(t_cylinder *cylinder);
 
-// debug
+void	get_texture_files(t_object *objs, void *mlx_ptr);
+
+// object stats
 void	scene_print_stats(t_scene *scene);
+
+void	scene_print_ambient_stats(t_ambient *ambient);
+void	scene_print_camera_stats(t_camera *camera);
+void	scene_print_light_stats(t_light *light);
+void	scene_print_sphere_stats(t_sphere *sphere);
+void	scene_print_plane_stats(t_plane *plane);
+void	scene_print_cylinder_stats(t_cylinder *cylinder);
+void	scene_print_cone_stats(t_cone *cone);
 
 /* File Parsing */
 
@@ -268,7 +271,5 @@ t_vec3		*calc_cylinder_norm(t_ray *r, t_object *o);
 t_vec3		*calc_cone_norm(t_ray *r, t_object *o);
 
 void	do_render_once(t_data *data);
-
-void	get_texture_files(t_object *objs, void *mlx_ptr);
 
 # endif

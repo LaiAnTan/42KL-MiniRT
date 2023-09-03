@@ -10,8 +10,14 @@ SRCS_C =							\
 			file_object_handlers.c	\
 			file_object_handlers_2.c\
 			file_utils.c			\
+			scene.c					\
 			scene_objects.c			\
-			scene_objects_debug.c	\
+			scene_objects_2.c		\
+			scene_others.c			\
+			scene_free.c			\
+			scene_free_2.c			\
+			scene_stats.c			\
+			scene_stats_2.c			\
 			mlx.c					\
 			events.c				\
 			raytrace.c				\
