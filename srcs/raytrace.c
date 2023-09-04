@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:37 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/03 00:24:43 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/04 23:29:24 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,44 @@ double	alpha = (WIDTH / 2) / (tan(hori_fov / 2));
 store[0] = acc_x
 store[1] = acc_y
 store[z] = acc_z
+
+original function:
+
+double	hori_fov = to_radian(fov);
+double	verti_fov = 2 * atan((HEIGHT / WIDTH) * tan(hori_fov / 2));
+double	hori_fov_per_x = hori_fov / WIDTH;
+double	verti_fov_per_y = verti_fov / HEIGHT;
+double	x_relative_to_mid = (WIDTH / 2) - x;
+double	y_relative_to_mid = y - (HEIGHT / 2);
+double	hori_angle = abs_double(x_relative_to_mid) * hori_fov_per_x;
+double	verti_angle = abs_double(y_relative_to_mid) * verti_fov_per_y;
+double	alpha = - (WIDTH / 2) / (tan(hori_fov / 2));
+store[0] = alpha * tan(hori_angle);
+store[1] = alpha * tan(verti_angle);
+store[2] = alpha;
+if (x_relative_to_mid < 0)
+	store[0] *= -1;
+if (y_relative_to_mid < 0)
+	store[1] *= -1;
+
 */
 void	calculate_ray_positions(double store[3], double x, double y, double fov)
 {
-	double	hori_fov = to_radian(fov);
-	double	verti_fov = 2 * atan((HEIGHT / WIDTH) * tan(hori_fov / 2));
-	double	hori_fov_per_x = hori_fov / WIDTH;
-	double	verti_fov_per_y = verti_fov / HEIGHT;
-	double	x_relative_to_mid = (WIDTH / 2) - x;
-	double	y_relative_to_mid = y - (HEIGHT / 2);
-	double	hori_angle = abs_double(x_relative_to_mid) * hori_fov_per_x;
-	double	verti_angle = abs_double(y_relative_to_mid) * verti_fov_per_y;
-	double	alpha = - (WIDTH / 2) / (tan(hori_fov / 2));
+	double	verti_fov;
+	double	hori_angle;
+	double	verti_angle;
+	double	alpha;
+
+	verti_fov = 2 * atan((HEIGHT / WIDTH) * tan(to_radian(fov) / 2));
+	hori_angle = abs_double((WIDTH / 2) - x) * (to_radian(fov) / WIDTH);
+	verti_angle = abs_double(y - (HEIGHT / 2)) * (verti_fov / HEIGHT);
+	alpha = - (WIDTH / 2) / (tan(to_radian(fov) / 2));
 	store[0] = alpha * tan(hori_angle);
 	store[1] = alpha * tan(verti_angle);
 	store[2] = alpha;
-	if (x_relative_to_mid < 0)
+	if ((WIDTH / 2) - x < 0)
 		store[0] *= -1;
-	if (y_relative_to_mid < 0)
+	if (y - (HEIGHT / 2) < 0)
 		store[1] *= -1;
 }
 
