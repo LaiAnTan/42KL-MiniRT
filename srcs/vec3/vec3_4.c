@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 13:41:18 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/05 18:12:20 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:37:38 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value, t_options op)
 t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right, t_options op)
 {
 	t_matrix_type	store[3];
-	int			i;
+	int				i;
 
 	i = 0;
 	while (i < 3)

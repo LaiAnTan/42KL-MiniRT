@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 13:45:38 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/05 18:12:20 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:37:48 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b, t_options op)
 // no cross product for vec4
 t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right, t_options op)
 {
-	int			i;
+	int				i;
 	t_matrix_type	stuff[3];
 	t_matrix_type	*left_val;
 	t_matrix_type	*right_val;

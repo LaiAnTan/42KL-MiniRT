@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 13:39:56 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/05 18:32:45 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:38:22 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_vec3	*inverse_color(t_vec3 *c)
 {
-	int			i;
+	int				i;
 	t_matrix_type	i_rgb[3];
 	t_matrix_type	c_stuff[3];
 

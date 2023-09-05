@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:03 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/05 18:03:12 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:38:33 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_matrix	*m_init_identity(int x, int y)
 
 t_matrix	*m_dup(t_matrix *source)
 {
-	t_matrix	*ret;
+	t_matrix		*ret;
 	t_matrix_type	*temp;
 
 	temp = m_convert_to_1d(source);

@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 12:25:05 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/05 18:03:12 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:38:57 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_matrix_type	*m_convert_to_1d(t_matrix *source)
 {
-	int			i;
-	int			j;
+	int				i;
+	int				j;
 	t_matrix_type	*ret;
 
 	ret = malloc(sizeof(t_matrix_type) * (source->x * source->y));
@@ -82,8 +82,8 @@ t_matrix	*m_subtraction(t_matrix *left, t_matrix *right)
 static	t_matrix_type	line_multiplication(t_matrix *left, t_matrix *right,
 		int x, int y)
 {
-	int			x1;
-	int			y1;
+	int				x1;
+	int				y1;
 	t_matrix_type	ret;
 
 	ret = 0;
