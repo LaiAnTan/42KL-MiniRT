@@ -25,9 +25,9 @@
 # define BUFFER_SIZE 100
 
 /* raytracing attributes */
-# define WIDTH 100.0f
+# define WIDTH 1280.0f
 # define RAYS_IN_X WIDTH
-# define HEIGHT 100.0f
+# define HEIGHT 720.0f
 # define RAYS_IN_Y HEIGHT
 
 # define AMBIENCE_FACTOR 0.2f
@@ -214,7 +214,8 @@ void	write_pixel(t_img_info *img, int x, int y, int color);
 void	mlx_free(t_mlx_info *mlx);
 
 /* Events */
-int	keypress_event(int key_symbol, t_data *data);
+int	keypress_event_linux(int key_symbol, t_data *data);
+int	keypress_event_mac(int key_symbol, t_data *data);
 
 /* Utils */
 

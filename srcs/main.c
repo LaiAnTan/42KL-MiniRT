@@ -6,21 +6,11 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/05 13:31:47 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 14:44:03 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minirt.h"
-
-int	render(void *rt)
-{
-	t_data	*data;
-
-	data = (t_data *) rt;
-	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win,
-		data->mlx->cur_img->img, 0, 0);
-	return (0);
-}
 
 void	do_render_once(t_data *data)
 {
@@ -55,8 +45,14 @@ int	main(int argc, char **argv)
 	scene_print_stats(data->scene);
 	change_to_view_port(data->scene);
 	do_render_once(data);
-	mlx_key_hook(data->mlx->mlx_win, keypress_event, data);
-	mlx_loop_hook(data->mlx->mlx, render, (void *)data);
+	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win,
+		data->mlx->cur_img->img, 0, 0);
+	#ifdef unix
+		mlx_key_hook(data->mlx->mlx_win, keypress_event_linux, data);
+	#else
+		mlx_hook(data->mlx->mlx_win, 17, 0, &clean_exit, data);
+		mlx_hook(data->mlx->mlx_win, 2, 0, &keypress_event_mac, data);
+	#endif 
 	mlx_loop(data->mlx->mlx);
 	clean_exit(data);
 	return (0);
