@@ -59,7 +59,7 @@ void	calculate_result_color(t_ray *r)
 	vec3_addition(r->color, r->s_color, O_REPLACE);
 }
 
-void	calculate_ray_color(t_ray *ray, t_light *light, t_object *objs, 
+void	calculate_ray_color(t_ray *ray, t_light *light, t_object *objs,
 	t_object *closest)
 {
 	double		p_from_light;

@@ -54,7 +54,7 @@ void	solve_quad_cn(double *coefficients, double *result)
 	result[2] = ((-1 * b) - d) / (a);
 }
 
-double	cn_test_intersect(t_ray *ray, t_object *o, double value[2])
+double	cn_test_intersect(t_ray *ray, t_cone *cone, double value[2])
 {
 	int		i;
 	double	k;
@@ -72,43 +72,66 @@ double	cn_test_intersect(t_ray *ray, t_object *o, double value[2])
 		intersect = vec3_addition(ray->pos_vector, mover, O_CREATE);
 		vec3_free(&mover);
 		k = vec3_dotproduct(vec3_difference(intersect,
-					o->ob_cones->cn_bottom, O_REPLACE),
-				o->ob_cones->cn_vec_axis);
+					cone->cn_bottom, O_REPLACE), cone->cn_vec_axis);
 		vec3_free(&intersect);
-		if (k >= 0 && k <= o->ob_cones->cn_height)
+		if (k >= 0 && k <= cone->cn_height)
 		{
-			if (i == 1)
-				ray->inside = 1;
+			ray->inside = (i == 1);
 			return (value[i]);
 		}
 	}
 	return (ERROR);
 }
 
+// 	double	r;
+// 	double	dp1;
+// 	double	dp2;
+// 	double	constant;
+// 	double	values[3];
+// 	double	coefficients[3];
+// 	t_vec3	*w;
+
+// 	w = vec3_difference(ray->pos_vector, o->ob_coords, O_CREATE);
+// 	r = o->ob_cones->cn_diameter / 2;
+// 	constant = (r * r) / (o->ob_cones->cn_height * o->ob_cones->cn_height);
+// 	dp1 = vec3_dotproduct(o->ob_cones->cn_vec_axis, ray->dir_vector);
+// 	dp2 = vec3_dotproduct(o->ob_cones->cn_vec_axis, w);
+// 	coefficients[0] = 1 - ((constant + 1) * (dp1 * dp1));
+// 	coefficients[1] = vec3_dotproduct(w,
+// 			ray->dir_vector) - ((constant + 1) * (dp1 * dp2));
+// 	coefficients[2] = vec3_dotproduct(w, w) - ((constant + 1) * (dp2 * dp2));
+// 	solve_quad_cn(coefficients, values);
+// 	vec3_free(&w);
+// 	if (values[0] < 0)
+// 		return (ERROR);
+// 	if (values[1] < 0 && values[2] < 0)
+// 		return (ERROR);
+// 	return (cn_test_intersect(ray, o, &values[1]));
+
+// nuking radius, big sad
 double	intersect_cone(t_ray *ray, t_object *o)
 {
-	double	r;
-	double	dp1;
-	double	dp2;
+	double	dp[2];
 	double	constant;
 	double	values[3];
 	double	coefficients[3];
 	t_vec3	*w;
 
 	w = vec3_difference(ray->pos_vector, o->ob_coords, O_CREATE);
-	r = o->ob_cones->cn_diameter / 2;
-	constant = (r * r) / (o->ob_cones->cn_height * o->ob_cones->cn_height);
-	dp1 = vec3_dotproduct(o->ob_cones->cn_vec_axis, ray->dir_vector);
-	dp2 = vec3_dotproduct(o->ob_cones->cn_vec_axis, w);
-	coefficients[0] = 1 - ((constant + 1) * (dp1 * dp1));
+	constant = ((o->ob_cones->cn_diameter * o->ob_cones->cn_diameter) / 4)
+		/ (o->ob_cones->cn_height * o->ob_cones->cn_height);
+	dp[0] = vec3_dotproduct(o->ob_cones->cn_vec_axis, ray->dir_vector);
+	dp[1] = vec3_dotproduct(o->ob_cones->cn_vec_axis, w);
+	coefficients[0] = 1 - ((constant + 1) * (dp[0] * dp[0]));
 	coefficients[1] = vec3_dotproduct(w,
-			ray->dir_vector) - ((constant + 1) * (dp1 * dp2));
-	coefficients[2] = vec3_dotproduct(w, w) - ((constant + 1) * (dp2 * dp2));
+			ray->dir_vector) - ((constant + 1) * (dp[0] * dp[1]));
+	coefficients[2] = vec3_dotproduct(w, w) - ((constant + 1)
+			* (dp[1] * dp[1]));
 	solve_quad_cn(coefficients, values);
 	vec3_free(&w);
 	if (values[0] < 0)
 		return (ERROR);
 	if (values[1] < 0 && values[2] < 0)
 		return (ERROR);
-	return (cn_test_intersect(ray, o, &values[1]));
+	return (cn_test_intersect(ray, o->ob_cones, &values[1]));
 }

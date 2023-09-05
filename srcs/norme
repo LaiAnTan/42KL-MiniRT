@@ -1,23 +1,33 @@
-cleanup.c: Error!
-Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 collision.c: OK!
 events.c: OK!
 ray.c: OK!
 xpm_extractor.c: OK!
+clean_exit.c: OK!
 mlx.c: OK!
 raytrace.c: OK!
-main.c: OK!
+main.c: Error!
+Error: PREPROC_GLOBAL       (line:  50, col:   1):	Preprocessors can only be used in the global scope
+Error: PREPROC_START_LINE   (line:  50, col:   1):	Preprocessor statement not at the beginning of the line
+Error: NL_AFTER_PREPROC     (line:  51, col:   1):	Preprocessor statement must be followed by a newline
+Error: TOO_MANY_TAB         (line:  51, col:   1):	Extra tabs for indent level
+Error: PREPROC_GLOBAL       (line:  52, col:   1):	Preprocessors can only be used in the global scope
+Error: PREPROC_START_LINE   (line:  52, col:   1):	Preprocessor statement not at the beginning of the line
+Error: NL_AFTER_PREPROC     (line:  53, col:   1):	Preprocessor statement must be followed by a newline
+Error: TOO_MANY_TAB         (line:  53, col:   1):	Extra tabs for indent level
+Error: TOO_MANY_TAB         (line:  54, col:   1):	Extra tabs for indent level
+Error: PREPROC_GLOBAL       (line:  55, col:   1):	Preprocessors can only be used in the global scope
+Error: PREPROC_START_LINE   (line:  55, col:   1):	Preprocessor statement not at the beginning of the line
+Error: NL_AFTER_PREPROC     (line:  56, col:   1):	Preprocessor statement must be followed by a newline
+Error: TOO_MANY_LINES       (line:  59, col:   1):	Function has more than 25 lines
 view_matrix/viewport_2.c: OK!
 view_matrix/view.c: OK!
-view_matrix/viewport.c: Error!
-Error: TOO_MANY_LINES       (line:  63, col:   1):	Function has more than 25 lines
+view_matrix/viewport.c: OK!
 scene/scene_others.c: OK!
 scene/scene_stats.c: OK!
 scene/scene_free.c: OK!
 scene/scene_free_2.c: OK!
 scene/scene_objects_2.c: OK!
-scene/scene.c: Error!
-Error: LINE_TOO_LONG        (line:  21, col:  82):	line too long
+scene/scene.c: OK!
 scene/scene_stats_2.c: OK!
 scene/scene_objects.c: Error!
 Error: TOO_MANY_ARGS        (line:  27, col:  69):	Function has more than 4 arguments
@@ -42,9 +52,7 @@ Error: TOO_MANY_ARGS        (line:  28, col:  43):	Function has more than 4 argu
 Error: TOO_MANY_VARS_FUNC   (line:  35, col:   1):	Too many variables declarations in a function
 Error: TOO_MANY_VARS_FUNC   (line:  36, col:   1):	Too many variables declarations in a function
 Error: TOO_MANY_LINES       (line:  60, col:   1):	Function has more than 25 lines
-lighting/lighting_main.c: Error!
-Error: SPC_BEFORE_NL        (line:  62, col:  72):	Space before newline
-Error: BRACE_SHOULD_EOL     (line:  76, col:   1):	Expected newline after brace
+lighting/lighting_main.c: OK!
 lighting/obj_color.c: OK!
 utils/utils_get_next_line.c: OK!
 utils/utils_atof.c: OK!
@@ -55,10 +63,7 @@ utils/utils_3.c: OK!
 object_intersection/plane.c: OK!
 object_intersection/sphere.c: OK!
 object_intersection/cylinder.c: OK!
-object_intersection/cone.c: Error!
-Error: TOO_MANY_LINES       (line:  86, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_VARS_FUNC   (line:  95, col:   1):	Too many variables declarations in a function
-Error: TOO_MANY_VARS_FUNC   (line:  96, col:   1):	Too many variables declarations in a function
+object_intersection/cone.c: OK!
 file/file.c: OK!
 file/file_utils.c: OK!
 file/file_object_handlers.c: OK!

@@ -28,6 +28,17 @@ void	apply_matrix(t_vec3 **to, t_matrix *trans_mtrx)
 	(*to) = ret;
 }
 
+void	rotate_objects(t_object *o, t_camera *cam)
+{
+	apply_matrix(&(o->ob_coords), cam->view_matrix);
+	if (o->ob_type == PLANE)
+		transform_plane(o->ob_planes, cam);
+	else if (o->ob_type == CYLINDER)
+		transform_cylinder(o->ob_coords, o->ob_cylinders, cam);
+	else if (o->ob_type == CONE)
+		transform_cone(o->ob_coords, o->ob_cones, cam);
+}
+
 // known errors -> if the cam is at {0,1,0} or {0,-1,0} 
 // (parallel to the UP vector) everything breaks
 // solution -> hardcode
@@ -51,13 +62,7 @@ void	change_to_view_port(t_scene *scn)
 	o = scn->sc_objs;
 	while (o)
 	{
-		apply_matrix(&(o->ob_coords), cam->view_matrix);
-		if (o->ob_type == PLANE)
-			transform_plane(o->ob_planes, cam);
-		else if (o->ob_type == CYLINDER)
-			transform_cylinder(o->ob_coords, o->ob_cylinders, cam);
-		else if (o->ob_type == CONE)
-			transform_cone(o->ob_coords, o->ob_cones, cam);
+		rotate_objects(o, cam);
 		o = o->next;
 	}
 }
