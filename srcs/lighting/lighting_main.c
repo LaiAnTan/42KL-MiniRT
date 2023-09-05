@@ -31,6 +31,9 @@ static t_vec3	*diffuse_lighting_switcher(t_ray *r, t_object *o)
 }
 
 // main lighting calc function
+// a_norm -> the direction vector of the intersection point to the light
+// b_norm -> normal vector of the object
+// jesus who named these
 void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 {
 	t_vec3	*a_norm;
