@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:32 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/03 21:28:25 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 17:30:31 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	assign_function(t_object *new_object, int ob_type)
 }
 
 t_object	*scene_new_object(int ob_type, matrix_type *ob_coord,
-		matrix_type *ob_rgb, double specular, char *ob_tex_filename)
+		matrix_type *ob_rgb, double specular)
 {
 	t_object	*new_object;
 
@@ -34,11 +34,15 @@ t_object	*scene_new_object(int ob_type, matrix_type *ob_coord,
 	new_object->ob_coords = vec3_init_from_array(ob_coord);
 	new_object->ob_rgb = vec3_init_from_array(ob_rgb);
 	new_object->ob_spec = specular;
-	if (ft_strcmp(ob_tex_filename, "none") != 0)
-		new_object->has_texture = ft_strdup(ob_tex_filename);
-	else
-		new_object->has_texture = NULL;
 	return (new_object);
+}
+
+void	init_object_texture(t_object *obj, char *ob_tex_filename)
+{
+	if (ft_strcmp(ob_tex_filename, "none") != 0)
+		obj->has_texture = ft_strdup(ob_tex_filename);
+	else
+		obj->has_texture = NULL;
 }
 
 void	scene_object_add_back(t_object **list_object, t_object *new_object)

@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 23:54:34 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/03 21:58:20 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 17:28:44 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ int	handle_object_sphere(t_scene *scene, char **tokens)
 	if (!sp_rgb || !sp_coords)
 		return (-1);
 	new_object = scene_new_object(CIRCLE, sp_coords, sp_rgb,
-			ft_atof(tokens[4]), tokens[5]);
+			ft_atof(tokens[4]));
+	init_object_texture(new_object, tokens[5]);
 	new_object->ob_spheres = object_new_sphere((double) ft_atof(tokens[2]));
 	scene_object_add_back(&scene->sc_objs, new_object);
 	free(sp_rgb);
@@ -117,7 +118,7 @@ int	handle_object_plane(t_scene *scene, char **tokens)
 	if (!pl_rgb || !pl_coords || !pl_vec_normal)
 		return (-1);
 	new_object = scene_new_object(PLANE, pl_coords, pl_rgb,
-			ft_atof(tokens[4]), "none");
+			ft_atof(tokens[4]));
 	new_object->ob_planes = object_new_plane(pl_vec_normal);
 	scene_object_add_back(&scene->sc_objs, new_object);
 	free(pl_rgb);

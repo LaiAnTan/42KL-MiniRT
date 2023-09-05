@@ -152,7 +152,8 @@ t_scene	*scene_init(void);
 t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio);
 t_camera	*scene_new_camera(double cam_fov, double cam_coords[3], double cam_vec_orient[3]);
 
-t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_rgb, double specular, char *ob_tex_filename);
+t_object	*scene_new_object(int ob_type, matrix_type *ob_coord, matrix_type *ob_rgb, double specular);
+void		init_object_texture(t_object* obj, char *ob_tex_filename);
 t_light		*scene_new_light(double l_rgb[3], double l_coords[3], double l_brightness);
 
 t_object	*object_init(void);
