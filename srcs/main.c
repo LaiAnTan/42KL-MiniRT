@@ -19,7 +19,6 @@ int	render(void *rt)
 	data = (t_data *) rt;
 	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win,
 		data->mlx->cur_img->img, 0, 0);
-	clean_loop(data->mlx);
 	return (0);
 }
 
@@ -59,7 +58,7 @@ int	main(int argc, char **argv)
 	mlx_key_hook(data->mlx->mlx_win, keypress_event, data);
 	mlx_loop_hook(data->mlx->mlx, render, (void *)data);
 	mlx_loop(data->mlx->mlx);
-	scene_free(data->scene, data->mlx->mlx);
+	clean_exit(data);
 	return (0);
 }
 

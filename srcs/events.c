@@ -18,10 +18,8 @@ int	keypress_event(int key_symbol, t_data *data)
 {
 	if (key_symbol == 0xff1b)
 	{
-		printf("ESC pressed, exiting...");
-		mlx_destroy_window(data->mlx->mlx, data->mlx->mlx_win);
-		scene_free(data->scene, data->mlx->mlx);
-		exit(0);
+		printf("ESC pressed, exiting...\n");
+		clean_exit(data);
 	}
 	if (key_symbol == 0x72)
 		do_render_once(data);

@@ -72,10 +72,10 @@ void	scene_free_object_list(t_object	*object_list_head, void *mlx_ptr)
 	}
 }
 
-void	scene_free(t_scene *scene, void *mlx_ptr)
+t_scene	*scene_free(t_scene *scene, void *mlx_ptr)
 {
 	if (!scene)
-		return ;
+		return (scene);
 	if (scene->sc_ambients)
 		scene_free_ambient(scene->sc_ambients);
 	if (scene->sc_cameras)
@@ -85,4 +85,5 @@ void	scene_free(t_scene *scene, void *mlx_ptr)
 	if (scene->sc_objs)
 		scene_free_object_list(scene->sc_objs, mlx_ptr);
 	free(scene);
+	return NULL;
 }

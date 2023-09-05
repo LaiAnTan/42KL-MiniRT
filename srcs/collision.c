@@ -78,5 +78,6 @@ int	get_closest_light_runner(t_ray *r, t_light *l, t_object *o)
 	move_ray(to_light, precision);
 	ret = get_closest_light(to_light, vec3_magnitude_sqrd(r_to_l), o);
 	free_ray(&to_light);
+	vec3_free(&r_to_l);
 	return (ret);
 }

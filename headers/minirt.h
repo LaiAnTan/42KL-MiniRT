@@ -25,9 +25,9 @@
 # define BUFFER_SIZE 100
 
 /* raytracing attributes */
-# define WIDTH 1920.0f
+# define WIDTH 100.0f
 # define RAYS_IN_X WIDTH
-# define HEIGHT 1080.0f
+# define HEIGHT 100.0f
 # define RAYS_IN_Y HEIGHT
 
 # define AMBIENCE_FACTOR 0.2f
@@ -165,7 +165,7 @@ void	scene_camera_add_back(t_camera **list_camera, t_camera *new_camera);
 void	scene_light_add_back(t_light **list_light, t_light *new_light);
 void	scene_object_add_back(t_object **list_object, t_object *new_object);
 
-void	scene_free(t_scene *scene, void *mlx);
+t_scene	*scene_free(t_scene *scene, void *mlx_ptr);
 void	scene_free_ambient(t_ambient *ambient_list_head);
 void	scene_free_camera_list(t_camera *camera_list_head);
 void	scene_free_light_list(t_light *light_list_head);
@@ -209,7 +209,7 @@ int		is_valid_3_values(char *str);
 
 /* MLX */
 void	get_image(t_img_info *img_info, void *mlx);
-void	clean_loop(t_mlx_info *mlx);
+void	destory_images(t_mlx_info *mlx);
 void	write_pixel(t_img_info *img, int x, int y, int color);
 void	mlx_free(t_mlx_info *mlx);
 
@@ -279,5 +279,9 @@ void	apply_matrix(t_vec3 **to, t_matrix *trans_mtrx);
 void	transform_plane(t_plane *pl, t_camera *mrtx);
 void	transform_cylinder(t_vec3 *center, t_cylinder *cy, t_camera *mtrx);
 void	transform_cone(t_vec3 *center, t_cone *cn, t_camera *mtrx);
+
+// clean exit
+
+void	clean_exit(t_data *data);
 
 # endif

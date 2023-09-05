@@ -12,7 +12,8 @@
 
 #include "../headers/ray.h"
 
-// malloc both vectors thanks
+// malloc both vectors 
+// note that ret->color will only be initialized at calculate_result_color
 t_ray	*init_ray(t_vec3 *pos_vector, t_vec3 *dir_vector)
 {
 	t_ray	*ret;
@@ -20,7 +21,7 @@ t_ray	*init_ray(t_vec3 *pos_vector, t_vec3 *dir_vector)
 	ret = malloc(sizeof(t_ray));
 	ret->pos_vector = pos_vector;
 	ret->dir_vector = dir_vector;
-	ret->color = vec3_init(0, 0, 0);
+	ret->color = NULL;
 	ret->a_color = vec3_init(0, 0, 0);
 	ret->d_color = vec3_init(0, 0, 0);
 	ret->s_color = vec3_init(0, 0, 0);

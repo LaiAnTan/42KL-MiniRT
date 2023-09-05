@@ -19,15 +19,6 @@ void	get_image(t_img_info *img_info, void *mlx)
 			&img_info->line_length, &img_info->endian);
 }
 
-void	clean_loop(t_mlx_info *mlx)
-{
-	if (mlx->img->img != NULL)
-	{
-		mlx_destroy_image(mlx->mlx, mlx->img->img);
-		mlx->img->img = NULL;
-	}
-}
-
 void	write_pixel(t_img_info *img, int x, int y, int color)
 {
 	char	*dst;
