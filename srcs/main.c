@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/05 18:36:35 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 23:42:08 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,12 @@ int	main(int argc, char **argv)
 	scene_print_stats(data->scene);
 	change_to_view_port(data->scene);
 	do_render_once(data);
-	mlx_hook(data->mlx->mlx_win, 17, 0, &clean_exit, data);
-	mlx_hook(data->mlx->mlx_win, 2, 0, &keypress_event_mac, data);
+	#ifdef unix
+		mlx_key_hook(data->mlx->mlx_win, keypress_event_linux, data);
+	#else
+		mlx_hook(data->mlx->mlx_win, 17, 0, &clean_exit, data);
+		mlx_hook(data->mlx->mlx_win, 2, 0, &keypress_event_mac, data);
+	#endif 
 	mlx_loop_hook(data->mlx->mlx, slapimage, (void *)data);
 	mlx_loop(data->mlx->mlx);
 	clean_exit(data);
