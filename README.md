@@ -17,7 +17,12 @@ A basic raytracing engine.
 
 ## Installation
 
-yeet
+1. clone this repo ```git clone https://github.com/LaiAnTan/42KL-MiniRT```
+2. Install the correct version of MinilibX
+	- linux: ```git clone https://github.com/42Paris/minilibx-linux``` and put it in the same directory as this repo
+	- mac: unzip the .tgz archive file [here](/dependency/minilibx_opengl.tgz)
+3. ```make``` to compile
+4. ```./minirt <.rt file>``` to run (sample scenes [here](/scenes/))
 
 ## Contributors
 
