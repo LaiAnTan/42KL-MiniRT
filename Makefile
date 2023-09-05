@@ -56,7 +56,7 @@ SRCS_C =							\
 			utils_get_next_line.c	\
 			xpm_extractor.c			\
 			obj_color.c				\
-			cleanup.c
+			clean_exit.c			\
 
 CFLAGS := -Wall -Wextra -Werror
 
