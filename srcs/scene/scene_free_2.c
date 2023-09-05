@@ -60,8 +60,7 @@ void	object_free_node(t_object *obj, void *mlx)
 	if (obj->has_texture)
 	{
 		free(obj->has_texture);
-		if (mlx)
-			free_texture(obj->ob_texture, mlx);
+		free_texture(&obj->ob_texture, mlx);
 	}
 	free(obj);
 }

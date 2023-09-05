@@ -85,5 +85,5 @@ t_scene	*scene_free(t_scene *scene, void *mlx_ptr)
 	if (scene->sc_objs)
 		scene_free_object_list(scene->sc_objs, mlx_ptr);
 	free(scene);
-	return NULL;
+	return (NULL);
 }

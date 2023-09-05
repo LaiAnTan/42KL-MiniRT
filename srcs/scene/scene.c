@@ -18,9 +18,12 @@ void	get_texture_files(t_object *objs, void *mlx_ptr)
 	{
 		if (objs->has_texture)
 		{
-			objs->ob_texture = texture_init(objs->has_texture, mlx_ptr);
+			objs->ob_texture = texture_init(ft_strdup(objs->has_texture), mlx_ptr);
 			if (!objs->ob_texture)
+			{
+				free(objs->has_texture);
 				objs->has_texture = NULL;
+			}
 		}
 		objs = objs->next;
 	}

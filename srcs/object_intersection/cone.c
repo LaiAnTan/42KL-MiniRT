@@ -74,6 +74,7 @@ double	cn_test_intersect(t_ray *ray, t_object *o, double value[2])
 		k = vec3_dotproduct(vec3_difference(intersect,
 					o->ob_cones->cn_bottom, O_REPLACE),
 				o->ob_cones->cn_vec_axis);
+		vec3_free(&intersect);
 		if (k >= 0 && k <= o->ob_cones->cn_height)
 		{
 			if (i == 1)

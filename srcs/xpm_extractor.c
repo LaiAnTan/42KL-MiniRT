@@ -26,6 +26,7 @@ t_texture	*texture_init(char *filename, void *mlx_ptr)
 	if (!ret->data.img)
 	{
 		printf("oopsie something went wrong :(\n");
+		free(ret->filename);
 		return (NULL);
 	}
 	temp = &ret->data;
@@ -78,11 +79,12 @@ t_vec3	*get_rgb(t_texture *txtr, double u, double v)
 	return (vec3_init_from_array(store));
 }
 
-void	free_texture(t_texture *a, void *mlx)
+void	free_texture(t_texture **a, void *mlx)
 {
-	if (!a)
+	if (!(*a))
 		return ;
-	free(a->filename);
-	mlx_destroy_image(mlx, a->data.img);
-	free(a);
+	free((*a)->filename);
+	mlx_destroy_image(mlx, (*a)->data.img);
+	free((*a));
+	(*a) = NULL;
 }

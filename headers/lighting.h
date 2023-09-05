@@ -33,5 +33,7 @@ void	calculate_result_color(t_ray *r);
 
 // get object color based on uv or something idk :(
 t_vec3	*get_object_color(t_ray *ray, t_object *o);
+void	calculate_ray_color(t_ray *ray, t_light *light, t_object *objs, 
+	t_object *closest);
 
 # endif

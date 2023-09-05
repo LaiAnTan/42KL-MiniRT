@@ -19,7 +19,7 @@ typedef struct s_texture
 t_texture		*texture_init(char *filename, void *mlx);
 unsigned int	get_xy_rgb(t_texture *txtr, int x, int y);
 t_vec3			*get_rgb(t_texture *txtr, double u, double v);
-void			free_texture(t_texture *a, void *mlx);
+void			free_texture(t_texture **a, void *mlx);
 // debug
 unsigned int get_rgb_ui(t_texture *txtr, double u, double v);
 # endif

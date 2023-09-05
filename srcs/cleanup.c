@@ -16,9 +16,9 @@ void	destory_images(t_mlx_info *mlx)
 
 void	clean_exit(t_data *data)
 {
+	data->scene = scene_free(data->scene, data->mlx->mlx);
 	if (data->mlx->mlx_win)
 		mlx_destroy_window(data->mlx->mlx, data->mlx->mlx_win);
 	destory_images(data->mlx);
-	data->scene = scene_free(data->scene, data->mlx->mlx);
 	exit(0);
 }

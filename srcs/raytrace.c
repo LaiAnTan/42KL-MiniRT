@@ -87,9 +87,7 @@ steps:
 void	do_ray_stuff(double x, double y, t_data *data)
 {
 	double		k_val;
-	double		p_from_light;
 	t_ray		*ray;
-	t_light		*light;
 	t_object	*closest_object_src;
 
 	ray = project_ray(x, y, data->scene->sc_cameras);
@@ -102,16 +100,8 @@ void	do_ray_stuff(double x, double y, t_data *data)
 	}
 	if (ray->type == COLLIDED)
 	{
-		ray->type = SHADOW;
-		light = data->scene->sc_lights;
-		while (light)
-		{
-			p_from_light = get_closest_light_runner(ray, light,
-					data->scene->sc_objs);
-			if (p_from_light != ERROR)
-				diffuse_the_bomb(ray, light, closest_object_src);
-			light = light->next;
-		}
+		calculate_ray_color(ray, data->scene->sc_lights, data->scene->sc_objs,
+			closest_object_src);
 	}
 	if (data->scene->sc_ambients)
 		ambient_color(ray, data->scene->sc_ambients, closest_object_src);

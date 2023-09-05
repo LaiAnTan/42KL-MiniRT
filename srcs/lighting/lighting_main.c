@@ -58,3 +58,19 @@ void	calculate_result_color(t_ray *r)
 	r->color = vec3_addition(r->a_color, r->d_color, O_CREATE);
 	vec3_addition(r->color, r->s_color, O_REPLACE);
 }
+
+void	calculate_ray_color(t_ray *ray, t_light *light, t_object *objs, 
+	t_object *closest)
+{
+	double		p_from_light;
+
+	ray->type = SHADOW;
+	while (light)
+	{
+		p_from_light = get_closest_light_runner(ray, light,
+				objs);
+		if (p_from_light != ERROR)
+			diffuse_the_bomb(ray, light, closest);
+		light = light->next;
+	}
+}

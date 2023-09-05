@@ -12,34 +12,37 @@
 
 #include "../headers/minirt.h"
 
+/*
+// value[0] -> store closest object distance
+// value[1] -> stores return value of intersect_checker
+*/
 t_object	*get_closest_object(t_ray *ray, t_object *o, int closest,
 		double	*k_val)
 {
 	t_object	*closest_object_src;
-	double		closest_object;
-	double		r_to_o;
+	double		values[2];
 
-	closest_object = INFINITY;
+	values[0] = INFINITY;
 	closest_object_src = NULL;
 	while (o)
 	{
-		r_to_o = o->intersect_checker(ray, o);
-		if (r_to_o != ERROR)
+		values[1] = o->intersect_checker(ray, o);
+		if (values[1] != ERROR)
 		{
 			if (!closest)
 			{
-				*k_val = r_to_o;
+				*k_val = values[1];
 				return (o);
 			}
-			if (r_to_o < closest_object)
+			if (values[1] < values[0])
 			{
-				closest_object = r_to_o;
+				values[0] = values[1];
 				closest_object_src = o;
 			}
 		}
 		o = o->next;
 	}
-	*k_val = closest_object;
+	*k_val = values[0];
 	return (closest_object_src);
 }
 
