@@ -24,8 +24,10 @@ void	calculate_diffuse_color(t_ray *r, t_light *l, t_object *o,
 								double costheta);
 
 // specular
+double	calc_angle_ray_n_reflected(t_vec3 *from_light,
+			t_vec3 *normal, t_vec3 *from_light_dir);
 void	calculate_specular_color(t_ray *r, t_light *l, t_object *o,
-			t_vec3 *light, t_vec3 *normal);
+			double dotvr);
 
 // main
 void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o);

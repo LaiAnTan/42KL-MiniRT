@@ -6,19 +6,19 @@ clean_exit.c: OK!
 mlx.c: OK!
 raytrace.c: OK!
 main.c: Error!
-Error: PREPROC_GLOBAL       (line:  50, col:   1):	Preprocessors can only be used in the global scope
-Error: PREPROC_START_LINE   (line:  50, col:   1):	Preprocessor statement not at the beginning of the line
-Error: NL_AFTER_PREPROC     (line:  51, col:   1):	Preprocessor statement must be followed by a newline
-Error: TOO_MANY_TAB         (line:  51, col:   1):	Extra tabs for indent level
-Error: PREPROC_GLOBAL       (line:  52, col:   1):	Preprocessors can only be used in the global scope
-Error: PREPROC_START_LINE   (line:  52, col:   1):	Preprocessor statement not at the beginning of the line
-Error: NL_AFTER_PREPROC     (line:  53, col:   1):	Preprocessor statement must be followed by a newline
-Error: TOO_MANY_TAB         (line:  53, col:   1):	Extra tabs for indent level
-Error: TOO_MANY_TAB         (line:  54, col:   1):	Extra tabs for indent level
 Error: PREPROC_GLOBAL       (line:  55, col:   1):	Preprocessors can only be used in the global scope
 Error: PREPROC_START_LINE   (line:  55, col:   1):	Preprocessor statement not at the beginning of the line
 Error: NL_AFTER_PREPROC     (line:  56, col:   1):	Preprocessor statement must be followed by a newline
-Error: TOO_MANY_LINES       (line:  59, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_TAB         (line:  56, col:   1):	Extra tabs for indent level
+Error: PREPROC_GLOBAL       (line:  57, col:   1):	Preprocessors can only be used in the global scope
+Error: PREPROC_START_LINE   (line:  57, col:   1):	Preprocessor statement not at the beginning of the line
+Error: NL_AFTER_PREPROC     (line:  58, col:   1):	Preprocessor statement must be followed by a newline
+Error: TOO_MANY_TAB         (line:  58, col:   1):	Extra tabs for indent level
+Error: TOO_MANY_TAB         (line:  59, col:   1):	Extra tabs for indent level
+Error: PREPROC_GLOBAL       (line:  60, col:   1):	Preprocessors can only be used in the global scope
+Error: PREPROC_START_LINE   (line:  60, col:   1):	Preprocessor statement not at the beginning of the line
+Error: NL_AFTER_PREPROC     (line:  61, col:   1):	Preprocessor statement must be followed by a newline
+Error: TOO_MANY_LINES       (line:  65, col:   1):	Function has more than 25 lines
 view_matrix/viewport_2.c: OK!
 view_matrix/view.c: OK!
 view_matrix/viewport.c: OK!
@@ -47,9 +47,7 @@ matrix/matrix.c: OK!
 matrix/matrix_3.c: OK!
 lighting/lighting_diffuse.c: OK!
 lighting/lighting_ambient.c: OK!
-lighting/lighting_specular.c: Error!
-Error: TOO_MANY_ARGS        (line:  63, col:  43):	Function has more than 4 arguments
-Error: TOO_MANY_LINES       (line:  91, col:   1):	Function has more than 25 lines
+lighting/lighting_specular.c: OK!
 lighting/lighting_main.c: OK!
 lighting/obj_color.c: OK!
 utils/utils_get_next_line.c: OK!

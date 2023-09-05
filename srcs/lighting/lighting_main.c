@@ -47,7 +47,9 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 	{
 		r->type = COLLIDED;
 		calculate_diffuse_color(r, l, o, costheta);
-		calculate_specular_color(r, l, o, a_norm, b_norm);
+		calculate_specular_color(r, l, o,
+			calc_angle_ray_n_reflected(a_norm, b_norm,
+				r->dir_vector));
 	}
 	vec3_free(&a_norm);
 	vec3_free(&b_norm);
