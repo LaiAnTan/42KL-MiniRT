@@ -6,14 +6,14 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 13:45:38 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/05 13:46:37 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:12:20 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/vec3.h"
 
 // psa, normalize isnt unit vector
-t_vec3	*vec3_normalize(t_vec3 *vctr, options op)
+t_vec3	*vec3_normalize(t_vec3 *vctr, t_options op)
 {
 	double	mag;
 
@@ -26,7 +26,7 @@ t_vec3	*vec3_normalize(t_vec3 *vctr, options op)
 }
 
 // projecting vector a on vector b
-t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b, options op)
+t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b, t_options op)
 {
 	double		project_mag;
 	t_vec3		*norm_b;
@@ -46,12 +46,12 @@ t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b, options op)
 // A x B = |A| |B| sin theta ^n
 // ^n is the unit vector perpendicular to the both vectors
 // no cross product for vec4
-t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right, options op)
+t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right, t_options op)
 {
 	int			i;
-	matrix_type	stuff[3];
-	matrix_type	*left_val;
-	matrix_type	*right_val;
+	t_matrix_type	stuff[3];
+	t_matrix_type	*left_val;
+	t_matrix_type	*right_val;
 
 	i = -1;
 	left_val = vec3_get_val(left);

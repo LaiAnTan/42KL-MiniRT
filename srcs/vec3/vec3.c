@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:22 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/20 13:45:22 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:03:12 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_vec3	*vec3_init_from_matrix(t_matrix *stuff)
 	return (ret);
 }
 
-t_vec3	*vec3_init_from_array(matrix_type array[3])
+t_vec3	*vec3_init_from_array(t_matrix_type array[3])
 {
 	t_vec3	*ret;
 

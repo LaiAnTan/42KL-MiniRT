@@ -6,11 +6,11 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:16 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/05 13:47:30 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:32:48 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/lighting.h"
+#include "../headers/minirt.h"
 
 // switcher to calculate b_norm
 static t_vec3	*diffuse_lighting_switcher(t_ray *r, t_object *o)

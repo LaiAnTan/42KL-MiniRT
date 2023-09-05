@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:27 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/05 14:44:29 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:24:07 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ int	keypress_event_linux(int key_symbol, t_data *data)
 
 int	keypress_event_mac(int key_symbol, t_data *data)
 {
-	if (key_symbol == 0xff1b)
+	if (key_symbol == 53)
 	{
 		printf("ESC pressed, exiting...\n");
 		clean_exit(data);
 	}
-	if (key_symbol == 0x72)
+	if (key_symbol == 15)
 	{
 		printf("R pressed, commencing re-render...\n");
 		do_render_once(data);

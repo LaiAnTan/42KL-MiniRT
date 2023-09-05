@@ -109,7 +109,7 @@ t_circle	*init_circle(int r);
 t_objects	*init_object(int type, double *pos, double *rgb);
 t_plane		*init_plane(double *normal);
 t_cam		*init_cam(int x, int y, int z);
-t_light		*init_light(int x, int y, int z, matrix_type *color);
+t_light		*init_light(int x, int y, int z, t_matrix_type *color);
 t_ambient	*init_ambient(int r, int g, int b, double a_strength);
 
 void		free_circle(t_circle **c);

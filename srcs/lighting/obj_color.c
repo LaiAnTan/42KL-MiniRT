@@ -6,11 +6,11 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 19:41:52 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/19 19:43:52 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:32:52 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/lighting.h"
+#include "../headers/minirt.h"
 
 void	normalize_yourmother(double uv[2])
 {

@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/03 00:23:07 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:03:12 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static t_matrix	*construct_translation(t_vec3 *position)
 
 t_vec3	*get_right(t_vec3 *forward, t_vec3 *up)
 {
-	matrix_type	y_val;
+	t_matrix_type	y_val;
 
 	y_val = forward->raw_matrix->m[1][0];
 	if (y_val == 1)

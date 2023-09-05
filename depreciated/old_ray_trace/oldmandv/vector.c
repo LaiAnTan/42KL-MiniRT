@@ -12,7 +12,7 @@ t_vector	*init_vector(t_matrix *stuff)
 	return (ret);
 }
 
-t_vector	*init_vector_intarr(matrix_type	array[3])
+t_vector	*init_vector_intarr(t_matrix_type	array[3])
 {
 	t_vector	*ret;
 
@@ -30,7 +30,7 @@ t_vector	*dup_vct(t_vector *vctr)
 	return (ret);
 }
 
-void	get_val(t_vector *vector, matrix_type array[3])
+void	get_val(t_vector *vector, t_matrix_type array[3])
 {
 	array[0] = vector->raw_matrix->stuff[0][0]; // x i
 	array[1] = vector->raw_matrix->stuff[1][0]; // y j
@@ -172,9 +172,9 @@ double	*v_u_direction_cosines(t_vector *v_norm)
 
 t_vector	*v_crossproduct(t_vector *left, t_vector *right)
 {
-	matrix_type	stuff[3];
-	matrix_type	left_val[3];
-	matrix_type	right_val[3];
+	t_matrix_type	stuff[3];
+	t_matrix_type	left_val[3];
+	t_matrix_type	right_val[3];
 
 	get_val(left, left_val);
 	get_val(right, right_val);

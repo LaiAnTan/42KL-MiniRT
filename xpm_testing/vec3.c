@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:22 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 11:42:23 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:12:20 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_vec3	*vec3_init_from_matrix(t_matrix *stuff)
 	return (ret);
 }
 
-t_vec3	*vec3_init_from_array(matrix_type array[3])
+t_vec3	*vec3_init_from_array(t_matrix_type array[3])
 {
 	t_vec3	*ret;
 
@@ -53,18 +53,18 @@ t_vec3	*vec3_dup(t_vec3 *vctr)
 	return (ret);
 }
 
-matrix_type	*vec3_get_val(t_vec3 *vector)
+t_matrix_type	*vec3_get_val(t_vec3 *vector)
 {
-	matrix_type	*array;
+	t_matrix_type	*array;
 
-	array = malloc(3 * sizeof(matrix_type));
+	array = malloc(3 * sizeof(t_matrix_type));
 	array[0] = vector->raw_matrix->m[0][0];
 	array[1] = vector->raw_matrix->m[1][0];
 	array[2] = vector->raw_matrix->m[2][0];
 	return (array);
 }
 
-void	vec3_store_val(t_vec3 *vector, matrix_type array[3])
+void	vec3_store_val(t_vec3 *vector, t_matrix_type array[3])
 {
 	array[0] = vector->raw_matrix->m[0][0];
 	array[1] = vector->raw_matrix->m[1][0];
@@ -166,7 +166,7 @@ double	*vec3_u_direction_cosines(t_vec3 *vec3_norm)
 
 
 // projecting vector a on vector b
-t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b, options op)
+t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b, t_options op)
 {
 	double		project_mag;
 	t_vec3	*norm_b;
@@ -183,9 +183,9 @@ t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b, options op)
 	return (ret);
 }
 
-t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right, options op)
+t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right, t_options op)
 {
-	matrix_type	store[3];
+	t_matrix_type	store[3];
 	int			i;
 
 	i = 0;
@@ -209,7 +209,7 @@ t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right, options op)
 	return (left);
 }
 
-t_vec3	*vec3_difference(t_vec3 *left, t_vec3 *right, options op)
+t_vec3	*vec3_difference(t_vec3 *left, t_vec3 *right, t_options op)
 {
 	int	i;
 
@@ -227,7 +227,7 @@ t_vec3	*vec3_difference(t_vec3 *left, t_vec3 *right, options op)
 	}
 }
 
-t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right, options op)
+t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right, t_options op)
 {
 	int	i;
 
@@ -246,7 +246,7 @@ t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right, options op)
 	
 }
 
-t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value, options op)
+t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value, t_options op)
 {
 	int	i;
 
@@ -265,7 +265,7 @@ t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value, options op)
 }
 
 // my bad, normalize isnt unit vector :P
-t_vec3	*vec3_normalize(t_vec3 *vctr, options op)
+t_vec3	*vec3_normalize(t_vec3 *vctr, t_options op)
 {
 	double	mag;
 
@@ -280,12 +280,12 @@ t_vec3	*vec3_normalize(t_vec3 *vctr, options op)
 // ^n is the unit vector perpendicular to the both vectors
 // ONLY WORKS FOR VEC3
 // THERE IS NO CROSSPRODUCT FOR A 4-D VECTOR
-t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right, options op)
+t_vec3	*vec3_crossproduct(t_vec3 *left, t_vec3 *right, t_options op)
 {
 	int			i;
-	matrix_type	stuff[3];
-	matrix_type	*left_val;
-	matrix_type	*right_val;
+	t_matrix_type	stuff[3];
+	t_matrix_type	*left_val;
+	t_matrix_type	*right_val;
 
 	left_val = vec3_get_val(left);
 	right_val = vec3_get_val(right);

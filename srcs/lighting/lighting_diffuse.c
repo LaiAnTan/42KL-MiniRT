@@ -6,17 +6,17 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 13:39:56 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/19 22:34:25 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:32:45 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/lighting.h"
+#include "../headers/minirt.h"
 
 t_vec3	*inverse_color(t_vec3 *c)
 {
 	int			i;
-	matrix_type	i_rgb[3];
-	matrix_type	c_stuff[3];
+	t_matrix_type	i_rgb[3];
+	t_matrix_type	c_stuff[3];
 
 	vec3_store_val(c, c_stuff);
 	i = 0;

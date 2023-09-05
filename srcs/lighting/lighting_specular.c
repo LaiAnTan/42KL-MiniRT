@@ -6,11 +6,11 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 13:40:02 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/07/23 13:40:08 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:32:50 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/lighting.h"
+#include "../headers/minirt.h"
 
 // takes in a light-to-object vector and its normal and reflects it
 static t_vec3	*reflect_light(t_vec3 *light, t_vec3 *normal)

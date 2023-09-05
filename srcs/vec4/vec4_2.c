@@ -6,17 +6,17 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 13:54:41 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/01 23:48:07 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:03:12 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/vec4.h"
 
-matrix_type	*vec4_to_array(t_vec4 *vector)
+t_matrix_type	*vec4_to_array(t_vec4 *vector)
 {
-	matrix_type	*array;
+	t_matrix_type	*array;
 
-	array = malloc(4 * sizeof(matrix_type));
+	array = malloc(4 * sizeof(t_matrix_type));
 	array[0] = vector->raw_matrix->m[0][0];
 	array[1] = vector->raw_matrix->m[1][0];
 	array[2] = vector->raw_matrix->m[2][0];

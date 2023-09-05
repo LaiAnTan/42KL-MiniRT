@@ -63,18 +63,18 @@ t_vec3	*get_rgb(t_texture *txtr, double u, double v)
 	t_vec3	*ret;
 	unsigned int	rgb;
 	// place to store extracted rgb values
-	matrix_type	store[3];
+	t_matrix_type	store[3];
 
 	// grab the rbg value of the respective uv coordinate
 	rgb = get_xy_rgb(txtr, u, v);
 
 	// we dont need to care about transparancy (i fucking hope)
 	//r
-	store[0] = (matrix_type) (int) ((rgb >> 16) & 0xFF);
+	store[0] = (t_matrix_type) (int) ((rgb >> 16) & 0xFF);
 	//g
-	store[1] = (matrix_type) (int) ((rgb >> 8) & 0xFF);
+	store[1] = (t_matrix_type) (int) ((rgb >> 8) & 0xFF);
 	//b
-	store[2] = (matrix_type) (int) (rgb & 0xFF);
+	store[2] = (t_matrix_type) (int) (rgb & 0xFF);
 	return (vec3_init_from_array(store));
 }
 

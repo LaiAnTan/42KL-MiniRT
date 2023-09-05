@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 12:37:55 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/20 12:40:53 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:03:12 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ unsigned int	get_rgb_ui(t_texture *txtr, double u, double v)
 t_vec3	*get_rgb(t_texture *txtr, double u, double v)
 {
 	unsigned int	rgb;
-	matrix_type		store[3];
+	t_matrix_type		store[3];
 
 	rgb = get_rgb_ui(txtr, u, v);
-	store[0] = (matrix_type)(int)((rgb >> 16) & 0xFF);
-	store[1] = (matrix_type)(int)((rgb >> 8) & 0xFF);
-	store[2] = (matrix_type)(int)(rgb & 0xFF);
+	store[0] = (t_matrix_type)(int)((rgb >> 16) & 0xFF);
+	store[1] = (t_matrix_type)(int)((rgb >> 8) & 0xFF);
+	store[2] = (t_matrix_type)(int)(rgb & 0xFF);
 	return (vec3_init_from_array(store));
 }
 

@@ -4,7 +4,7 @@
 t_ray	*init_ray(t_vector	*pos_vector, t_vector *dir_vector)
 {
 	// black light baby
-	matrix_type	color[3] = {0,0,0};
+	t_matrix_type	color[3] = {0,0,0};
 	t_ray		*ret;
 
 	ret = malloc(sizeof(t_ray));

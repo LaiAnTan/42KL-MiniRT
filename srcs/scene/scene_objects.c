@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:32 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/05 17:30:31 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:20:54 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	assign_function(t_object *new_object, int ob_type)
 {
-	object_runner	store[4];
+	t_object_runner	store[4];
 
 	store[0] = intersect_circle;
 	store[1] = intersect_plane;
@@ -23,8 +23,8 @@ static void	assign_function(t_object *new_object, int ob_type)
 	new_object->intersect_checker = store[ob_type];
 }
 
-t_object	*scene_new_object(int ob_type, matrix_type *ob_coord,
-		matrix_type *ob_rgb, double specular)
+t_object	*scene_new_object(int ob_type, t_matrix_type *ob_coord,
+		t_matrix_type *ob_rgb, double specular)
 {
 	t_object	*new_object;
 

@@ -1,13 +1,13 @@
 #include "matrix.h"
 
-t_matrix	*init_matrix(matrix_type *values, int x, int y)
+t_matrix	*init_matrix(t_matrix_type *values, int x, int y)
 {
 	t_matrix	*ret;
 	int	i;
 	int	j;
 
 	ret = malloc(sizeof(t_matrix));
-	ret->stuff = malloc(sizeof(matrix_type *) * y);
+	ret->stuff = malloc(sizeof(t_matrix_type *) * y);
 	
 	ret->x = x;
 	ret->y = y;
@@ -15,7 +15,7 @@ t_matrix	*init_matrix(matrix_type *values, int x, int y)
 	while (j < ret->y)
 	{
 		i = 0;
-		ret->stuff[j] = malloc(sizeof(matrix_type) * x);
+		ret->stuff[j] = malloc(sizeof(t_matrix_type) * x);
 		while (i < ret->x)
 		{
 			ret->stuff[j][i] = values[(j * ret->x) + i];
@@ -33,7 +33,7 @@ t_matrix	*init_empty_matrix(int x, int y)
 	int	j;
 
 	ret = malloc(sizeof(t_matrix));
-	ret->stuff = malloc(sizeof(matrix_type *) * y);
+	ret->stuff = malloc(sizeof(t_matrix_type *) * y);
 	
 	ret->x = x;
 	ret->y = y;
@@ -41,7 +41,7 @@ t_matrix	*init_empty_matrix(int x, int y)
 	while (j < y)
 	{
 		i = 0;
-		ret->stuff[j] = malloc(sizeof(matrix_type) * x);
+		ret->stuff[j] = malloc(sizeof(t_matrix_type) * x);
 		while (i < x)
 		{
 			ret->stuff[j][i] = 0;
@@ -52,14 +52,14 @@ t_matrix	*init_empty_matrix(int x, int y)
 	return (ret);
 }
 
-t_matrix	*init_matrix_resized(t_matrix *o, int new_x, int new_y, matrix_type fill)
+t_matrix	*init_matrix_resized(t_matrix *o, int new_x, int new_y, t_matrix_type fill)
 {
 	t_matrix	*ret;
 	int	i;
 	int	j;
 
 	ret = malloc(sizeof(t_matrix));
-	ret->stuff = malloc(sizeof(matrix_type *) * new_y);
+	ret->stuff = malloc(sizeof(t_matrix_type *) * new_y);
 	
 	ret->x = new_x;
 	ret->y = new_y;
@@ -67,7 +67,7 @@ t_matrix	*init_matrix_resized(t_matrix *o, int new_x, int new_y, matrix_type fil
 	while (j < new_y)
 	{
 		i = 0;
-		ret->stuff[j] = malloc(sizeof(matrix_type) * new_x);
+		ret->stuff[j] = malloc(sizeof(t_matrix_type) * new_x);
 		while (i < new_x)
 		{
 			if (i > o->x || j > o->y)
@@ -81,13 +81,13 @@ t_matrix	*init_matrix_resized(t_matrix *o, int new_x, int new_y, matrix_type fil
 	return (ret);
 }
 
-matrix_type	*m_convert_to_1d(t_matrix *source)
+t_matrix_type	*m_convert_to_1d(t_matrix *source)
 {
-	matrix_type	*ret;
+	t_matrix_type	*ret;
 	int	i;
 	int	j;
 
-	ret = malloc(sizeof(matrix_type) * (source->x * source->y));
+	ret = malloc(sizeof(t_matrix_type) * (source->x * source->y));
 	j = 0;
 	while (j < source->y)
 	{
@@ -105,7 +105,7 @@ matrix_type	*m_convert_to_1d(t_matrix *source)
 t_matrix	*m_dup(t_matrix *source)
 {
 	t_matrix	*ret;
-	matrix_type	*temp;
+	t_matrix_type	*temp;
 
 	temp = m_convert_to_1d(source);
 	ret = init_matrix(temp, source->x, source->y);
@@ -164,9 +164,9 @@ t_matrix	*m_substraction(t_matrix *left, t_matrix *right)
 	return (ret);
 }
 
-static	matrix_type	line_multiplication(t_matrix *left, t_matrix *right, int x, int y)
+static	t_matrix_type	line_multiplication(t_matrix *left, t_matrix *right, int x, int y)
 {
-	matrix_type	ret;
+	t_matrix_type	ret;
 	int			x1;
 	int			y1;
 

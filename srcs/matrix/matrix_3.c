@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 12:26:50 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/20 12:30:45 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:03:12 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ t_matrix	*m_transpose(t_matrix *m)
 	ret->x = m->y;
 	ret->y = m->x;
 	y = 0;
-	ret->m = malloc(sizeof(matrix_type *) * (ret->y));
+	ret->m = malloc(sizeof(t_matrix_type *) * (ret->y));
 	while (y < ret->y)
 	{
 		x = 0;
-		ret->m[y] = malloc(sizeof(matrix_type) * (ret->x));
+		ret->m[y] = malloc(sizeof(t_matrix_type) * (ret->x));
 		while (x < ret->x)
 		{
 			ret->m[y][x] = m->m[x][y];

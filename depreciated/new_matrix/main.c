@@ -3,8 +3,8 @@
 
 // int main()
 // {
-// 	matrix_type	values[] = {0,1,2,3,4,5,6,7,8};
-// 	matrix_type	values2[] = {2,3,4,1,2,3,6,7,8};
+// 	t_matrix_type	values[] = {0,1,2,3,4,5,6,7,8};
+// 	t_matrix_type	values2[] = {2,3,4,1,2,3,6,7,8};
 
 // 	t_matrix	*stuff;
 // 	stuff = init_matrix(values, 3, 3);
@@ -49,8 +49,8 @@
 // 	free_matrix(&ret);
 
 // 	printf("\n");
-// 	matrix_type	value3[] = {1,2,3,4};
-// 	matrix_type	value4[] = {5,2,3,5,1,3,6,7,8,2,1,3,3,1,2,3};
+// 	t_matrix_type	value3[] = {1,2,3,4};
+// 	t_matrix_type	value4[] = {5,2,3,5,1,3,6,7,8,2,1,3,3,1,2,3};
 
 // 	t_matrix	*stuff3 = init_matrix(value3, 1, 4);
 // 	t_matrix	*stuff4 = init_matrix(value4, 4, 4);
@@ -82,8 +82,8 @@
 
 // int main()
 // {
-// 	matrix_type	stuff1[3] = {9,3,1};
-// 	matrix_type	stuff2[3] = {5,2,6};
+// 	t_matrix_type	stuff1[3] = {9,3,1};
+// 	t_matrix_type	stuff2[3] = {5,2,6};
 // 	t_vector	*vec1 = init_vector_intarr(stuff1);
 // 	t_vector	*vec2 = init_vector_intarr(stuff2);
 // 	t_vector	*result;
@@ -113,7 +113,7 @@ double	to_degree(double rad)
 
 // int main()
 // {
-// 	matrix_type stuff[3] = {1,1,0};
+// 	t_matrix_type stuff[3] = {1,1,0};
 // 	t_vector	*vec1 = init_vector_intarr(stuff);
 	
 // 	vec1 = v_get_unit_vector(vec1);
@@ -127,8 +127,8 @@ double	to_degree(double rad)
 
 int main()
 {
-	matrix_type stuff1[3] = {2,2,9};
-	matrix_type stuff2[3] = {1,3,1};
+	t_matrix_type stuff1[3] = {2,2,9};
+	t_matrix_type stuff2[3] = {1,3,1};
 
 	t_vector	*vec1 = init_vector_intarr(stuff1);
 	t_vector	*vec2 = init_vector_intarr(stuff2);

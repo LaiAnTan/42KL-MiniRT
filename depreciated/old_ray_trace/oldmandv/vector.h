@@ -13,10 +13,10 @@ typedef struct s_vector
 } t_vector;
 
 t_vector	*init_vector(t_matrix	*stuff);
-t_vector	*init_vector_intarr(matrix_type	array[3]);
+t_vector	*init_vector_intarr(t_matrix_type	array[3]);
 t_vector	*dup_vct(t_vector *vctr);
 
-void		get_val(t_vector *vector, matrix_type store[3]);
+void		get_val(t_vector *vector, t_matrix_type store[3]);
 
 void		print_vector(t_vector	*stuff);
 void		free_vector(t_vector **stuff);

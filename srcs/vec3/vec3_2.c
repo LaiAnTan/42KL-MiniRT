@@ -6,13 +6,13 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 13:41:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/01 23:46:02 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:03:12 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/vec3.h"
 
-void	vec3_store_val(t_vec3 *vector, matrix_type array[3])
+void	vec3_store_val(t_vec3 *vector, t_matrix_type array[3])
 {
 	array[0] = vector->raw_matrix->m[0][0];
 	array[1] = vector->raw_matrix->m[1][0];
@@ -44,11 +44,11 @@ int	vec3_isequal(t_vec3 *a, t_vec3 *b)
 	a->raw_matrix->m[2][0] == b->raw_matrix->m[2][0]);
 }
 
-matrix_type	*vec3_get_val(t_vec3 *vector)
+t_matrix_type	*vec3_get_val(t_vec3 *vector)
 {
-	matrix_type	*array;
+	t_matrix_type	*array;
 
-	array = malloc(3 * sizeof(matrix_type));
+	array = malloc(3 * sizeof(t_matrix_type));
 	array[0] = vector->raw_matrix->m[0][0];
 	array[1] = vector->raw_matrix->m[1][0];
 	array[2] = vector->raw_matrix->m[2][0];

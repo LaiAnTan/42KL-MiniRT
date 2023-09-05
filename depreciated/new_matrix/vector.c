@@ -12,7 +12,7 @@ t_vector	*init_vector(t_matrix *stuff)
 	return (ret);
 }
 
-t_vector	*init_vector_intarr(matrix_type	array[3])
+t_vector	*init_vector_intarr(t_matrix_type	array[3])
 {
 	int			i;
 	t_vector	*ret;
@@ -32,11 +32,11 @@ t_vector	*dup_vct(t_vector *vctr)
 	return (ret);
 }
 
-matrix_type	*get_val(t_vector *vector)
+t_matrix_type	*get_val(t_vector *vector)
 {
-	matrix_type	*array;
+	t_matrix_type	*array;
 
-	array = malloc(3 * sizeof(matrix_type));
+	array = malloc(3 * sizeof(t_matrix_type));
 	array[0] = vector->raw_matrix->stuff[0][0];
 	array[1] = vector->raw_matrix->stuff[1][0];
 	array[2] = vector->raw_matrix->stuff[2][0];
@@ -175,9 +175,9 @@ double	*v_u_direction_cosines(t_vector *v_norm)
 // ^n is the unit vector perpendicular to the both vectors
 t_vector	*v_crossproduct(t_vector *left, t_vector *right)
 {
-	matrix_type	stuff[3];
-	matrix_type	*left_val;
-	matrix_type	*right_val;
+	t_matrix_type	stuff[3];
+	t_matrix_type	*left_val;
+	t_matrix_type	*right_val;
 
 	left_val = get_val(left);
 	right_val = get_val(right);

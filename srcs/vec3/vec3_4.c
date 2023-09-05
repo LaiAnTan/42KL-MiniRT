@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 13:41:18 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/01 23:45:10 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 18:12:20 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_vec3	*vec3_negate(t_vec3 *vctr)
 	return (vctr);
 }
 
-t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right, options op)
+t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right, t_options op)
 {
 	int	i;
 
@@ -40,7 +40,7 @@ t_vec3	*vec3_addition(t_vec3 *left, t_vec3 *right, options op)
 	return (NULL);
 }
 
-t_vec3	*vec3_difference(t_vec3 *left, t_vec3 *right, options op)
+t_vec3	*vec3_difference(t_vec3 *left, t_vec3 *right, t_options op)
 {
 	int	i;
 
@@ -60,7 +60,7 @@ t_vec3	*vec3_difference(t_vec3 *left, t_vec3 *right, options op)
 	return (NULL);
 }
 
-t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value, options op)
+t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value, t_options op)
 {
 	int	i;
 
@@ -79,9 +79,9 @@ t_vec3	*vec3_scalar_multi(t_vec3 *vctr, double value, options op)
 	return (NULL);
 }
 
-t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right, options op)
+t_vec3	*vec3_multi_each_elem(t_vec3 *left, t_vec3 *right, t_options op)
 {
-	matrix_type	store[3];
+	t_matrix_type	store[3];
 	int			i;
 
 	i = 0;
