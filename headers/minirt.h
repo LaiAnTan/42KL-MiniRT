@@ -25,9 +25,9 @@
 # define BUFFER_SIZE 100
 
 /* raytracing attributes */
-# define WIDTH 1280.0f
+# define WIDTH 1080.0f
 # define RAYS_IN_X WIDTH
-# define HEIGHT 720.0f
+# define HEIGHT 680.0f
 # define RAYS_IN_Y HEIGHT
 
 # define AMBIENCE_FACTOR 0.2f

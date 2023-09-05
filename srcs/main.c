@@ -24,6 +24,13 @@ void	do_render_once(t_data *data)
 	timer_destroy(&timer);
 }
 
+int	slapimage(t_data *data)
+{
+	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win,
+		data->mlx->cur_img->img, 0, 0);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	*data;
@@ -45,14 +52,13 @@ int	main(int argc, char **argv)
 	scene_print_stats(data->scene);
 	change_to_view_port(data->scene);
 	do_render_once(data);
-	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win,
-		data->mlx->cur_img->img, 0, 0);
 	#ifdef unix
 		mlx_key_hook(data->mlx->mlx_win, keypress_event_linux, data);
 	#else
 		mlx_hook(data->mlx->mlx_win, 17, 0, &clean_exit, data);
 		mlx_hook(data->mlx->mlx_win, 2, 0, &keypress_event_mac, data);
 	#endif 
+	mlx_loop_hook(data->mlx->mlx, slapimage, (void *)data);
 	mlx_loop(data->mlx->mlx);
 	clean_exit(data);
 	return (0);

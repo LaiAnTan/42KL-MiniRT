@@ -48,10 +48,8 @@ matrix/matrix_3.c: OK!
 lighting/lighting_diffuse.c: OK!
 lighting/lighting_ambient.c: OK!
 lighting/lighting_specular.c: Error!
-Error: TOO_MANY_ARGS        (line:  28, col:  43):	Function has more than 4 arguments
-Error: TOO_MANY_VARS_FUNC   (line:  35, col:   1):	Too many variables declarations in a function
-Error: TOO_MANY_VARS_FUNC   (line:  36, col:   1):	Too many variables declarations in a function
-Error: TOO_MANY_LINES       (line:  60, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_ARGS        (line:  63, col:  43):	Function has more than 4 arguments
+Error: TOO_MANY_LINES       (line:  91, col:   1):	Function has more than 25 lines
 lighting/lighting_main.c: OK!
 lighting/obj_color.c: OK!
 utils/utils_get_next_line.c: OK!
