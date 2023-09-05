@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:27 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/20 12:37:27 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 13:45:20 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	keypress_event(int key_symbol, t_data *data)
 	{
 		printf("ESC pressed, exiting...");
 		mlx_destroy_window(data->mlx->mlx, data->mlx->mlx_win);
-		// mlx_destroy_display(data->mlx->mlx);
 		scene_free(data->scene, data->mlx->mlx);
 		exit(0);
 	}

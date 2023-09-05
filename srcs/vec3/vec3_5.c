@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 13:45:38 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/08/21 10:11:01 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 13:46:37 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_vec3	*vec3_projection(t_vec3 *a, t_vec3 *b, options op)
 	t_vec3		*norm_b;
 	t_vec3		*ret;
 
+	ret = NULL;
 	project_mag = vec3_dotproduct(a, b) / vec3_magnitude(b);
 	norm_b = vec3_normalize(b, O_CREATE);
 	if (op == O_CREATE)

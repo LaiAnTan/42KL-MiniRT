@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:11 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/02 10:21:54 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 13:31:47 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	render(void *rt)
 	data = (t_data *) rt;
 	mlx_put_image_to_window(data->mlx->mlx, data->mlx->mlx_win,
 		data->mlx->cur_img->img, 0, 0);
-	// clean_loop(data->mlx);
+	clean_loop(data->mlx);
 	return (0);
 }
 

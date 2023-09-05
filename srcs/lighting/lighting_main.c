@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:43:16 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/02 09:58:19 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 13:47:30 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static t_vec3	*diffuse_lighting_switcher(t_ray *r, t_object *o)
 {
 	t_vec3	*b_norm;
 
+	b_norm = NULL;
 	if (o->ob_type == CIRCLE)
 		b_norm = vec3_normalize(vec3_difference(r->pos_vector, o->ob_coords,
 					O_CREATE), O_REPLACE);

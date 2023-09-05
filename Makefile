@@ -68,7 +68,7 @@ INCS  :=
 		INCS := -Imlx_linux
 	endif
 	ifeq ($(UNAME), Darwin)
-		INCS := -Imlx
+		INCS := -Imlx -Iheaders
 	endif
 
 LIBS :=
