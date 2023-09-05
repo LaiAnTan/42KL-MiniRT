@@ -25,9 +25,9 @@
 # define BUFFER_SIZE 100
 
 /* raytracing attributes */
-# define WIDTH 1920.0f
+# define WIDTH 1000.0f
 # define RAYS_IN_X WIDTH
-# define HEIGHT 1080.0f
+# define HEIGHT 500.0f
 # define RAYS_IN_Y HEIGHT
 
 # define AMBIENCE_FACTOR 0.2f
@@ -215,6 +215,9 @@ void	mlx_free(t_mlx_info *mlx);
 
 /* Events */
 int	keypress_event(int key_symbol, t_data *data);
+
+// clean exit
+int	clean_exit(t_data *data);
 
 /* Utils */
 

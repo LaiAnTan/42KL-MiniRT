@@ -6,7 +6,7 @@
 /*   By: tlai-an <tlai-an@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 11:42:56 by tlai-an           #+#    #+#             */
-/*   Updated: 2023/09/05 13:38:46 by tlai-an          ###   ########.fr       */
+/*   Updated: 2023/09/05 13:59:20 by tlai-an          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,6 @@ void	get_image(t_img_info *img_info, void *mlx)
 	img_info->img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	img_info->addr = mlx_get_data_addr(img_info->img, &img_info->bits_per_pixel,
 			&img_info->line_length, &img_info->endian);
-}
-
-void	clean_loop(t_mlx_info *mlx)
-{
-	if (mlx->img->img != NULL)
-	{
-		mlx_destroy_image(mlx->mlx, mlx->img->img);
-		mlx->img->img = NULL;
-	}
 }
 
 void	write_pixel(t_img_info *img, int x, int y, int color)
