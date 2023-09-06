@@ -69,7 +69,6 @@ void	calculate_ray_color(t_ray *ray, t_light *light, t_object *objs,
 {
 	double		p_from_light;
 
-	ray->type = SHADOW;
 	while (light)
 	{
 		p_from_light = get_closest_light_runner(ray, light,
