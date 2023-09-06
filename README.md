@@ -31,7 +31,7 @@ A basic raytracing engine.
 
 ## Documentation && Resources
 
-soon
+Documentation can be found [here](https://hackmd.io/@laian/Hkq59NNP2)
 
 ## Gallery
 
