@@ -18,7 +18,10 @@ t_ambient	*scene_new_ambient(double a_rgb[3], double a_ratio)
 
 	new_ambient = (t_ambient *) malloc(sizeof(t_ambient));
 	new_ambient->a_ratio = a_ratio;
-	new_ambient->a_rgb = vec3_init_from_array(a_rgb);
+	if (a_rgb)
+		new_ambient->a_rgb = vec3_init_from_array(a_rgb);
+	else
+		new_ambient->a_rgb = vec3_init(0,0,0);
 	new_ambient->a_strength = vec3_scalar_multi(new_ambient->a_rgb,
 			(double) 1 / 255, O_CREATE);
 	vec3_scalar_multi(new_ambient->a_strength, a_ratio, O_REPLACE);
