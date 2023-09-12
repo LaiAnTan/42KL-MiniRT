@@ -25,7 +25,6 @@ t_ray	*init_ray(t_vec3 *pos_vector, t_vec3 *dir_vector)
 	ret->a_color = vec3_init(0, 0, 0);
 	ret->d_color = vec3_init(0, 0, 0);
 	ret->s_color = vec3_init(0, 0, 0);
-	ret->type = LIGHT;
 	ret->inside = 0;
 	return (ret);
 }
@@ -35,7 +34,6 @@ t_ray	*dup_ray(t_ray *source)
 	t_ray	*ret;
 
 	ret = init_ray(vec3_dup(source->pos_vector), vec3_dup(source->dir_vector));
-	ret->type = source->type;
 	return (ret);
 }
 

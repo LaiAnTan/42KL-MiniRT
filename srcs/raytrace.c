@@ -96,10 +96,6 @@ void	do_ray_stuff(double x, double y, t_data *data)
 	if (closest_object_src)
 	{
 		move_ray(ray, k_val);
-		ray->type = COLLIDED;
-	}
-	if (ray->type == COLLIDED)
-	{
 		calculate_ray_color(ray, data->scene->sc_lights, data->scene->sc_objs,
 			closest_object_src);
 	}

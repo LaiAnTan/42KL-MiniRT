@@ -37,18 +37,16 @@ void	calculate_diffuse_color(t_ray *r, t_light *l, t_object *o,
 	t_vec3	*color_on_point;
 	t_vec3	*a_o_c;
 	t_vec3	*d_c;
-	t_vec3	*store[2];
+	t_vec3	*store;
 
 	color_on_point = get_object_color(r, o);
 	diff_strength = DIFFUSE_FACTOR;
 	a_o_c = inverse_color(color_on_point);
 	vec3_free(&color_on_point);
-	store[0] = vec3_difference(l->l_rgb, a_o_c, O_CREATE);
-	d_c = vec3_scalar_multi(store[0], (costheta * diff_strength), O_CREATE);
-	store[1] = vec3_addition(r->d_color, d_c, O_CREATE);
+	store = vec3_difference(l->l_rgb, a_o_c, O_CREATE);
+	d_c = vec3_scalar_multi(store, (costheta * diff_strength), O_CREATE);
+	vec3_addition(r->d_color, d_c, O_REPLACE);
 	vec3_free(&d_c);
 	vec3_free(&a_o_c);
-	vec3_free(&store[0]);
-	vec3_free(&r->d_color);
-	r->d_color = store[1];
+	vec3_free(&store);
 }

@@ -44,11 +44,12 @@ void	diffuse_the_bomb(t_ray *r, t_light *l, t_object *o)
 				O_CREATE), O_REPLACE);
 	b_norm = diffuse_lighting_switcher(r, o);
 	costheta = vec3_dotproduct(a_norm, b_norm);
-	if (o->ob_type == PLANE && costheta < 0)
+	// HEY small error here
+	// dont need to check for plane only, literally if its negative --> opposite side d
+	if (costheta < 0)
 		costheta *= -1;
 	if (costheta >= 0)
 	{
-		r->type = COLLIDED;
 		calculate_diffuse_color(r, l, o, costheta);
 		calculate_specular_color(r, l, o,
 			calc_angle_ray_n_reflected(a_norm, b_norm,
@@ -69,7 +70,6 @@ void	calculate_ray_color(t_ray *ray, t_light *light, t_object *objs,
 {
 	double		p_from_light;
 
-	ray->type = SHADOW;
 	while (light)
 	{
 		p_from_light = get_closest_light_runner(ray, light,

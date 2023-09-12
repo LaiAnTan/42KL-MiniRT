@@ -26,7 +26,6 @@
 // s_color = specular
 typedef struct s_ray
 {
-	int			type;
 	int			inside;
 
 	t_vec3		*pos_vector;
