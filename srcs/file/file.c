@@ -87,6 +87,12 @@ t_scene	*file_create_scene(char *filename)
 		}
 		free(line);
 	}
+	if (!new_scene->sc_cameras)
+	{
+		printf("Error! NO CAMERA!\n");
+		scene_free(new_scene, NULL);
+		exit(0);
+	}
 	if (!new_scene->sc_ambients)
 		new_scene->sc_ambients = scene_new_ambient(NULL, 0);
 	return (new_scene);
